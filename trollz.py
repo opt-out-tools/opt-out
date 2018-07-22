@@ -15,7 +15,6 @@ import unittest
 
 nltk.data.path.append("/media/t-cake/My Passport/nltk_data/")
 stopword_list = nltk.corpus.stopwords.words('english')
-stopword_list+["\\xa0","\\n"]
 
 path = os.getcwd()+"/data"
 files = os.listdir(path)
@@ -28,7 +27,7 @@ sets = pd.read_csv(path+"/impermium_verification_set.csv")
 def tokenize(comments):
         """ Tokenizes the incoming comment in the format of a list of strings. Removes the http, @ and other unnecessary things
         """
-        PATTERN = r'["!?$&*%@()~#://\|]'
+        PATTERN = r'["!?$&*%@()~#://\|\n\\xa0]'
         cleansed = []
         for comment in comments:
             tokenized = tw.tokenize(comment)
@@ -44,7 +43,13 @@ class TestClass(unittest.TestCase):
         test_string_list = ["The cat has a big hat"]
         tokenized = tokenize(test_string_list)
         
-        self.assertEquals(len(tokenized[0]), 4)
+        self.assertEquals(len(tokenized[0]), 2)
+   
+    def test_tokenization_encoding(self):
+        test_string_list = ["\\xa0 \\n"]
+        tokenized = tokenize(test_string_list)
+        
+        self.assertEquals(len(tokenized[0]), 0)
         
         
 if __name__ == '__main__':
@@ -52,4 +57,3 @@ if __name__ == '__main__':
     
     comments = labels.Comment.tolist()
   #  print(comments)
-    print(tokenize(comments))
