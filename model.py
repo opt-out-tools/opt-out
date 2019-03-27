@@ -2,17 +2,12 @@ import pandas as pd
 import numpy as np
 # TODO needs improving
 from normalize import normalize
+from dictionary import *
 from tensorflow import keras
+import tensorflow as tf
 
 
-def enumerate_corpus(corpus):
-    """ Used to create a look up table for the vocabulary for later conversion back to the original sentence
-    """
-    return {k: v for k, v in enumerate(corpus)}
 
-
-def test_enumerate_corpus():
-    assert enumerate_corpus(["figured", "apple"]) == {0: "figured", 1: "apple"}
 
 
 if __name__ == '__main__':
@@ -29,5 +24,8 @@ if __name__ == '__main__':
 
     corpus = set([sentence for comment in train["Tokenized"].tolist() for sentence in comment])
     dictionary = enumerate_corpus(corpus)
+    train["Enumerated"] = train["Tokenized"].apply((lambda comment: enumerate_comment(comment,dictionary)))
 
     vocab_size = len(corpus)
+
+    train_data = keras.preprocessing.sequence.pad_sequences(train["Enumerated"].values, padding='post')
