@@ -1,21 +1,17 @@
-
-def enumerate_corpus(corpus):
-    """ Used to create a look up table for the vocabulary for later conversion back to the original sentence
-    """
+def create_enumerated_corpus(corpus):
+    """Returns a dict of the enumerated vocabulary from the data, where the key is the word and value is a number."""
     return {word: number for number, word in enumerate(corpus)}
 
 
-def test_enumerate_corpus():
-    assert enumerate_corpus(["figured", "apple"]) == {"figured": 0, "apple": 1}
+def test_create_corpus():
+    assert create_enumerated_corpus(["figured", "apple"]) == {"figured": 0, "apple": 1}
 
 
 def enumerate_comment(comment, dictionary):
-    """ Enumerate the comments in order to pre-process them (padding)
-    """
+    """Uses the enumerated corpus dictionary to enumerate each word in a tokenized comment within the data."""
+    return list(map(lambda word: dictionary[word], comment))
 
-    return list(map(lambda word : dictionary[word], comment))
 
 def test_enumerate_comment():
-    dictionary = enumerate_corpus(["figured", "apple"])
-
+    dictionary = create_enumerated_corpus(["figured", "apple"])
     assert enumerate_comment(["figured", "apple"], dictionary) == [0, 1]

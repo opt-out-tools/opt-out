@@ -1,12 +1,10 @@
 import re
 
-# TODO refactor to do and more tests with different unicode characters and when characters are near numbers
 
-def escape_unicode(sentence):
-    """ Breaks up a sentence and searches each word for unicode characters, converting them to their encoded form
-    """
+def escape_unicode(comment):
+    """Returns a tokenized comment where the un-escaped unicode characters have been escaped."""
     return [word.encode('utf-8').decode('unicode_escape') if re.findall('\\\\\w+', word) != [] else word for word in
-            sentence]
+            comment]
 
 
 def test_escape_a_acute():
@@ -20,11 +18,14 @@ def test_escape_a_umlaut():
 def test_escape_inverted_question_mark():
     assert escape_unicode(['\\xbf']) == ['¿']
 
-def replace_spaces(sentence):
-    """ Replaces the unicode chcarcters for whitespaces ad new lines with spaces
-    """
+def test_escape_sentence():
+    assert escape_unicode(['Iam\\xbf trying to \\xe4figure out \\xe1 unicode']) == ['Iam¿ trying to äfigure out á unicode']
+
+
+def replace_spaces(comment):
+    """Replaces the unicode characters for whitespaces ad new lines with spaces."""
     pattern = '(\\\\xa0)|(\\\\n)|(\\\\xc2)'
-    return [re.sub(pattern, " ", word) if re.findall(pattern, word) != [] else word for word in sentence]
+    return [re.sub(pattern, " ", word) if re.findall(pattern, word) != [] else word for word in comment]
 
 
 def test_replace_whitespace():
@@ -56,29 +57,36 @@ def test_replace_two_times():
 
 
 def test_replace_different_unicode():
-    assert replace_spaces(['test\\xc2\\xa0test\\n test']) == ['test  test  test']
+    assert replace_spaces(['test\\xc2\\xa0test\\ntest']) == ['test  test test']
 
 
 def normalize(comment):
-    """ Normailizes each comment, making the words lowercase, tokenizing them removing punctuation and escaping unicode characters
+    """Returns the normalized comment.
+
+    This is achieved by tokenizing and making the words lowercase, handling unicode issues and finally
+    by stripping the remaining punctuation.
+
+    Args:
+        str: The original comment.
+
+    Returns:
+        list: A list of the normalized words in the comment.
     """
-    # splits comment into words and makes each word lowercase
-    tokenized_comment = list(map(lambda word: word.lower(), comment.split(" ")))
+    tokenized = list(map(lambda word: word.lower(), comment.split(" ")))
 
-    cleaned_comment = replace_spaces(tokenized_comment)
-    cleaned_comment = escape_unicode(cleaned_comment)
+    spaces_replaced_comment = replace_spaces(tokenized)
+    cleaned_comment = escape_unicode(spaces_replaced_comment)
 
-
-    # strips punctuation & returns normalized comment
-    return list(map(lambda word: word.translate(str.maketrans("", "", r"""[!"#$%&()*+,-./:;<=>?@[]^_`{|}~'\(\\\\\)¿]""")),
-                    cleaned_comment))
+    return list(
+        map(lambda word: word.translate(str.maketrans("", "", r"""[!"#$%&()*+,-./:;<=>?@[]^_`{|}~'\¿]""")),
+            cleaned_comment))
 
 
-def test_normalize_tokenize():
+def test_normalize_simple():
     assert normalize("HELLO YOU") == ["hello", "you"]
 
 
-def test_normalize_unicode():
+def test_normalize_newline():
     assert normalize("HELLO YOU! \\n") == ["hello", "you", " "]
 
 
