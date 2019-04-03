@@ -13,23 +13,23 @@ test_data = pd.read_csv(current_directory + "/data/test_with_solutions.csv")
 
 
 def prepare_data(df):
-    """Returns a dataframe prepared for word padding.
+    """Returns a data frame prepared for word padding.
 
     This is achieved by normalizing the comments and enumerating the remaining words
 
     Args:
-        df: The dataframe
+        df: The data frame
 
     Returns:
-        df: A prepared dataframe
-        dict: A dictionary of the corpus volcabulary enumerated
+        df: A prepared data frame
+        dict: A dictionary of the corpus vocabulary enumerated
 
     """
 
     df["Normalized"] = df["Comment"].apply(normalize)
 
-    corpus = set([sentence for comment in df["Normalized"].tolist() for sentence in comment])
-    dictionary = create_enumerated_corpus(corpus)
+    corpus = [sentence for comment in df["Normalized"].tolist() for sentence in comment]
+    dictionary = rank_corpus(corpus)
 
     df["Enumerated"] = df["Normalized"].apply((lambda comment: enumerate_comment(comment, dictionary)))
 
