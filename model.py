@@ -36,7 +36,7 @@ def prepare_data(df):
     return df, dictionary
 
 
-def test_prepare_data_necessary_columsn_created():
+def test_prepare_data_creates_necessary_columns():
     df = train_data
 
     assert prepare_data(df)['Normalized'].all() == df['Normalized'].all()
@@ -45,12 +45,10 @@ def test_prepare_data_necessary_columsn_created():
 
 if __name__ == '__main__':
     train, train_dict = prepare_data(train_data)
-    test, test_dict = prepare_data(test_data)
 
     vocab_size = len(train_dict)
 
     padded_train = keras.preprocessing.sequence.pad_sequences(train["Enumerated"].values, padding='post')
-    padded_test = keras.preprocessing.sequence.pad_sequences(test["Enumerated"].values, padding='post')
 
     model = keras.Sequential()
     model.add(keras.layers.Embedding(vocab_size, 16))
