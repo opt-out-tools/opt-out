@@ -28,19 +28,16 @@ def test_enumerate_comment():
 
 def count_words(corpus):
     """Returns a sorted list of tuples of word, count pairs. The order is reversed. This means the highest count will
-    be the final entry.
+    be the first entry.
     """
-    word_frequency = dict([(word, corpus.count(word)) for word in set(corpus)])
-    ascending_order_word_frequency = sorted(word_frequency.items(), key=lambda x: x[1])
-    return ascending_order_word_frequency
+    return sorted([(word, corpus.count(word)) for word in set(corpus)], key = lambda t : t[1], reverse = True)
 
 def test_counted_words():
     assert set(count_words(["apple", "apple", "banana", "acorn"])) ==  set([('banana', 1), ('acorn', 1), ('apple', 2)])
 
 def test_sort_counted_words():
-    assert count_words(["strawberry", "apple", "apple", "banana", "acorn"])[-1] ==  ('apple', 2)
+    assert count_words(["strawberry", "apple", "apple", "banana", "acorn"])[0] ==  ('apple', 2)
 #     Ordering of words with same count changes each execution
-#    assert count_words(["strawberry", "apple", "apple", "banana", "acorn"])[0] == ('apple', 2)
-
+#    assert count_words(["strawberry", "apple", "apple", "banana", "acorn"])[-1] == ('strawberry', 2)
 
 
