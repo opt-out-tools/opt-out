@@ -1,5 +1,7 @@
 import re
 
+import numpy as np
+
 
 def escape_unicode(comment):
     """Returns a tokenized comment where the un-escaped unicode characters have been escaped."""
@@ -18,8 +20,10 @@ def test_escape_a_umlaut():
 def test_escape_inverted_question_mark():
     assert escape_unicode(['\\xbf']) == ['¿']
 
+
 def test_escape_sentence():
-    assert escape_unicode(['Iam\\xbf trying to \\xe4figure out \\xe1 unicode']) == ['Iam¿ trying to äfigure out á unicode']
+    assert escape_unicode(['Iam\\xbf trying to \\xe4figure out \\xe1 unicode']) == [
+        'Iam¿ trying to äfigure out á unicode']
 
 
 def replace_spaces(comment):
@@ -96,3 +100,19 @@ def test_normalize_punctuation():
 
 def test_normalize_double_backslash():
     assert normalize("HELLO YOU\\") == ["hello", "you"]
+
+
+def remove_stopwords(comment):
+    """Returns a list of words with stop words removed."""
+    import os
+    stopwords = np.loadtxt(os.getcwd() + "/data/stopwords.txt", dtype=np.str)
+    return [word for word in comment if word not in stopwords]
+
+
+def test_remove_stopwords():
+    assert remove_stopwords(["the", "cat", "is", "king"]) == ["cat", "king"]
+
+
+def test_remove_stopwords_capitals():
+    # This does not remove capital stopwords as this is handled elsewhere in the normalization step
+    assert remove_stopwords(["The", "cat", "Is", "king"]) == ["The", "cat", "Is", "king"]
