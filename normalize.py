@@ -80,10 +80,11 @@ def normalize(comment):
 
     spaces_replaced_comment = replace_spaces(tokenized)
     cleaned_comment = escape_unicode(spaces_replaced_comment)
+    removed_stopwords = remove_stopwords(cleaned_comment)
 
     return list(
         map(lambda word: word.translate(str.maketrans("", "", r"""[!"#$%&()*+,-./:;<=>?@[]^_`{|}~'\¿]""")),
-            cleaned_comment))
+            removed_stopwords))
 
 
 def test_normalize_simple():
