@@ -35,8 +35,12 @@ def count_words(corpus):
     return ascending_order_word_frequency
 
 def test_counted_words():
-    assert count_words(["apple", "apple", "banana", "acorn"])[-1][1] ==  2
-    assert count_words(["strawberry", "apple", "apple", "banana", "acorn"])[0][1] == 1
+    assert set(count_words(["apple", "apple", "banana", "acorn"])) ==  set([('banana', 1), ('acorn', 1), ('apple', 2)])
 
 def test_sort_counted_words():
     assert count_words(["strawberry", "apple", "apple", "banana", "acorn"])[-1] ==  ('apple', 2)
+#     Ordering of words with same count changes each execution
+#    assert count_words(["strawberry", "apple", "apple", "banana", "acorn"])[0] == ('apple', 2)
+
+
+
