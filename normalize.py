@@ -75,12 +75,15 @@ def normalize(comment):
 
     Returns:
         list: A list of the normalized words in the comment.
+
     """
     tokenized = list(map(lambda word: word.lower(), comment.split(" ")))
 
     spaces_replaced_comment = replace_spaces(tokenized)
     cleaned_comment = escape_unicode(spaces_replaced_comment)
     removed_stopwords = remove_stopwords(cleaned_comment)
+    if "like" in removed_stopwords:
+        print(removed_stopwords)
 
     return list(
         map(lambda word: word.translate(str.maketrans("", "", r"""[!"#$%&()*+,-./:;<=>?@[]^_`{|}~'\¿]""")),
@@ -88,19 +91,19 @@ def normalize(comment):
 
 
 def test_normalize_simple():
-    assert normalize("HELLO YOU") == ["hello", "you"]
+    assert normalize("HELLO BOY") == ["hello", "boy"]
 
 
 def test_normalize_newline():
-    assert normalize("HELLO YOU! \\n") == ["hello", "you", " "]
+    assert normalize("HELLO BOY! \\n") == ["hello", "boy", " "]
 
 
 def test_normalize_punctuation():
-    assert normalize("HELLO YOU! &") == ["hello", "you", ""]
+    assert normalize("HELLO BOY! &") == ["hello", "boy", ""]
 
 
 def test_normalize_double_backslash():
-    assert normalize("HELLO YOU\\") == ["hello", "you"]
+    assert normalize("HELLO BOY\\") == ["hello", "boy"]
 
 
 def remove_stopwords(comment):
@@ -114,6 +117,10 @@ def test_remove_stopwords():
     assert remove_stopwords(["the", "cat", "is", "king"]) == ["cat", "king"]
 
 
+def test_remove_basic_stopwords():
+    assert remove_stopwords(["you", "i", "would", "it", "like"]) == []
+
+
 def test_remove_stopwords_capitals():
     # This does not remove capital stopwords as this is handled elsewhere in the normalization step
-    assert remove_stopwords(["The", "cat", "Is", "king"]) == ["The", "cat", "Is", "king"]
+    assert remove_stopwords(["The", "cat", "Is", "king", "like"]) == ["The", "cat", "Is", "king"]

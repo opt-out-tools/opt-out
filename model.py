@@ -4,6 +4,7 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
 
+
 from dictionary import *
 from normalize import normalize
 
@@ -27,6 +28,7 @@ def prepare_data(df):
     """
 
     df["Normalized"] = df["Comment"].apply(normalize)
+    df.to_csv("normalized.csv")
 
     corpus = [sentence for comment in df["Normalized"].tolist() for sentence in comment]
     dictionary = rank_corpus(corpus)
@@ -48,7 +50,7 @@ if __name__ == '__main__':
 
     vocab_size = len(train_dict)
 
-    padded_train = keras.preprocessing.sequence.pad_sequences(train["Enumerated"].values, padding='post')
+    padded_train = keras.preprocessing.sequence.pad_sequences(train["Enumerated"].values, padding='post', maxlen=256)
 
     model = keras.Sequential()
     model.add(keras.layers.Embedding(vocab_size, 16))
@@ -60,7 +62,8 @@ if __name__ == '__main__':
 
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 
-    mid = int(3947 / 2)
+    mid = int(3947 / 2) # number of comments halved
+
     x_val = padded_train[:mid]
     partial_x_train = padded_train[mid:]
 
@@ -74,6 +77,7 @@ if __name__ == '__main__':
     history_dict.keys()
 
     import matplotlib.pyplot as plt
+
 
     acc = history_dict['acc']
     val_acc = history_dict['val_acc']
