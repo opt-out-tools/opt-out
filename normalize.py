@@ -79,15 +79,13 @@ def normalize(comment):
     """
     tokenized = list(map(lambda word: word.lower(), comment.split(" ")))
 
-    spaces_replaced_comment = replace_spaces(tokenized)
-    cleaned_comment = escape_unicode(spaces_replaced_comment)
-    removed_stopwords = remove_stopwords(cleaned_comment)
-    if "like" in removed_stopwords:
-        print(removed_stopwords)
-
-    return list(
+    spaces_replaced = replace_spaces(tokenized)
+    cleaned = escape_unicode(spaces_replaced)
+    stripped = list(
         map(lambda word: word.translate(str.maketrans("", "", r"""[!"#$%&()*+,-./:;<=>?@[]^_`{|}~'\¿]""")),
-            removed_stopwords))
+            cleaned))
+
+    return remove_stopwords(stripped)
 
 
 def test_normalize_simple():
