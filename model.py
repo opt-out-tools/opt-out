@@ -4,7 +4,6 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
 
-
 from dictionary import *
 from normalize import normalize
 
@@ -22,13 +21,12 @@ def prepare_data(df):
         df: The data frame
 
     Returns:
-        df: A prepared data frame
-        dict: A dictionary of the corpus vocabulary enumerated
+        df (dataframe): A prepared data frame
+        dictionary (dict): A dictionary of the corpus vocabulary enumerated
 
     """
 
     df["Normalized"] = df["Comment"].apply(normalize)
-    df.to_csv("normalized.csv")
 
     corpus = [sentence for comment in df["Normalized"].tolist() for sentence in comment]
     dictionary = rank_corpus(corpus)
@@ -47,22 +45,26 @@ def test_prepare_data_creates_necessary_columns():
 
 if __name__ == '__main__':
     train, train_dict = prepare_data(train_data)
+    test, test_dict = prepare_data(test_data)
 
     vocab_size = len(train_dict)
 
-    padded_train = keras.preprocessing.sequence.pad_sequences(train["Enumerated"].values, padding='post', maxlen=256)
+    padded_train = keras.preprocessing.sequence.pad_sequences(train["Enumerated"].values, padding='post',
+                                                              maxlen=140)
+    padded_test = keras.preprocessing.sequence.pad_sequences(test["Enumerated"].values, padding='post',
+                                                              maxlen=140)
 
     model = keras.Sequential()
-    model.add(keras.layers.Embedding(vocab_size, 16))
+    model.add(keras.layers.Embedding(vocab_size, 4))
     model.add(keras.layers.GlobalAveragePooling1D())
-    model.add(keras.layers.Dense(16, activation=tf.nn.relu))
+    model.add(keras.layers.Dense(4, activation=tf.nn.relu))
     model.add(keras.layers.Dense(1, activation=tf.nn.sigmoid))
 
     model.summary()
 
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 
-    mid = int(3947 / 2) # number of comments halved
+    mid = int(3947 / 2)  # number of comments halved
 
     x_val = padded_train[:mid]
     partial_x_train = padded_train[mid:]
@@ -73,11 +75,12 @@ if __name__ == '__main__':
     history = model.fit(partial_x_train, partial_y_train, epochs=40, batch_size=512, validation_data=(x_val, y_val),
                         verbose=1)
 
+    predicted_sentiment_score = model.predict(padded_test)
+
     history_dict = history.history
     history_dict.keys()
 
     import matplotlib.pyplot as plt
-
 
     acc = history_dict['acc']
     val_acc = history_dict['val_acc']
