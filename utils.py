@@ -19,3 +19,5 @@ def save_embeddings(model, word_index):
 
     labels = np.array([key for key in word_index.keys()])
     np.savetxt(current_directory + "/embeddings/metadata.tsv", labels, delimiter="\t", fmt="%s")
+
+
