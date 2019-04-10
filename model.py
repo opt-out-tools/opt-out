@@ -4,58 +4,41 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
 
-from dictionary import *
-from normalize import normalize
+from utils import save_embeddings
+
+from keras.preprocessing.text import Tokenizer
 
 current_directory = os.getcwd()
-train_data = pd.read_csv(current_directory + "/data/train.csv")
-test_data = pd.read_csv(current_directory + "/data/test_with_solutions.csv")
-
-
-def prepare_data(df):
-    """Returns a data frame prepared for word padding.
-
-    This is achieved by normalizing the comments and enumerating the remaining words
-
-    Args:
-        df: The data frame
-
-    Returns:
-        df (dataframe): A prepared data frame
-        dictionary (dict): A dictionary of the corpus vocabulary enumerated
-
-    """
-
-    df["Normalized"] = df["Comment"].apply(normalize)
-
-    corpus = [sentence for comment in df["Normalized"].tolist() for sentence in comment]
-    dictionary = rank_corpus(corpus)
-
-    df["Enumerated"] = df["Normalized"].apply((lambda comment: enumerate_comment(comment, dictionary)))
-
-    return df, dictionary
-
-
-def test_prepare_data_creates_necessary_columns():
-    df = train_data
-
-    assert prepare_data(df)['Normalized'].all() == df['Normalized'].all()
-    assert prepare_data(df)['Enumerated'].all() == df['Enumerated'].all()
+train_data = pd.read_csv(current_directory + "/data/DataTurks/dump.csv")
 
 
 if __name__ == '__main__':
-    train, train_dict = prepare_data(train_data)
-    test, test_dict = prepare_data(test_data)
 
-    vocab_size = len(train_dict)
+    save_word_embeddings = True
+    train_data = train_data.sample(frac=1).reset_index(drop=True)
 
-    padded_train = keras.preprocessing.sequence.pad_sequences(train["Enumerated"].values, padding='post',
+    X_train = train_data['content'][:18000]
+    X_test = train_data['content'][18000:]
+
+    y_train = train_data['label'][:18000]
+    y_test =  train_data['label'][18000:]
+
+
+    tokenizer = Tokenizer(num_words=10000)
+    tokenizer.fit_on_texts(train_data['content'])
+
+    train_sequences = tokenizer.texts_to_sequences(X_train.values)
+    test_sequences = tokenizer.texts_to_sequences(X_test.values)
+
+    vocab_size = 10000
+
+    padded_train = keras.preprocessing.sequence.pad_sequences(train_sequences, padding='post',
                                                               maxlen=140)
-    padded_test = keras.preprocessing.sequence.pad_sequences(test["Enumerated"].values, padding='post',
+    padded_test = keras.preprocessing.sequence.pad_sequences(test_sequences, padding='post',
                                                               maxlen=140)
 
     model = keras.Sequential()
-    model.add(keras.layers.Embedding(vocab_size, 4))
+    model.add(keras.layers.Embedding(vocab_size, 40))
     model.add(keras.layers.GlobalAveragePooling1D())
     model.add(keras.layers.Dense(4, activation=tf.nn.relu))
     model.add(keras.layers.Dense(1, activation=tf.nn.sigmoid))
@@ -64,18 +47,25 @@ if __name__ == '__main__':
 
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 
-    mid = int(3947 / 2)  # number of comments halved
+    split = int(len(X_train) / 4 )  # number of comments halved
 
-    x_val = padded_train[:mid]
-    partial_x_train = padded_train[mid:]
+    x_val = padded_train[:split]
+    partial_x_train = padded_train[split:]
 
-    y_val = train['Insult'][:mid]
-    partial_y_train = train['Insult'][mid:]
+    y_val = y_train[:split]
+    partial_y_train = y_train[split:]
 
-    history = model.fit(partial_x_train, partial_y_train, epochs=40, batch_size=512, validation_data=(x_val, y_val),
+    history = model.fit(partial_x_train, partial_y_train, epochs=120, batch_size=512, validation_data=(x_val, y_val),
                         verbose=1)
 
+
+    if save_word_embeddings == True:
+        word_index = tokenizer.word_index
+        save_embeddings(model, word_index)
+
+
     predicted_sentiment_score = model.predict(padded_test)
+
 
     history_dict = history.history
     history_dict.keys()
@@ -110,3 +100,6 @@ if __name__ == '__main__':
     plt.legend()
 
     plt.show()
+
+
+

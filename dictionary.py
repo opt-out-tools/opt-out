@@ -75,3 +75,8 @@ def test_rank_longer():
     corpus = ["apple", "apple", "apple", "banana", "acorn", "pear", "pear", "pear", "pear"]
     assert rank(corpus)[0] == ('pear', 1)
     assert set(rank(corpus)) == set([('pear', 1), ('apple', 2), ('acorn', 3), ('banana', 3)])
+
+
+def decode_review(text, word_index):
+        reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
+        return ' '.join([reverse_word_index.get(i, '?') for i in text])
