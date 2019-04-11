@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/sentence")
 def run_model():
     sentence = request.args.get("sentence")
-    return execute(sentence)
+    return execute(urllib.parse.unquote(sentence))
 
 
 if __name__ == "__main__":
