@@ -8,17 +8,19 @@ from utils import save_embeddings
 
 from keras.preprocessing.text import Tokenizer
 
-current_directory = os.getcwd()
-train_data = pd.read_csv(current_directory + "/data/DataTurks/dump.csv")
+def execute(sentence, save_word_embeddings = False):
+    """
+    """
 
+    parsed_test = pd.DataFrame({"content": pd.Series(sentence)})
 
-if __name__ == '__main__':
-
-    save_word_embeddings = True
+    current_directory = os.getcwd()
+    train_data = pd.read_csv(current_directory + "/data/DataTurks/dump.csv")
     train_data = train_data.sample(frac=1).reset_index(drop=True)
 
+
     X_train = train_data['content'][:18000]
-    X_test = train_data['content'][18000:]
+    X_test = parsed_test['content']
 
     y_train = train_data['label'][:18000]
     y_test =  train_data['label'][18000:]
@@ -36,7 +38,7 @@ if __name__ == '__main__':
                                                               maxlen=140)
     padded_test = keras.preprocessing.sequence.pad_sequences(test_sequences, padding='post',
                                                               maxlen=140)
-
+    print(padded_test)
     model = keras.Sequential()
     model.add(keras.layers.Embedding(vocab_size, 40))
     model.add(keras.layers.GlobalAveragePooling1D())
@@ -67,39 +69,41 @@ if __name__ == '__main__':
     predicted_sentiment_score = model.predict(padded_test)
 
 
+
     history_dict = history.history
     history_dict.keys()
 
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
+    #
+    # acc = history_dict['acc']
+    # val_acc = history_dict['val_acc']
+    # loss = history_dict['loss']
+    # val_loss = history_dict['val_loss']
+    #
+    # epochs = range(1, len(acc) + 1)
+    #
+    # # "bo" is for "blue dot"
+    # plt.plot(epochs, loss, 'bo', label='Training loss')
+    # # b is for "solid blue line"
+    # plt.plot(epochs, val_loss, 'b', label='Validation loss')
+    # plt.title('Training and validation loss')
+    # plt.xlabel('Epochs')
+    # plt.ylabel('Loss')
+    # plt.legend()
+    #
+    # plt.show()
+    #
+    # plt.clf()  # clear figure
+    #
+    # plt.plot(epochs, acc, 'bo', label='Training acc')
+    # plt.plot(epochs, val_acc, 'b', label='Validation acc')
+    # plt.title('Training and validation accuracy')
+    # plt.xlabel('Epochs')
+    # plt.ylabel('Accuracy')
+    # plt.legend()
+    #
+    # plt.show()
 
-    acc = history_dict['acc']
-    val_acc = history_dict['val_acc']
-    loss = history_dict['loss']
-    val_loss = history_dict['val_loss']
+    return str(predicted_sentiment_score[0][0])
 
-    epochs = range(1, len(acc) + 1)
-
-    # "bo" is for "blue dot"
-    plt.plot(epochs, loss, 'bo', label='Training loss')
-    # b is for "solid blue line"
-    plt.plot(epochs, val_loss, 'b', label='Validation loss')
-    plt.title('Training and validation loss')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.legend()
-
-    plt.show()
-
-    plt.clf()  # clear figure
-
-    plt.plot(epochs, acc, 'bo', label='Training acc')
-    plt.plot(epochs, val_acc, 'b', label='Validation acc')
-    plt.title('Training and validation accuracy')
-    plt.xlabel('Epochs')
-    plt.ylabel('Accuracy')
-    plt.legend()
-
-    plt.show()
-
-
-
+#print(execute("You are a bitch"))
