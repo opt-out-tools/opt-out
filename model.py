@@ -10,7 +10,7 @@ from utils import save_embeddings
 from visualization import plot_loss, plot_accuracy
 
 
-def execute(sentence, save_word_embeddings=False, plot_loss_acc=False):
+def train(save_word_embeddings=False, plot_loss_acc=False):
     """Returns the sentiment of the parsed sentence.
 
     Args:
@@ -22,29 +22,23 @@ def execute(sentence, save_word_embeddings=False, plot_loss_acc=False):
         score (float) : The sentiment score of the sentence. 1 - cyber abusive, 0 - not cyber abusive.
     """
 
-    parsed_test = pd.DataFrame({"content": pd.Series(sentence)})
-
     current_directory = os.getcwd()
     train_data = pd.read_csv(current_directory + "/data/DataTurks/dump.csv")
     train_data = train_data.sample(frac=1).reset_index(drop=True)
-
     X_train = train_data['content'][:18000]
-    X_test = parsed_test['content']
-
     y_train = train_data['label'][:18000]
 
     tokenizer = Tokenizer(num_words=10000)
     tokenizer.fit_on_texts(train_data['content'])
 
     train_sequences = tokenizer.texts_to_sequences(X_train.values)
-    test_sequences = tokenizer.texts_to_sequences(X_test.values)
+    #
 
     vocab_size = 10000
 
     padded_train = keras.preprocessing.sequence.pad_sequences(train_sequences, padding='post',
                                                               maxlen=140)
-    padded_test = keras.preprocessing.sequence.pad_sequences(test_sequences, padding='post',
-                                                             maxlen=140)
+
     model = keras.Sequential()
     model.add(keras.layers.Embedding(vocab_size, 40))
     model.add(keras.layers.GlobalAveragePooling1D())
@@ -80,9 +74,23 @@ def execute(sentence, save_word_embeddings=False, plot_loss_acc=False):
         plt.clf()
         plot_loss(epochs, history_dict['loss'], history_dict['val_loss'])
 
+    return model, tokenizer
+
+
+def test(sentence, model, tokenizer):
+    parsed_test = pd.DataFrame({"content": pd.Series(sentence)})
+    X_test = parsed_test['content']
+
+    test_sequences = tokenizer.texts_to_sequences(X_test.values)
+
+    padded_test = keras.preprocessing.sequence.pad_sequences(test_sequences, padding='post', maxlen=140)
 
     sentiment_score = model.predict(padded_test)
 
     return str(sentiment_score[0][0])
 
-print(execute("You are a bitch"))
+
+if __name__ == "__main__":
+    model, tokenizer = train()
+    # model.save("model_120.h5")
+    print(test("You are a bitch", model, tokenizer))

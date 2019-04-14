@@ -1,5 +1,7 @@
 import copy
+
 import numpy as np
+
 
 def random_labelling(y_test):
     """Returns the proportion of samples that would be labelled correctly if totally random.
@@ -16,4 +18,3 @@ def random_labelling(y_test):
     np.random.shuffle(test_labels_copy)
     hits_array = np.array(y_test) == np.array(test_labels_copy)
     return float(np.sum(hits_array)) / len(y_test)
-

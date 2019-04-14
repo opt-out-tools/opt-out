@@ -64,8 +64,7 @@ def test_boundary_test():
 
 
 def convert_json_to_csv(read_filename, write_filename):
-    """Converts a list of jsons which are not in correct list format, into the correct format and writes them to csv.
-    """
+    """Converts a list of jsons which are not in correct list format, into the correct format and writes them to csv."""
     tweets = []
     for line in open(read_filename, 'r'):
         tweets.append(json.loads(line))
