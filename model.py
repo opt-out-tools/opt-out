@@ -83,7 +83,7 @@ def train(save_word_embeddings=False, plot_loss_acc=False):
     return model
 
 
-def test(test_sentence):
+def test(test_sentence, model, corpus_vocabulary):
     """Returns a sentiment score.
 
     Args:
@@ -92,9 +92,6 @@ def test(test_sentence):
     Returns:
         score (float) : The sentiment score of the sentence. 1 - cyber abusive, 0 - not cyber abusive.
     """
-    global train_data
-    global corpus_vocabulary
-
     parsed_test = pd.DataFrame({"content": pd.Series(test_sentence)})
     X_test = parsed_test['content']
 
@@ -133,9 +130,9 @@ def test_basic_positive():
     assert test("I love you so much", model, tokenizer) < 0.5
 
 
-train_data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-corpus_vocabulary = create_dictionary(train_data['content'])
+if __name__ == '__main__':
+    train_data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    corpus_vocabulary = create_dictionary(train_data['content'])
 
-model = train()
-
-print(test("You are a bitch"))
+    model = train()
+    print(test("You are a bitch", model, corpus_vocabulary))
