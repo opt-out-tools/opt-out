@@ -92,5 +92,5 @@ def test(sentence, model, tokenizer):
 
 if __name__ == "__main__":
     model, tokenizer = train()
-    # model.save("model_120.h5")
+    #model.save("model_epoch120_40D.h5")
     print(test("You are a bitch", model, tokenizer))
