@@ -10,35 +10,41 @@ from utils import save_embeddings
 from visualization import plot_loss, plot_accuracy
 
 
+def create_dictionary(data, n_words=10000):
+    """Creates the internal vocabulary for the model and returns the Tokenizer object."""
+    tokenizer = Tokenizer(num_words=n_words)
+    tokenizer.fit_on_texts(data)
+    return tokenizer
+
+
+def test_tokenizer_size():
+    tokenizer = create_dictionary(train_data['content'])
+    assert tokenizer.num_words == 10000
+
+
 def train(save_word_embeddings=False, plot_loss_acc=False):
     """Returns the sentiment of the parsed sentence.
 
     Args:
-        sentence (str) : The sentence to be analised.
         save_word_embeddings (bool) : If true, will save the embedding data.
         plot_loss_acc (bool) : If true, will plot the loss and accuracy during the training of the data.
 
     Returns
-        score (float) : The sentiment score of the sentence. 1 - cyber abusive, 0 - not cyber abusive.
+        model : The sentiment analyser model, fit to the training data.
     """
 
-    current_directory = os.getcwd()
-    train_data = pd.read_csv(current_directory + "/data/DataTurks/dump.csv")
+    global train_data
+    global corpus_vocabulary
+
     train_data = train_data.sample(frac=1).reset_index(drop=True)
     X_train = train_data['content'][:18000]
     y_train = train_data['label'][:18000]
 
-    tokenizer = Tokenizer(num_words=10000)
-    tokenizer.fit_on_texts(train_data['content'])
-
-    train_sequences = tokenizer.texts_to_sequences(X_train.values)
-    #
-
     vocab_size = 10000
 
+    train_sequences = corpus_vocabulary.texts_to_sequences(X_train.values)
     padded_train = keras.preprocessing.sequence.pad_sequences(train_sequences, padding='post',
                                                               maxlen=140)
-
     model = keras.Sequential()
     model.add(keras.layers.Embedding(vocab_size, 40))
     model.add(keras.layers.GlobalAveragePooling1D())
@@ -61,7 +67,7 @@ def train(save_word_embeddings=False, plot_loss_acc=False):
                         verbose=1)
 
     if save_word_embeddings == True:
-        word_index = tokenizer.word_index
+        word_index = corpus_vocabulary.word_index
         save_embeddings(model, word_index)
 
     if plot_loss_acc == True:
@@ -74,23 +80,62 @@ def train(save_word_embeddings=False, plot_loss_acc=False):
         plt.clf()
         plot_loss(epochs, history_dict['loss'], history_dict['val_loss'])
 
-    return model, tokenizer
+    return model
 
 
-def test(sentence, model, tokenizer):
-    parsed_test = pd.DataFrame({"content": pd.Series(sentence)})
+def test(test_sentence):
+    """Returns a sentiment score.
+
+    Args:
+        sentence (str) : The sentence to be analised.
+
+    Returns:
+        score (float) : The sentiment score of the sentence. 1 - cyber abusive, 0 - not cyber abusive.
+    """
+    global train_data
+    global corpus_vocabulary
+
+    parsed_test = pd.DataFrame({"content": pd.Series(test_sentence)})
     X_test = parsed_test['content']
 
-    test_sequences = tokenizer.texts_to_sequences(X_test.values)
+    test_sequences = corpus_vocabulary.texts_to_sequences(X_test.values)
 
     padded_test = keras.preprocessing.sequence.pad_sequences(test_sequences, padding='post', maxlen=140)
 
     sentiment_score = model.predict(padded_test)
 
-    return str(sentiment_score[0][0])
+    return sentiment_score[0][0]
 
 
-if __name__ == "__main__":
-    model, tokenizer = train()
-    #model.save("model_epoch120_40D.h5")
-    print(test("You are a bitch", model, tokenizer))
+def test_basic_negative():
+    from keras.models import load_model
+    model = load_model("model_120.h5")
+
+    global train_data
+
+    tokenizer = create_dictionary(train_data['content'], 10000)
+    assert test("You are a bitch", model, tokenizer) >= 0.5
+    assert test("I hate you", model, tokenizer) >= 0.5
+
+
+#  assert test("You are a cunt", model, tokenizer) >= 0.5
+
+
+def test_basic_positive():
+    from keras.models import load_model
+    model = load_model("model_120.h5")
+
+    global train_data
+
+    tokenizer = create_dictionary(train_data['content'], 10000)
+    assert test("You are a lovely person", model, tokenizer) < 0.5
+    assert test("The sun shines from your eyes", model, tokenizer) < 0.5
+    assert test("I love you so much", model, tokenizer) < 0.5
+
+
+train_data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+corpus_vocabulary = create_dictionary(train_data['content'])
+
+model = train()
+
+print(test("You are a bitch"))
