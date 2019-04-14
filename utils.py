@@ -19,10 +19,10 @@ def save_embeddings(model, word_index):
     """
 
     embeddings = model.layers[0].get_weights()[0]
-    np.savetxt(current_directory + "/embeddings/embedding.tsv", embeddings, delimiter="\t")
+    np.savetxt(current_directory + "/saved_model_data/embeddings/embedding.tsv", embeddings, delimiter="\t")
 
     labels = np.array([key for key in word_index.keys()])
-    np.savetxt(current_directory + "/embeddings/metadata.tsv", labels, delimiter="\t", fmt="%s")
+    np.savetxt(current_directory + "/saved_model_data/embeddings/metadata.tsv", labels, delimiter="\t", fmt="%s")
 
 
 def is_correctly_labelled(scores, target_labels):

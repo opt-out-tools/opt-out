@@ -106,7 +106,7 @@ def test(test_sentence, model, corpus_vocabulary):
 
 def test_basic_negative():
     from keras.models import load_model
-    model = load_model("model_120.h5")
+    model = load_model("/saved_model_data/models/model_120.h5")
 
     global train_data
 
@@ -120,7 +120,7 @@ def test_basic_negative():
 
 def test_basic_positive():
     from keras.models import load_model
-    model = load_model("model_120.h5")
+    model = load_model("/saved_model_data/models/model_120.h5")
 
     global train_data
 
