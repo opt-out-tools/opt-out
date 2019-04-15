@@ -4,7 +4,7 @@ The purpose of this guide is to help you contribute to Stop It, regardless of yo
 
 ## Communicating
 ### Less 10 minutes
-⋅⋅* G
+# * G
 ### Less 30 minutes
 
 ### Programming (1+ hours)
