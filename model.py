@@ -106,7 +106,7 @@ def test(test_sentence, model, corpus_vocabulary):
 
 def test_basic_negative():
     from keras.models import load_model
-    model = load_model("/saved_model_data/models/model_120.h5")
+    model = load_model(os.getcwd() + "/saved_model_data/models/model_120.h5")
 
     global train_data
 
@@ -115,12 +115,9 @@ def test_basic_negative():
     assert test("I hate you", model, tokenizer) >= 0.5
 
 
-#  assert test("You are a cunt", model, tokenizer) >= 0.5
-
-
 def test_basic_positive():
     from keras.models import load_model
-    model = load_model("/saved_model_data/models/model_120.h5")
+    model = load_model(os.getcwd() + "/saved_model_data/models/model_120.h5")
 
     global train_data
 
