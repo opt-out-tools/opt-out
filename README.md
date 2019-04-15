@@ -5,10 +5,10 @@
 A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook, Twitter or Youtube.
 
 ### Installation requires:
-tensorflow 1.12.2
-keras 2.2.4 
-numpy
-pandas
+tensorflow 1.12.2,
+keras 2.2.4, 
+numpy,
+pandas,
 flask
 
 ### Usage:
