@@ -19,4 +19,6 @@ python deploy.py and in the browser
 
 127.0.0.1:5000/test?sentence="your sentence to analyse" (without quotation marks)
 
+For further details about the project and topic as a whole, please see the wiki
+
 
