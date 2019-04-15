@@ -1,5 +1,5 @@
 
-## Let's Stop It - Cyber Sexual Harassment and Sexit Hate Speech
+## Let's Stop It - Sexual Cyber Harassment and Sexit Hate Speech
 
 A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook or Twitter.
 
@@ -21,4 +21,6 @@ python deploy.py and in the browser
 
 For further details about the project and topic as a whole, please see the wiki
 
-
+- The Problem : Outlines the issue
+- The Solution : Describes the browser extension that we are aiming to build and it's target functionality 
+- Flow in TensorFlow : The current workings of the model
