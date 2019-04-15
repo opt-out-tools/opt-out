@@ -18,6 +18,6 @@ or using flask
 
 python deploy.py and in the browser
 
-127.0.0.1:5000/test?sentence=<your sentence to analyse> (without quotation marks)
+127.0.0.1:5000/test?sentence="your sentence to analyse" (without quotation marks)
 
 
