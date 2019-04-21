@@ -1,15 +1,26 @@
-## Anti-Harassment Browser Extension
 
-A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook, Twitter or Youtube.
+## Let's Stop It - Sexual Cyber Harassment and Sexit Hate Speech
 
-Installation:
+A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook or Twitter.
 
-Usage:
+### Installation requires:
+tensorflow 1.12.2,
+keras 2.2.4, 
+numpy,
+pandas,
+flask
 
+### Usage:
 python model.py
 
 or using flask
 
-python deploy.py and in the browser http://127.0.0.1:5000/test?sentence= your sentence to analyse (without quotation marks)
+python deploy.py and in the browser
 
+127.0.0.1:5000/test?sentence="your sentence to analyse" (without quotation marks)
 
+For further details about the project and topic as a whole, please see the wiki
+
+- The Problem : Outlines the issue
+- The Solution : Describes the browser extension that we are aiming to build and it's target functionality 
+- Flow in TensorFlow : The current workings of the model
