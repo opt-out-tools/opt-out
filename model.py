@@ -9,38 +9,86 @@ from tensorflow import keras
 from utils import save_embeddings
 from visualization import plot_loss, plot_accuracy
 
+vocab_size = 10000
 
-def create_dictionary(data, n_words=10000):
+def create_dictionary(data, n_words):
     """Creates the internal vocabulary for the model and returns the Tokenizer object."""
     tokenizer = Tokenizer(num_words=n_words)
     tokenizer.fit_on_texts(data)
     return tokenizer
 
 
-def test_tokenizer_size():
-    tokenizer = create_dictionary(train_data['content'])
-    assert tokenizer.num_words == 10000
+def test_tokenizer_vocab_size():
+    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    global vocab_size
+
+    tokenizer = create_dictionary(data['content'], vocab_size)
+    assert tokenizer.num_words == vocab_size
+
+def test_tokenizer_document_size():
+    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    global vocab_size
+
+    tokenizer = create_dictionary(data['content'], vocab_size)
+    assert tokenizer.document_count == len(data['content'])
 
 
-def train(save_word_embeddings=False, plot_loss_acc=False):
+def split(dataframe, where_to_split):
+    """Randomly shuffles the data and splits the data into train and test.
+    Args:
+        dataframe (df) : The data.
+        where_to_split (int) : The size of the train data.
+
+    Returns:
+        train (df) : The training data.
+        test (df)  : The test data.
+    """
+    shuffled_data = dataframe.sample(frac=1).reset_index(drop=True)
+    train = shuffled_data[:where_to_split]
+    test = shuffled_data[where_to_split:]
+    return train, test
+
+def test_split_is_representative():
+    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+
+    n_1s = proportion(data, 1)
+    n_0s = proportion(data, 0)
+
+    train, test = split(data, 18000)
+
+    n_train_1s = proportion(train, 1)
+    n_train_0s = proportion(train, 0)
+
+    n_test_1s = proportion(test, 0)
+    n_test_0s = proportion(test, 0)
+
+    assert n_train_1s == n_1s
+    assert n_train_0s == n_0s
+
+    assert n_test_1s == n_1s
+    assert n_test_0s == n_0s
+
+def proportion(df, label):
+    df.loc[df['label'] == label, 'label'].count() / len(df)
+
+
+def build(train_data, save_word_embeddings=False, save_model=False):
     """Returns the sentiment of the parsed sentence.
 
     Args:
+        train_data (df) : The data the model is to be built from.
         save_word_embeddings (bool) : If true, will save the embedding data.
-        plot_loss_acc (bool) : If true, will plot the loss and accuracy during the training of the data.
+        save_model (bool) : If true, will save the model.
 
     Returns
         model : The sentiment analyser model, fit to the training data.
     """
-
-    global train_data
     global corpus_vocabulary
 
-    train_data = train_data.sample(frac=1).reset_index(drop=True)
     X_train = train_data['content'][:18000]
     y_train = train_data['label'][:18000]
 
-    vocab_size = 10000
+    vocab_size = 10000  # TODO automatic
 
     train_sequences = corpus_vocabulary.texts_to_sequences(X_train.values)
     padded_train = keras.preprocessing.sequence.pad_sequences(train_sequences, padding='post',
@@ -63,27 +111,23 @@ def train(save_word_embeddings=False, plot_loss_acc=False):
     y_val = y_train[:split]
     partial_y_train = y_train[split:]
 
-    history = model.fit(partial_x_train, partial_y_train, epochs=120, batch_size=512, validation_data=(x_val, y_val),
-                        verbose=1)
+    model.fit(partial_x_train, partial_y_train, epochs=240, batch_size=512, validation_data=(x_val, y_val),
+              verbose=1)
 
     if save_word_embeddings == True:
         word_index = corpus_vocabulary.word_index
         save_embeddings(model, word_index)
 
-    if plot_loss_acc == True:
-        history_dict = history.history
-        history_dict.keys()
-
-        epochs = range(1, len(history_dict['acc']) + 1)
-
-        plot_accuracy(epochs, history_dict['acc'], history_dict['val_acc'])
-        plt.clf()
-        plot_loss(epochs, history_dict['loss'], history_dict['val_loss'])
+    if save_model == True:
+        import datetime as dt
+        now = dt.datetime.now().__str__()
+        model.save(os.getcwd() +'/saved_model_data/model/model_' + now + '.h5')
+        print("Model saved.")
 
     return model
 
 
-def test(test_sentence, model, corpus_vocabulary):
+def predict(test_sentence, model, corpus_vocabulary):
     """Returns a sentiment score.
 
     Args:
@@ -101,35 +145,68 @@ def test(test_sentence, model, corpus_vocabulary):
 
     sentiment_score = model.predict(padded_test)
 
-    return sentiment_score[0][0]
+    return sentiment_score
 
 
 def test_basic_negative():
+    import glob
     from keras.models import load_model
-    model = load_model(os.getcwd() + "/saved_model_data/models/model_120.h5")
+    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/model/*")
+    model =  load_model(max(list_of_files, key=os.path.getctime))
 
-    global train_data
+    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    corpus_vocabulary = create_dictionary(data['content'], vocab_size)
 
-    tokenizer = create_dictionary(train_data['content'], 10000)
-    assert test("You are a bitch", model, tokenizer) >= 0.5
-    assert test("I hate you", model, tokenizer) >= 0.5
+    assert predict("You are a bitch", model, corpus_vocabulary) >= 0.5
+    assert predict("I hate you", model, corpus_vocabulary) >= 0.5
 
 
 def test_basic_positive():
+    import glob
     from keras.models import load_model
-    model = load_model(os.getcwd() + "/saved_model_data/models/model_120.h5")
+    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/model/*")
+    model = load_model(max(list_of_files, key=os.path.getctime))
 
-    global train_data
+    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    corpus_vocabulary = create_dictionary(data['content'], vocab_size)
 
-    tokenizer = create_dictionary(train_data['content'], 10000)
-    assert test("You are a lovely person", model, tokenizer) < 0.5
-    assert test("The sun shines from your eyes", model, tokenizer) < 0.5
-    assert test("I love you so much", model, tokenizer) < 0.5
+    assert predict("You are a lovely person", model, corpus_vocabulary) < 0.5
+    assert predict("The sun shines from your eyes", model, corpus_vocabulary) < 0.5
+    assert predict("I love you so much", model, corpus_vocabulary) < 0.5
 
+
+def plot(model):
+    """Plots the accuracy and loss of the validation and training."""
+    history_dict = model.history
+    history_dict.keys()
+
+    epochs = range(1, len(history_dict['acc']) + 1)
+
+    plot_accuracy(epochs, history_dict['acc'], history_dict['val_acc'])
+    plt.clf()
+    plot_loss(epochs, history_dict['loss'], history_dict['val_loss'])
+
+
+def evaluate(test):
+    """Prints the f1-score and the confusion matrix for the model."""
+    global model
+    global corpus_vocabulary
+
+    from sklearn.metrics import f1_score, confusion_matrix
+    X_test = test['content'][18000:]
+    y_test = test['label'][18000:]
+
+    sentiment_scores = pd.DataFrame({"score": pd.Series(predict(X_test, model, corpus_vocabulary)[:, 0])})
+    sentiment_scores.loc[sentiment_scores['score'] >= 0.5, 'label'] = 1
+    sentiment_scores.loc[sentiment_scores['score'] < 0.5, 'label'] = 0
+
+    print(f1_score(y_test, sentiment_scores['label'].values))
+    print(confusion_matrix(y_test, sentiment_scores['label'].values))
 
 if __name__ == '__main__':
-    train_data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    corpus_vocabulary = create_dictionary(train_data['content'])
+    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    corpus_vocabulary = create_dictionary(data['content'], vocab_size)
 
-    model = train()
-    print(test("You are a bitch", model, corpus_vocabulary))
+    train, test = split(data, 18000)
+    model = build(train, save_model=True)
+    evaluate(test)
