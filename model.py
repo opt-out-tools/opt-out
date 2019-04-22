@@ -2,6 +2,7 @@ import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import pytest
 import tensorflow as tf
 from keras.preprocessing.text import Tokenizer
 from tensorflow import keras
@@ -19,20 +20,14 @@ def create_dictionary(data, n_words):
     return tokenizer
 
 
-def test_tokenizer_vocab_size():
+@pytest.fixture
+def vocabulary_unit_testing():
     data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    global vocab_size
-
-    tokenizer = create_dictionary(data['content'], vocab_size)
-    assert tokenizer.num_words == vocab_size
+    return create_dictionary(data['content'], vocab_size)
 
 
-def test_tokenizer_document_size():
-    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    global vocab_size
-
-    tokenizer = create_dictionary(data['content'], vocab_size)
-    assert tokenizer.document_count == len(data['content'])
+def test_tokenizer_vocab_size(vocabulary_unit_testing):
+    assert vocabulary_unit_testing.num_words == vocab_size
 
 
 def split(dataframe, where_to_split):
@@ -152,36 +147,30 @@ def predict(test_sentence, model, corpus_vocabulary):
     return sentiment_score[:, 0]
 
 
-def test_basic_negative():
+def test_basic_negative(vocabulary_unit_testing):
     import glob
     from keras.models import load_model
     list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
     model = load_model(max(list_of_files, key=os.path.getctime))
 
-    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    corpus_vocabulary = create_dictionary(data['content'], vocab_size)
-
-    assert predict("You are a bitch", model, corpus_vocabulary)[0] >= 0.5
-    assert predict("I hate you", model, corpus_vocabulary)[0] >= 0.5
+    assert predict("You are a bitch", model, vocabulary_unit_testing)[0] >= 0.5
+    assert predict("I hate you", model, vocabulary_unit_testing)[0] >= 0.5
 
 
-def test_basic_positive():
+def test_basic_positive(vocabulary_unit_testing):
     import glob
     from keras.models import load_model
     list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
     model = load_model(max(list_of_files, key=os.path.getctime))
 
-    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    corpus_vocabulary = create_dictionary(data['content'], vocab_size)
-
-    assert predict("You are a lovely person", model, corpus_vocabulary)[0] < 0.5
-    assert predict("The sun shines from your eyes", model, corpus_vocabulary)[0] < 0.5
-    assert predict("I love you so much", model, corpus_vocabulary)[0] < 0.5
+    assert predict("You are a lovely person", model, vocabulary_unit_testing)[0] < 0.5
+    assert predict("The sun shines from your eyes", model, vocabulary_unit_testing)[0] < 0.5
+    assert predict("I love you so much", model, vocabulary_unit_testing)[0] < 0.5
 
 
 def plot(model):
     """Plots the accuracy and loss of the validation and training."""
-    history_dict = model.history
+    history_dict = model.history.history
     history_dict.keys()
 
     epochs = range(1, len(history_dict['acc']) + 1)
@@ -213,7 +202,8 @@ if __name__ == '__main__':
 
     train, test = split(data, 18000)
 
-    model = build(train, save_model=True)
+    model = build(train)
+    plot(model)
 
     sentiment_scores = predict(test['content'], model, corpus_vocabulary)
 
