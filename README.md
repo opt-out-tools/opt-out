@@ -8,7 +8,10 @@ tensorflow 1.12.2,
 keras 2.2.4, 
 numpy,
 pandas,
-flask
+flask,
+matplotlib
+
+To create an environment in conda run: `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib`
 
 ### Usage:
 python model.py
