@@ -9,9 +9,10 @@ keras 2.2.4,
 numpy,
 pandas,
 flask,
-matplotlib
+matplotlib,
+scikit-learn
 
-To create an environment in conda run: `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib`
+To create an environment in conda run: `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn`
 
 ### Usage:
 python model.py
