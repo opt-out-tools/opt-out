@@ -21,7 +21,8 @@ or using flask
 
 python deploy.py and in the browser
 
-127.0.0.1:5000/test?sentence="your sentence to analyse" (without quotation marks)
+127.0.0.1:5000/test?sentence="your sentence to analyse" (without quotation marks). Be sure to include spaces in the senteces. Spaces can be explicity set using the UTF-8 encoded "%20".
+
 
 For further details about the project and topic as a whole, please see the wiki
 
