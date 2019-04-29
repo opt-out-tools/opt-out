@@ -110,7 +110,7 @@ def build(train_data, save_word_embeddings=False, save_model=False):
     y_val = y_train[:split]
     partial_y_train = y_train[split:]
 
-    model.fit(partial_x_train, partial_y_train, epochs=240, batch_size=512, validation_data=(x_val, y_val),
+    model.fit(partial_x_train, partial_y_train, epochs=150, batch_size=512, validation_data=(x_val, y_val),
               verbose=1)
 
     if save_word_embeddings == True:
