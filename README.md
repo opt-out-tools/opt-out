@@ -21,7 +21,7 @@ or using flask
 
 python deploy.py and in the browser
 
-127.0.0.1:5000/test?sentence="your sentence to analyse" (without quotation marks). Be sure to include spaces in the senteces. Spaces can be explicity set using the UTF-8 encoded "%20".
+127.0.0.1:5000/predict?sentence="your sentence to analyse" (without quotation marks). Be sure to include spaces in the senteces. Spaces can be explicity set using the UTF-8 encoded "%20".
 
 To work on the browser extension run:
 cd extension 
@@ -36,3 +36,5 @@ For further details about the project and topic as a whole, please see the wiki
 - The Solution : Describes the browser extension that we are aiming to build and it's target functionality 
 - Flow in TensorFlow : The current workings of the model
 - The Language of Misogyny and Sexual Aggression : A discussion of the language of cyber sexual harassment/sexist hate speech and the surrounding literature
+
+Icons from : http://www.aha-soft.com/iconsets.htm

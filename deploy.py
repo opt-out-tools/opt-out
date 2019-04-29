@@ -17,7 +17,7 @@ model = load_model(os.getcwd() + "/saved_model_data/models/model_120.h5")
 model._make_predict_function()
 
 
-@app.route("/test")
+@app.route("/predict")
 def generate_sentiment_score():
     """Returns the sentiment score of the parsed sentence.
 
