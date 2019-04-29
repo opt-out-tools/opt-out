@@ -2,4 +2,4 @@
 .__pycache__/
 __pycache__/
 .mypy_cache/
-.extension/node_modules/
+.vscode/
