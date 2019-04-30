@@ -5,7 +5,7 @@
 
 ### What is it?
 
-We're glad you asked. Sexual harassment and sexist hate speech online are mentioned in international law documents such as the Committee on the Elimination of Discriminationagainst Women declaration, a committee within the UN. They describe these behaviours as acts of **gender based violence happening online and in technology-mediated spaces.**
+We're glad you asked. Sexual harassment and sexist hate speech online are mentioned in international law documents such as the Committee on the Elimination of Discriminationagainst Women declaration, a committee within the UN. They describe these behaviours as acts of **gender based violence happening online and in technology-mediated spaces.** This is a modern tragedy affecting the well-being, economical potential and representation of women across the globe.
 
 ### What's this project doing about this?
 
