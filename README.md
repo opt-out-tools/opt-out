@@ -45,4 +45,8 @@ npm test
 ## Funding
 If you would like to fund the project or make a donation, please email [Tess Ingram](mailto:tee.in.grams@gmail.com)
 
+***
+
+> Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
+
 
