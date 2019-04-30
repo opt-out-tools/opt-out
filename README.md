@@ -1,5 +1,5 @@
 
-                          ![Stop](https://github.com/malteserteresa/stop-it/blob/master/images/icon.png)
+![Stop](https://github.com/malteserteresa/stop-it/blob/master/images/icon.png)
 
 ## Cyber Sexual Harassment and Sexist Hate Speech
 
