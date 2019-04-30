@@ -27,21 +27,22 @@ Stop It is an open source project under active development. Currently, machine l
 To install the current model:
 1. [Download Anaconda](https://www.anaconda.com/distribution/#download-section)
 2. Install Anaconda using the [guide for your operating system](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation)
-3. Create a conda environment with the required depenencies by running the following bash command: `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
+3. Create a conda environment with the required depenencies by running the following bash command: 
+`conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
 
 ## Usage
-The two important files are model.py and deploy.py 
+The two important files are **model.py** and **deploy.py** 
 
-- model.py runs tensorflow and saves the model to a .h5 file (optional - you have to go into the file and set save_model = True in the train function) 
+- model.py builds the model and saves it to a .h5 file (optional - you have to go into the file and set save_model = True in the train function) 
 - deploy.py runs a flask server and loads a model from saved_model_data/models folder. It then predicts the sentiment of a sentence when the /predict API is hit.
 
-If you are data scientist and just want to play with the model then...
-in a terminal and run the command: `python model.py`
-This will build the model only. If you want to tweek things, you'll have to manually edit the file.
+If you just want to **play with the model** then in a terminal and run the command: `python model.py`
+*This will build the model only. If you want to tweek things, you'll have to manually edit the file.*
 
-Or deploy the project locally, first checking that you are loading in the model you wish to: 
-In a terminal run: `python deploy.py`
-And in the browser go to 127.0.0.1:5000/predict?sentence=your sentence to analyse. 
+Or **deploy the project locally**: 
+1. Check that you are loading in the model you wish within the deploy.py file
+2. In a terminal run: `python deploy.py`
+3. And in the browser go to 127.0.0.1:5000/predict?sentence=your sentence to analyse. 
 Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`.
 
 To work on the browser extension run:
