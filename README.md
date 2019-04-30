@@ -1,6 +1,6 @@
 
 
-<div style="text-align:center"><img src=![Stop](https://github.com/malteserteresa/stop-it/blob/master/images/icon.png)/></div>
+<div style="text-align:center"><img src="https://github.com/malteserteresa/stop-it/blob/master/images/icon.png" /></div>
 
 ## Cyber Sexual Harassment and Sexist Hate Speech
 
