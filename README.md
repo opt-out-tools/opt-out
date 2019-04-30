@@ -33,8 +33,11 @@ To install the current model:
 ## Usage
 The two important files are **model.py** and **deploy.py** 
 
-- model.py builds the model and saves it to a .h5 file (optional - you have to go into the file and set save_model = True in the train function) 
-- deploy.py runs a flask server and loads a model from saved_model_data/models folder. It then predicts the sentiment of a sentence when the /predict API is hit.
+- model.py builds the model and saves it to a .h5 file 
+(optional - you have to go into the file and set save_model = True in the train function) 
+
+- deploy.py predicts the sentiment of a sentence when the /predict API is hit.
+It runs a flask server and loads a model from saved_model_data/models folder. 
 
 If you just want to **play with the model** then in a terminal and run the command: `python model.py`
 *This will build the model only. If you want to tweek things, you'll have to manually edit the file.*
