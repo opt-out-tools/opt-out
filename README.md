@@ -54,11 +54,4 @@ npm install`
 And to run the test:
 `npm test`
 
-For further details about the project and topic as a whole, please see the wiki
-
-- The Problem : Outlines the issue
-- The Solution : Describes the browser extension that we are aiming to build and it's target functionality 
-- Flow in TensorFlow : The current workings of the model
-- The Language of Misogyny and Sexual Aggression : A discussion of the language of cyber sexual harassment/sexist hate speech and the surrounding literature
-
 Icons from : http://www.aha-soft.com/iconsets.htm
