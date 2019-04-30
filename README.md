@@ -11,35 +11,38 @@ environments, such as contemporary forms of violence occurring in the Internet a
 
 Here is a tool to help people defend themselves on Facebook or Twitter.
 
-Inline `code`
 
                                                              
 ### Installation requires:
-tensorflow 1.12.2,
+`tensorflow 1.12.2,
 keras 2.2.4, 
 numpy,
 pandas,
 flask,
 matplotlib,
-scikit-learn
+scikit-learn`
 
-To create an environment in conda run: `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
+We recommend you install anaconda to handle these package and run the command below to create an 
+To create an environment in conda run: 
+`conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
 
 ### Usage:
-python model.py
+`python model.py`
 
-or using flask
+or via the browser
 
-python deploy.py and in the browser
+`python deploy.py`
 
-127.0.0.1:5000/predict?sentence="your sentence to analyse" (without quotation marks). Be sure to include spaces in the senteces. Spaces can be explicity set using the UTF-8 encoded "%20".
+127.0.0.1:5000/predict?sentence="your sentence to analyse" (without quotation marks). 
+
+Be sure to include spaces in the senteces. Spaces can be explicity set using the UTF-8 encoded "%20".
 
 To work on the browser extension run:
-cd extension 
-npm install
+`cd extension 
+npm install`
 
 And to run the test:
-npm test
+`npm test`
 
 For further details about the project and topic as a whole, please see the wiki
 
