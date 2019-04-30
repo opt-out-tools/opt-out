@@ -1,10 +1,17 @@
 
 ![Stop](https://github.com/malteserteresa/stop-it/blob/master/images/icon.png)
 
-## Cyber Sexual Harassment and Sexist Hate Speech
+## Sexual Harassment and Sexist Hate Speech Online
+
+**This is described in international law as**...
+“Gender-based violence against women occurs in all spaces and spheres of
+human interaction, whether public or private (...) and their redefinition through technology-mediated
+environments, such as contemporary forms of violence occurring in the Internet and digital spaces”
 
 
-A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook or Twitter.
+Here is a tool to help people defend themselves on Facebook or Twitter.
+
+Inline `code`
 
                                                              
 ### Installation requires:
