@@ -5,7 +5,7 @@
 
 ### What is it?
 
-We're glad you asked. Sexual harassment and sexist hate speech online are mentioned in international law documents such as the Committee on the Elimination of Discriminationagainst Women declaration, a committee within the UN. They describe these behaviours as acts of **gender based violence happening online and in technology-mediated spaces.** This is a modern tragedy affecting the well-being, economical potential and representation of women across the globe.
+We're glad you asked. In international law these behaviours are described as acts of **gender based violence** happening **online and in technology-mediated spaces.** that inflict **physical, mental or sexual harm or suffering, threats of such acts, coercion and other deprivations of liberty.**[1](https://tbinternet.ohchr.org/Treaties/CEDAW/Shared%20Documents/1_Global/CEDAW_C_GC_35_8267_E.pdf) This is a global tragedy affecting the well-being, economical potential and representation of women.
 
 ### What's this project doing about this?
 
