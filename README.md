@@ -26,7 +26,8 @@ To install the current model:
 In a Terminal, run the command: `python model.py`
 
 Or using flask, run: `python deploy.py`
-And in the browser go to [127.0.0.1:5000/predict?sentence=your sentence to analyse](http://127.0.0.1:5000/predict?sentence=your sentence to analyse). Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`.
+And in the browser go to 127.0.0.1:5000/predict?sentence=your sentence to analyse. 
+Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`.
 
 To work on the browser extension run:
 ```
