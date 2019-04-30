@@ -6,32 +6,30 @@
 A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook or Twitter.
 
                                                              
-### Installation requires:
-tensorflow 1.12.2,
-keras 2.2.4, 
-numpy,
-pandas,
-flask,
-matplotlib,
-scikit-learn
+## Setup requirements
 
-To create an environment in conda run: `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
+1. [Download Anaconda](https://www.anaconda.com/distribution/#download-section)
+2. Install Anaconda using the [guide for your operating system](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation)
+3. To create an environment in conda run: `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
 
-### Usage:
-python model.py
+## Usage
+In a Terminal, run the command: `python model.py`
 
-or using flask
-
-python deploy.py and in the browser
-
-127.0.0.1:5000/predict?sentence="your sentence to analyse" (without quotation marks). Be sure to include spaces in the senteces. Spaces can be explicity set using the UTF-8 encoded "%20".
+Or using flask, run: `python deploy.py`
+And in the browser go to [127.0.0.1:5000/predict?sentence=your sentence to analyse](http://127.0.0.1:5000/predict?sentence=your sentence to analyse). Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`.
 
 To work on the browser extension run:
+```
 cd extension 
 npm install
+```
 
 And to run the test:
+```
 npm test
+```
+
+## Further info
 
 For further details about the project and topic as a whole, please see the wiki
 
