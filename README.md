@@ -3,11 +3,11 @@
 
 ## Sexual Harassment and Sexist Hate Speech Online
 
-**This is described in international law as**...
-“Gender-based violence against women occurs in all spaces and spheres of
-human interaction, whether public or private (...) and their redefinition through technology-mediated
-environments, such as contemporary forms of violence occurring in the Internet and digital spaces”
+### What is it?
 
+We're glad you asked. Sexual harassment and sexist hate speech online are mentioned in international law documents such as the Committee on the Elimination of Discriminationagainst Women declaration, a committee within the UN. They describe these behaviours as acts of **gender based violence happening online and in technology-mediated spaces.**
+
+### What's this project doing about this?
 
 Here is a tool to help people defend themselves on Facebook or Twitter.
 
