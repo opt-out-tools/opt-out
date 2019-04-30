@@ -5,7 +5,7 @@
 
 ### What is it?
 
-We're glad you asked. In international law these behaviours are described as acts of **gender based violence** happening **online and in technology-mediated spaces.** that inflict **physical, mental or sexual harm or suffering, threats of such acts, coercion and other deprivations of liberty.**[1](https://tbinternet.ohchr.org/Treaties/CEDAW/Shared%20Documents/1_Global/CEDAW_C_GC_35_8267_E.pdf) This is a global tragedy affecting the well-being, economical potential and representation of women.
+We're glad you asked. In international law these behaviours are described as acts of **gender based violence** happening **online** and **in technology-mediated spaces.** that inflict **physical, mental or sexual harm or suffering, threats of such acts, coercion** and **other deprivations of liberty.**[1](https://tbinternet.ohchr.org/Treaties/CEDAW/Shared%20Documents/1_Global/CEDAW_C_GC_35_8267_E.pdf) This is a global tragedy affecting the well-being, economical potential and representation of women.
 
 ### What's this project doing about this?
 
