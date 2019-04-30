@@ -1,7 +1,7 @@
 
 ## Let's Stop It - Sexual Cyber Harassment and Sexist Hate Speech
 
-![Stop](https://github.com/malteserteresa/stop-it/blob/master/images/test.png)
+![Stop](https://github.com/malteserteresa/stop-it/blob/master/images/icon.png)
 
 A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook or Twitter.
 
