@@ -17,6 +17,3 @@ The purpose of this guide is to help you contribute to Stop It, regardless of yo
 Take a look through the open issues and then check with pull requests to make sure that someone isn't already working on it. Please post in an issue to say that you're working on it.
 
 If you are making a substantial or potentially controversial change, your first port of call should be to stop by and chat to us on Slack or file an issue to discuss what you would like to change. We really don't want you to waste time on a pull request (GitHub jargon for a contribution) that has no chance of being merged.
-  
-# Code of Conduct
-https://www.contributor-covenant.org/
