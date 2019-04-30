@@ -10,7 +10,7 @@ Stop It is a browser extension that helps people protect themselves against sexu
 - Automatically replace comments of a sexually aggressive nature 
 - Give an overview of the sentiment of the comments on a page before it renders via a sentiment dashboard. The user can then chose what they do and don't want to see
 
-The project is still in its infancy. Currently we have a tool that can identify the sentiment of text, deciding whether it is harassing or not. We're always looking for people to join our team who share our vision of making the internet accessible to all by building this browser extension.
+The project is still in its infancy. Please see Open Source Project for the current status.
 
 ## Overview
 
