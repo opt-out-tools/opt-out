@@ -13,7 +13,7 @@ To learn more about this problem and explore the steps Stop It is taking to comb
 
 ## Open Source Project
 
-Stop It is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harrassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see the issues tab above and search for issues tagged `help wanted`. Alternatively, please contribute to any of the outstanding issues and submit pull requests with proposed changes.
+Stop It is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harrassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see [Contributing](https://github.com/malteserteresa/stop-it/blob/master/contributing.md).
 
 ## Installation Instructions
 
