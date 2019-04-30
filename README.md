@@ -2,7 +2,7 @@
 ## Let's Stop It - Sexual Cyber Harassment and Sexist Hate Speech
 
 A tool to help people avoid online sexual harassment by filtering out unwanted comments from Facebook or Twitter.
-
+                                              ---
 ### Installation requires:
 tensorflow 1.12.2,
 keras 2.2.4, 
