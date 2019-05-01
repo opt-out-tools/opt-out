@@ -1,5 +1,5 @@
 
-# Stop It <img src='logo.png' align="right" height="139" />
+# Stop It <img src='logo_stopit.png' align="right" height="200" />
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)  
 
