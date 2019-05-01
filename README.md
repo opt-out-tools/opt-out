@@ -6,8 +6,8 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 Stop It is a browser extension that helps people protect themselves against sexual harassment and sexist hate speech on Facebook and Twitter. The browser extension will have three functionalities:
-- Block certain accounts on these platforms from writing comments
-- Automatically replace comments of a sexually aggressive nature 
+- Block certain accounts on these platforms from writing comments.
+- Automatically replace comments of a sexually aggressive nature.
 - Give an overview of the sentiment of the comments on a page before it renders via a sentiment dashboard. The user can then chose what they do and don't want to see.
 
 The project is still in its infancy. Please see 'Project Development' below for the current status.
@@ -34,19 +34,20 @@ To install the current model:
 The two important files are **model.py** and **deploy.py** 
 
 - model.py builds the model and saves it to a .h5 file 
-(optional - you have to go into the file and set save_model = True in the train function) 
+(optional - you have to go into the file and set `save_model = True` in the train function) 
 
 - deploy.py predicts the sentiment of a sentence when the /predict API is hit.
 It runs a flask server and loads a model from saved_model_data/models folder. 
 
-If you just want to **play with the model** then in a terminal and run the command: `python model.py`
+If you just want to **play with the model**, open a terminal and run the command: `python model.py`
 *This will build the model only. If you want to tweek things, you'll have to manually edit the file.*
 
 Or **deploy the project locally**: 
-1. Check that you are loading in the model you wish within the deploy.py file
+1. Check that you are loading in the model you wish within the deploy.py file.
 2. In a terminal run: `python deploy.py`
-3. And in the browser go to 127.0.0.1:5000/predict?sentence=your sentence to analyse. 
-Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`.
+3. And in the browser go to `127.0.0.1:5000/predict?sentence=your sentence to analyse`. Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`. For example, to test the sentence 'Just Stop It', you could run:
+- `127.0.0.1:5000/predict?sentence=Just Stop It` **or**
+- `127.0.0.1:5000/predict?sentence=Just%20Stop%20It`
 
 To work on the browser extension run:
 ```
