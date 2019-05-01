@@ -25,9 +25,10 @@ Stop It is an open source project under active development. Currently, machine l
 ## Installation Instructions
 
 To install the current model:
-1. [Download Anaconda](https://www.anaconda.com/distribution/#download-section)
-2. Install Anaconda using the [guide for your operating system](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation)
-3. Create a conda environment with the required depenencies by running the following bash command: 
+1. Clone this repository by running the command `git clone https://github.com/malteserteresa/stop-it.git` in the relevant directory.
+2. [Download Anaconda](https://www.anaconda.com/distribution/#download-section)
+3. Install Anaconda using the [guide for your operating system](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation)
+4. Create a conda environment with the required depenencies by running the following bash command: 
 `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
 
 ## Usage
