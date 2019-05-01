@@ -30,6 +30,7 @@ To install the current model:
 3. Install Anaconda using the [guide for your operating system](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation)
 4. Create a conda environment with the required depenencies by running the following bash command: 
 `conda create --name stop-it tensorflow keras numpy pandas flask matplotlib scikit-learn pytest`
+5. Run `source activate stop-it` to ensure the stop-it conda environment is selected.
 
 ## Usage
 The two important files are **model.py** and **deploy.py** 
