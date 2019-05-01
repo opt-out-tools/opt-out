@@ -51,16 +51,7 @@ Or **deploy the project locally**:
 - `127.0.0.1:5000/predict?sentence=Just Stop It` **or**
 - `127.0.0.1:5000/predict?sentence=Just%20Stop%20It`
 
-To work on the browser extension run:
-```
-cd extension
-npm install
-```
-
-And to run the test:
-```
-npm test
-```
+To work on the browser extension please read the [README](https://github.com/malteserteresa/stop-it/tree/master/extension/README.md) in the `extension` directory.
 
 ## Funding
 If you would like to fund the project or make a donation, please email [Teresa Ingram](mailto:tee.in.grams@gmail.com)
