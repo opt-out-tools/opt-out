@@ -18,4 +18,4 @@ Take a look through the open issues and then check with pull requests to make su
 
 If you are making a substantial or potentially controversial change, your first port of call should be to stop by and chat to us on Slack or file an issue to discuss what you would like to change. We really don't want you to waste time on a pull request (GitHub jargon for a contribution) that has no chance of being merged.
 
-If you have no tests, youre code won't be merged. We're aiming for 100% twst coverage.
+If you have no tests, youre code won't be merged. We're aiming for 100% test coverage.
