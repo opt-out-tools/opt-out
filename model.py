@@ -6,7 +6,7 @@ import tensorflow as tf
 from keras.preprocessing.text import Tokenizer
 from tensorflow import keras
 
-from utils import save_embeddings, parse_args, Parse
+from utils import save_embeddings
 from visualization import plot_loss, plot_accuracy
 
 vocab_size = 10000
@@ -139,18 +139,16 @@ def evaluate(scores, targets):
 
 
 if __name__ == '__main__':
-    # data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    # corpus_vocabulary = create_dictionary(data['content'], vocab_size)
-    #
-    # train, test = split(data, 18000)
-    #
-    # model = build(train)
-    # plot(model)
-    #
-    # sentiment_scores = predict(test['content'], model, corpus_vocabulary)
-    #
-    # evaluate(sentiment_scores, test['label'])
-    import sys
-    #parse_args(sys.argv[1:])
-    Parse()
+    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    corpus_vocabulary = create_dictionary(data['content'], vocab_size)
+
+    train, test = split(data, 18000)
+
+    model = build(train)
+    plot(model)
+
+    sentiment_scores = predict(test['content'], model, corpus_vocabulary)
+
+    evaluate(sentiment_scores, test['label'])
+
 
