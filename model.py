@@ -2,12 +2,11 @@ import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import pytest
 import tensorflow as tf
 from keras.preprocessing.text import Tokenizer
 from tensorflow import keras
 
-from utils import save_embeddings
+from utils import save_embeddings, parse_args, Parse
 from visualization import plot_loss, plot_accuracy
 
 vocab_size = 10000
@@ -18,16 +17,6 @@ def create_dictionary(data, n_words):
     tokenizer = Tokenizer(num_words=n_words)
     tokenizer.fit_on_texts(data)
     return tokenizer
-
-
-@pytest.fixture
-def vocabulary_unit_testing():
-    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    return create_dictionary(data['content'], vocab_size)
-
-
-def test_tokenizer_vocab_size(vocabulary_unit_testing):
-    assert vocabulary_unit_testing.num_words == vocab_size
 
 
 def split(dataframe, where_to_split):
@@ -44,31 +33,6 @@ def split(dataframe, where_to_split):
     train = shuffled_data[:where_to_split]
     test = shuffled_data[where_to_split:]
     return train, test
-
-
-def test_split_is_representative():
-    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-
-    n_1s = proportion(data, 1)
-    n_0s = proportion(data, 0)
-
-    train, test = split(data, 18000)
-
-    n_train_1s = proportion(train, 1)
-    n_train_0s = proportion(train, 0)
-
-    n_test_1s = proportion(test, 0)
-    n_test_0s = proportion(test, 0)
-
-    assert n_train_1s == n_1s
-    assert n_train_0s == n_0s
-
-    assert n_test_1s == n_1s
-    assert n_test_0s == n_0s
-
-
-def proportion(df, label):
-    df.loc[df['label'] == label, 'label'].count() / len(df)
 
 
 def build(train_data, save_word_embeddings=False, save_model=False):
@@ -110,7 +74,7 @@ def build(train_data, save_word_embeddings=False, save_model=False):
     y_val = y_train[:split]
     partial_y_train = y_train[split:]
 
-    model.fit(partial_x_train, partial_y_train, epochs=150, batch_size=512, validation_data=(x_val, y_val),
+    model.fit(partial_x_train, partial_y_train, epochs=1, batch_size=512, validation_data=(x_val, y_val),
               verbose=1)
 
     if save_word_embeddings == True:
@@ -146,28 +110,6 @@ def predict(test_sentence, model, corpus_vocabulary):
 
     return sentiment_score[:, 0]
 
-
-def test_basic_negative(vocabulary_unit_testing):
-    import glob
-    from keras.models import load_model
-    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
-    model = load_model(max(list_of_files, key=os.path.getctime))
-
-    assert predict("You are a bitch", model, vocabulary_unit_testing)[0] >= 0.5
-    assert predict("I hate you", model, vocabulary_unit_testing)[0] >= 0.5
-
-
-def test_basic_positive(vocabulary_unit_testing):
-    import glob
-    from keras.models import load_model
-    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
-    model = load_model(max(list_of_files, key=os.path.getctime))
-
-    assert predict("You are a lovely person", model, vocabulary_unit_testing)[0] < 0.5
-    assert predict("The sun shines from your eyes", model, vocabulary_unit_testing)[0] < 0.5
-    assert predict("I love you so much", model, vocabulary_unit_testing)[0] < 0.5
-
-
 def plot(model):
     """Plots the accuracy and loss of the validation and training."""
     history_dict = model.history.history
@@ -197,14 +139,18 @@ def evaluate(scores, targets):
 
 
 if __name__ == '__main__':
-    data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    corpus_vocabulary = create_dictionary(data['content'], vocab_size)
+    # data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    # corpus_vocabulary = create_dictionary(data['content'], vocab_size)
+    #
+    # train, test = split(data, 18000)
+    #
+    # model = build(train)
+    # plot(model)
+    #
+    # sentiment_scores = predict(test['content'], model, corpus_vocabulary)
+    #
+    # evaluate(sentiment_scores, test['label'])
+    import sys
+    #parse_args(sys.argv[1:])
+    Parse()
 
-    train, test = split(data, 18000)
-
-    model = build(train)
-    plot(model)
-
-    sentiment_scores = predict(test['content'], model, corpus_vocabulary)
-
-    evaluate(sentiment_scores, test['label'])
