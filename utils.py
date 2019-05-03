@@ -1,10 +1,11 @@
 import json
 import os
 import argparse
+import sys
+import pytest
 
 import numpy as np
 import pandas as pd
-import pytest
 
 current_directory = os.getcwd()
 
@@ -80,25 +81,65 @@ def convert_json_to_csv(read_filename, write_filename):
     tmp = pd.DataFrame(data)
     tmp.to_csv(write_filename)
 
-def parse_args(args):
-    """Parses the arguments from the commandline."""
+class ParseArgs:
 
-    parser = argparse.ArgumentParser(description='Runs the neural net.', usage='python model.py <command> [<args>]')
+    def __init__(self):
+        parser = argparse.ArgumentParser(description='Runs the neural net.', usage='python model.py <command> [<args>]')
+        parser.add_argument("command", help="Subcommand of run.")
+        args = parser.parse_args(sys.argv[1:2])
 
-    parser.add_argument('-d', "--dataset", nargs=1, required=True,
-                        help='path to dataset')
-    return parser.parse_args(args)
+        getattr(self, args.command)()
+
+    def build(self):
+        parser = argparse.ArgumentParser(
+            description='Trains and builds the neural net')
+
+        parser.add_argument('--batch_size', action='store_true')
+        parser.add_argument('--epoch', action='store_true')
+        parser.add_argument('--verbose', action='store_true')
+        parser.add_argument('--callbacks', action='store_true')
+        parser.add_argument('--validation_split', action='store_true')
+        parser.add_argument('--validation_data', action='store_true')
+        parser.add_argument('--class_weight', action='store_true')
+        parser.add_argument('--sample_weight', action='store_true')
+        parser.add_argument('--initial_epoch', action='store_true')
+        parser.add_argument('--steps_per_epoch', action='store_true')
+        parser.add_argument('--validation_steps', action='store_true')
+
+        args = parser.parse_args(sys.argv[2:])
+        epoch = args.epoch
+        print( f'Building neural net, epoch={epoch}')
 
 
-def test_parse_args_no_path_to_data_throws_exception(capsys):
+    def predict(self):
+        parser = argparse.ArgumentParser(
+            description='Predicts the sentiment of the sentence')
+
+        print( f'Predicting sentiment, score=')
+
+def test_parseargs_help_message_correct(capsys):
+    sys.argv.pop() # used to make sys.argv work in test
+    sys.argv.append('-h')
     with pytest.raises(SystemExit):
-        parse_args(["-d"])
+        ParseArgs()
     out, err = capsys.readouterr()
-    assert out == ""
-
-def test_parse_args_help_correctly_documents_methods(capsys):
-    with pytest.raises(SystemExit):
-        parse_args(["-h"])
-    out, err = capsys.readouterr()
-    assert "python model.py <command> [<args>]" in out
     assert "Runs the neural net." in out
+
+
+def test_parseargs_build_message_correct(capsys):
+    sys.argv.pop() # used to make sys.argv work in test
+    sys.argv.append('build')
+    ParseArgs()
+    out, err = capsys.readouterr()
+    assert "Building neural net" in out
+
+def test_parseargs_predict_message_correct(capsys):
+    sys.argv.pop() # used to make sys.argv work in test
+    sys.argv.append('predict')
+    ParseArgs()
+    out, err = capsys.readouterr()
+    assert "Predicting sentiment" in out
+
+#
+# if __name__ == '__main__':
+#     ParseArgs()
