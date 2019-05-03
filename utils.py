@@ -1,11 +1,11 @@
+import argparse
 import json
 import os
-import argparse
 import sys
-import pytest
 
 import numpy as np
 import pandas as pd
+import pytest
 
 current_directory = os.getcwd()
 
@@ -81,6 +81,7 @@ def convert_json_to_csv(read_filename, write_filename):
     tmp = pd.DataFrame(data)
     tmp.to_csv(write_filename)
 
+
 class ParseArgs:
 
     def __init__(self):
@@ -88,37 +89,42 @@ class ParseArgs:
         parser.add_argument("command", help="Subcommand of run.")
         args = parser.parse_args(sys.argv[1:2])
 
+        if not hasattr(self, args.command):
+            print('Unrecognized command')
+            parser.print_help()
+            exit(1)
+
         getattr(self, args.command)()
 
     def build(self):
         parser = argparse.ArgumentParser(
             description='Trains and builds the neural net')
 
-        parser.add_argument('--batch_size', action='store_true')
-        parser.add_argument('--epoch', action='store_true')
-        parser.add_argument('--verbose', action='store_true')
-        parser.add_argument('--callbacks', action='store_true')
-        parser.add_argument('--validation_split', action='store_true')
-        parser.add_argument('--validation_data', action='store_true')
-        parser.add_argument('--class_weight', action='store_true')
-        parser.add_argument('--sample_weight', action='store_true')
-        parser.add_argument('--initial_epoch', action='store_true')
-        parser.add_argument('--steps_per_epoch', action='store_true')
-        parser.add_argument('--validation_steps', action='store_true')
+        parser.add_argument('--batch_size', action='store', type=int)
+        parser.add_argument('--epoch', action='store', type=int)
+        parser.add_argument('--verbose', action='store', type=int)
+        parser.add_argument('--callbacks', action='store', type=int)
+        parser.add_argument('--validation_split', action='store', type=int)
+        parser.add_argument('--validation_data', action='store', type=int)
+        parser.add_argument('--class_weight', action='store', type=int)
+        parser.add_argument('--sample_weight', action='store', type=int)
+        parser.add_argument('--initial_epoch', action='store', type=int)
+        parser.add_argument('--steps_per_epoch', action='store', type=int)
+        parser.add_argument('--validation_steps', action='store', type=int)
 
         args = parser.parse_args(sys.argv[2:])
         epoch = args.epoch
-        print( f'Building neural net, epoch={epoch}')
-
+        print(f'Building neural net, epoch={epoch}')
 
     def predict(self):
         parser = argparse.ArgumentParser(
             description='Predicts the sentiment of the sentence')
 
-        print( f'Predicting sentiment, score=')
+        print(f'Predicting sentiment, score=')
+
 
 def test_parseargs_help_message_correct(capsys):
-    sys.argv.pop() # used to make sys.argv work in test
+    sys.argv.pop()  # used to because sys.argv ordering different using pytest
     sys.argv.append('-h')
     with pytest.raises(SystemExit):
         ParseArgs()
@@ -126,20 +132,32 @@ def test_parseargs_help_message_correct(capsys):
     assert "Runs the neural net." in out
 
 
+def test_parseargs_unknown_command(capsys):
+    sys.argv.pop()  # used to because sys.argv ordering different using pytest
+    sys.argv.append('whatever')
+    with pytest.raises(SystemExit):
+        ParseArgs()
+    out, err = capsys.readouterr()
+    assert "Unrecognized command" in out
+
+
 def test_parseargs_build_message_correct(capsys):
-    sys.argv.pop() # used to make sys.argv work in test
+    sys.argv.pop()
     sys.argv.append('build')
     ParseArgs()
     out, err = capsys.readouterr()
     assert "Building neural net" in out
 
-def test_parseargs_predict_message_correct(capsys):
-    sys.argv.pop() # used to make sys.argv work in test
-    sys.argv.append('predict')
+def test_parseargs_epoch(capsys):
+    sys.argv.pop()
+    sys.argv.append('build')
+    sys.argv.append('--epoch')
+    sys.argv.append('1')
     ParseArgs()
     out, err = capsys.readouterr()
-    assert "Predicting sentiment" in out
+    assert "epoch=1" in out
 
-#
+
+
 # if __name__ == '__main__':
 #     ParseArgs()
