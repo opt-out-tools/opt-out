@@ -101,7 +101,7 @@ def test_two_arguments(capsys, setUp):
     assert "epoch=1" in out
     assert "batch_size=1" in out
 
-
+# TODO write parameterized test in pytest
 
 
 if __name__ == '__main__':
