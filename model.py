@@ -6,7 +6,7 @@ import tensorflow as tf
 from keras.preprocessing.text import Tokenizer
 from tensorflow import keras
 
-from utils import save_embeddings, parse_args, Parse
+from utils import save_embeddings
 from visualization import plot_loss, plot_accuracy
 
 vocab_size = 10000

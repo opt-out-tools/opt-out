@@ -34,6 +34,13 @@ def test_create_dictionary_removes_punctuation(create_dataset_vocabulary):
     assert ":)" not in create_dataset_vocabulary.word_counts.keys()
     assert "@" not in create_dataset_vocabulary.word_counts.keys()
 
+def test_create_dictionary_removes_URLS(create_dataset_vocabulary):
+    # TODO this should fail, there should not be URLs in the corpus
+    assert "http" in create_dataset_vocabulary.word_counts.keys()
+
+def test_create_dictionary_removes_Unicode(create_dataset_vocabulary):
+    assert "\\xa0" not in create_dataset_vocabulary.word_counts.keys()
+
 # TODO finish adding a optimized test that will check ranking
 # def test_create_dictionary_most_common_word_correctly_ranked(create_dataset_vocabulary):
 #     data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
