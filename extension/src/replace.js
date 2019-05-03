@@ -1,16 +1,13 @@
-
-function getElement() {
-
-}
-
 /**
  * Retrieves the tweets
  *
  * @param
  * @returns
  */
-function getTweet(){
-  return ""
+function getTweet(docuemnt){
+  tweets = [];
+  document.querySelectorAll('article [lang]').forEach(function(tweet){ tweets.push(tweet.innerText)});
+  return tweets;
 }
 
 /**
@@ -19,8 +16,9 @@ function getTweet(){
  * @param
  * @returns
  */
-function getSentimentScore() {
-  return ""
+function getSentimentScore(tweet) {
+  
+  return 
 }
 
 /**
