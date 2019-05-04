@@ -4,7 +4,6 @@ import os
 import numpy as np
 import pandas as pd
 
-
 current_directory = os.getcwd()
 
 
@@ -78,4 +77,3 @@ def convert_json_to_csv(read_filename, write_filename):
 
     tmp = pd.DataFrame(data)
     tmp.to_csv(write_filename)
-
