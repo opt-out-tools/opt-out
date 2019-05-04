@@ -76,23 +76,21 @@ def test_split_data_is_representative_of_underlying_distribution(read_in_dataset
     assert n_test_0s == n_0s
 
 
-def test_basic_negative(create_dataset_vocabulary):
+def test_basic_negative():
     import glob
-    from keras.models import load_model
     list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
-    model = load_model(max(list_of_files, key=os.path.getctime))
+    file = max(list_of_files, key=os.path.getctime)
 
-    assert m.predict("You are a bitch", model, create_dataset_vocabulary)[0] >= 0.5
-    assert m.predict("Bitch suck dick", model, create_dataset_vocabulary)[0] >= 0.5
-    assert m.predict("I hate you", model, create_dataset_vocabulary)[0] >= 0.5
+    assert m.predict("You are a bitch", file, "/data/DataTurks/dump.csv", 'content', 10000) >= 0.5
+    assert m.predict("Bitch suck dick", file, "/data/DataTurks/dump.csv", 'content', 10000) >= 0.5
+    assert m.predict("I hate you", file, "/data/DataTurks/dump.csv", 'content', 10000) >= 0.5
 
 
-def test_basic_positive(create_dataset_vocabulary):
+def test_basic_positive():
     import glob
-    from keras.models import load_model
     list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
-    model = load_model(max(list_of_files, key=os.path.getctime))
+    file = max(list_of_files, key=os.path.getctime)
 
-    assert m.predict("You are a lovely person", model, create_dataset_vocabulary)[0] < 0.5
-    assert m.predict("The sun shines from your eyes", model, create_dataset_vocabulary)[0] < 0.5
-    assert m.predict("I love you so much", model, create_dataset_vocabulary)[0] < 0.5
+    assert m.predict("You are a lovely person", file, "/data/DataTurks/dump.csv", 'content', 10000) < 0.5
+    assert m.predict("The sun shines from your eyes", file, "/data/DataTurks/dump.csv", 'content', 10000)< 0.5
+    assert m.predict("I love you so much", file, "/data/DataTurks/dump.csv", 'content', 10000) < 0.5

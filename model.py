@@ -120,7 +120,7 @@ class Model:
         """
 
         model = load_model(path_to_model)
-        model._make_predict_function()
+
 
         data = pd.read_csv(os.getcwd() + path_to_data)
 
