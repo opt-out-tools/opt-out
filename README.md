@@ -43,7 +43,7 @@ It runs a flask server and loads a model from saved_model_data/models folder.
 
 If you just want to **play with the model**, open a terminal and run the command: 
 `python model.py build --path_to_data path/to/dataset --text_column_name eg. content --label_column_name eg. label`
-*This will build the model only. Predict is still under construction*
+*This will build the model only. Predict, plot and evaluate are still under construction*
 
 Or **deploy the project locally**: 
 1. Check that you are loading in the model you wish within the deploy.py file.
