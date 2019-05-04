@@ -1,10 +1,8 @@
 import json
 import os
-import argparse
 
 import numpy as np
 import pandas as pd
-import pytest
 
 current_directory = os.getcwd()
 
@@ -79,26 +77,3 @@ def convert_json_to_csv(read_filename, write_filename):
 
     tmp = pd.DataFrame(data)
     tmp.to_csv(write_filename)
-
-def parse_args(args):
-    """Parses the arguments from the commandline."""
-
-    parser = argparse.ArgumentParser(description='Runs the neural net.', usage='python model.py <command> [<args>]')
-
-    parser.add_argument('-d', "--dataset", nargs=1, required=True,
-                        help='path to dataset')
-    return parser.parse_args(args)
-
-
-def test_parse_args_no_path_to_data_throws_exception(capsys):
-    with pytest.raises(SystemExit):
-        parse_args(["-d"])
-    out, err = capsys.readouterr()
-    assert out == ""
-
-def test_parse_args_help_correctly_documents_methods(capsys):
-    with pytest.raises(SystemExit):
-        parse_args(["-h"])
-    out, err = capsys.readouterr()
-    assert "python model.py <command> [<args>]" in out
-    assert "Runs the neural net." in out
