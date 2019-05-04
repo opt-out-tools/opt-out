@@ -7,6 +7,7 @@ from model import Model
 
 m = Model()
 
+
 @pytest.fixture(scope="module")
 def read_in_dataset():
     return pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
@@ -33,9 +34,11 @@ def test_create_dictionary_removes_punctuation(create_dataset_vocabulary):
     assert ":)" not in create_dataset_vocabulary.word_counts.keys()
     assert "@" not in create_dataset_vocabulary.word_counts.keys()
 
+
 def test_create_dictionary_removes_URLS(create_dataset_vocabulary):
     # TODO this should fail, there should not be URLs in the corpus
     assert "http" in create_dataset_vocabulary.word_counts.keys()
+
 
 def test_create_dictionary_removes_Unicode(create_dataset_vocabulary):
     assert "\\xa0" not in create_dataset_vocabulary.word_counts.keys()
@@ -84,13 +87,12 @@ def test_basic_negative(create_dataset_vocabulary):
     assert m.predict("I hate you", model, create_dataset_vocabulary)[0] >= 0.5
 
 
-
 def test_basic_positive(create_dataset_vocabulary):
     import glob
     from keras.models import load_model
     list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
     model = load_model(max(list_of_files, key=os.path.getctime))
 
-    assert m.predict("You are a really lovely person", model, create_dataset_vocabulary)[0] < 0.5
+    assert m.predict("You are a lovely person", model, create_dataset_vocabulary)[0] < 0.5
     assert m.predict("The sun shines from your eyes", model, create_dataset_vocabulary)[0] < 0.5
     assert m.predict("I love you so much", model, create_dataset_vocabulary)[0] < 0.5
