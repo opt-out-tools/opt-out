@@ -50,6 +50,7 @@ class ParseArgs:
 
         self.component.build(args.path_to_data, args.text_column_name, args.label_column_name, hyperparameters,
                              args.save_word_embeddings, args.save_model)
+
         print(f"Building neural net, epoch={hyperparameters['epoch']}, batch_size={hyperparameters['batch_size']}")
 
     def predict(self):
