@@ -36,14 +36,16 @@ To install the current model:
 The two important files are **model.py** and **deploy.py** 
 
 - model.py builds the model and saves it to a .h5 file 
-(optional - you have to go into the file and set `save_model = True` in the train function) 
 
 - deploy.py predicts the sentiment of a sentence when the /predict API is hit.
 It runs a flask server and loads a model from saved_model_data/models folder. 
 
 If you just want to **play with the model**, open a terminal and run the command: 
 `python model.py build --path_to_data path/to/dataset --text_column_name eg. content --label_column_name eg. label`
-*This will build the model only. Predict, plot and evaluate are still under construction*
+*This will build the model only.*
+Predict can be used by running a command like: `python model.py predict --path_to_model path/to/model --path_to_data path/to/dataset --text_column_name eg. content`
+*Plot and evaluate are still under construction*
+
 
 Or **deploy the project locally**: 
 1. Check that you are loading in the model you wish within the deploy.py file.
@@ -51,6 +53,7 @@ Or **deploy the project locally**:
 3. And in the browser go to `127.0.0.1:5000/predict?sentence=your sentence to analyse`. Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`. For example, to test the sentence 'Just Stop It', you could run:
 - `127.0.0.1:5000/predict?sentence=Just Stop It` **or**
 - `127.0.0.1:5000/predict?sentence=Just%20Stop%20It`
+** ONLY ONE SENTENCE CAN BE ANALYZED AT A TIME DUE TO HOW TENSORFLOW GRAPHS WORK. THIS IS IN ISSUES **
 
 To work on the browser extension run:
 ```

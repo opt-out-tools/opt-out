@@ -5,6 +5,8 @@ import pandas as pd
 import tensorflow as tf
 from keras.preprocessing.text import Tokenizer
 from tensorflow import keras
+from keras.models import load_model
+
 
 from parseargs import ParseArgs
 from utils import save_embeddings
@@ -12,9 +14,6 @@ from visualization import plot_loss, plot_accuracy
 
 
 class Model:
-
-    def __init__(self):
-        pass
 
     def create_dictionary(self, data, n_words):
         """Prepares the corpus for the model and returns the Tokenizer object.
@@ -44,19 +43,17 @@ class Model:
         test = shuffled_data[where_to_split:]
         return train, test
 
-    def build(self, path_to_data, text_column_name, label_column_name, hyperparameters, save_word_embeddings,
-              save_model):
+    def build(self, path_to_data, text_column_name, label_column_name, hyperparameters, save_word_embeddings):
         """Returns the built model. This function prepares the text, turns them into tensors, creates a word embedding
-        and trains the neural net and build the final model. There are two flags that allow the embeddings and the
-        model to be saved.
+        and trains the neural net and build the final model. The model will always be saved. There is one flag that
+        allow the embeddings to be saved.
 
         Args:
             path_to_data (str) : The path to the dataset from the current directory.
             text_column_name (str) : The name of the column of the dataset with the text to be classified
             label_column_name (str) : The name of the column of labels.
-            args
+            hyperparameters (dict) : A dictionary of all of the hyperparameters for the model.
             save_word_embeddings (bool) : If true, will save the embedding data.
-            save_model (bool) : If true, will save the model with a system timestamp in the name..
 
         Returns
             model : The sentiment analyser model, fit to the training data.
@@ -100,33 +97,47 @@ class Model:
             save_embeddings(model, word_index)
             print('Word embeddings saved.')
 
-        if save_model is True:
-            import datetime as dt
-            now = dt.datetime.now().__str__()
-            model.save(os.getcwd() + '/saved_model_data/models/model_' + now + '.h5')
-            print("Model saved.")
 
-        return model
+        import datetime as dt
+        now = dt.datetime.now().__str__()
+        model.save(os.getcwd() + '/saved_model_data/models/model_' + now + '.h5')
+        print("Model saved.")
 
-    def predict(self, test_sentence, model, corpus_vocabulary):
+
+
+    def predict(self, sentence, path_to_model, path_to_data, text_column_name, vocab_size):
         """Returns a sentiment score.
 
         Args:
             sentence (str) : The sentence to be analised.
+            path_to_model (str) : The path to the model from the current directory.
+            path_to_data (str) : The path to the dataset from the current directory.
+            text_column_name (str) : The name of the column of the dataset with the text to be classified
+            vocab_size (int) : The size of dictionary of the most frequent n_words in the corpus.
 
         Returns:
             score (float) : The sentiment score of the sentence. 1 - cyber abusive, 0 - not cyber abusive.
         """
-        parsed_test = pd.DataFrame({"content": pd.Series(test_sentence)})
+
+        model = load_model(path_to_model)
+        model._make_predict_function()
+
+        data = pd.read_csv(os.getcwd() + path_to_data)
+
+        corpus_vocabulary = self.create_dictionary(data[text_column_name], vocab_size)
+
+        parsed_test = pd.DataFrame({"content": pd.Series(sentence)})
         X_test = parsed_test['content']
 
         test_sequences = corpus_vocabulary.texts_to_sequences(X_test.values)
 
         padded_test = keras.preprocessing.sequence.pad_sequences(test_sequences, padding='post', maxlen=140)
 
-        sentiment_score = model.predict(padded_test)
+        sentiment_score = round(model.predict(padded_test).item(0))
 
-        return sentiment_score[:, 0]
+        print(f"This sentence has a sentiment score of: {sentiment_score}")
+
+        return sentiment_score
 
     def plot(self, model):
         """Plots the accuracy and loss of the validation and training."""

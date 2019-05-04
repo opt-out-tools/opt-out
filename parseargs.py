@@ -57,7 +57,18 @@ class ParseArgs:
         parser = argparse.ArgumentParser(
             description='Predicts the sentiment of the sentence')
 
-        print(f'Predicting sentiment, score=')
+        parser.add_argument('--sentence', action='store', type=str, required=True)
+        parser.add_argument('--path_to_model', action='store', type=str, required=True)
+
+        parser.add_argument('--path_to_data', action='store', type=str, required=True)
+        parser.add_argument('--text_column_name', action='store', type=str, required=True)
+        parser.add_argument('--vocab_size', action='store', type=int, default=10000)
+
+
+        args = parser.parse_args(sys.argv[2:])
+
+        self.component.predict(args.sentence, args.path_to_model, args.path_to_data, args.text_column_name, args.vocab_size)
+        print(f'Predicting sentiment')
 
 
 @pytest.fixture(scope='function')
