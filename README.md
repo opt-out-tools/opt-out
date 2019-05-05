@@ -1,11 +1,11 @@
 
-# Stop It <img src='logo_stopit.png' align="right" height="165" />
+# Opt Out <img src='logo_stopit.png' align="right" height="165" />
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)  
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-Stop It is a browser extension that helps people protect themselves against sexual harassment and sexist hate speech on Facebook and Twitter. The browser extension will have three functionalities:
+Opt Out is a browser extension that helps people protect themselves against sexual harassment and sexist hate speech on Facebook and Twitter. The browser extension will have three functionalities:
 - Block certain accounts on these platforms from writing comments.
 - Automatically replace comments of a sexually aggressive nature.
 - Give an overview of the sentiment of the comments on a page before it renders via a sentiment dashboard. The user can then chose what they do and don't want to see.
@@ -16,11 +16,11 @@ The project is still in its infancy. Please see 'Project Development' below for 
 
 Sexual harassment and sexist hate speech are described by [international law](https://tbinternet.ohchr.org/Treaties/CEDAW/Shared%20Documents/1_Global/CEDAW_C_GC_35_8267_E.pdf) as acts of *gender based violence* happening *online* and *in technology-mediated spaces* that inflict *physical, mental or sexual harm or suffering, threats of such acts, coercion* and *other deprivations of liberty*. This is a global tragedy affecting the well-being, economical potential and representation of women. Let's __Stop It.__
 
-To learn more about this problem and explore the steps Stop It is taking to combat it, see the [Stop It Wiki](https://github.com/malteserteresa/stop-it/wiki/The-Problem).
+To learn more about this problem and explore the steps Stop It is taking to combat it, see the [Opt Out Wiki](https://github.com/malteserteresa/stop-it/wiki/The-Problem).
 
 ## Project Development
 
-Stop It is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harrassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see [Contributing](https://github.com/malteserteresa/stop-it/blob/master/contributing.md).
+Opt Out is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harrassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see [Contributing](https://github.com/malteserteresa/stop-it/blob/master/contributing.md).
 
 ## Installation Instructions
 
