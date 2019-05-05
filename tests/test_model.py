@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import pytest
 
-from model import Model
+from ..src.stopit.model import Model
 
 m = Model()
 
