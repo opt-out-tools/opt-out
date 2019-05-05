@@ -8,9 +8,9 @@ from tensorflow import keras
 from keras.models import load_model
 
 
-from parseargs import ParseArgs
-from utils import save_embeddings
-from visualization import plot_loss, plot_accuracy
+from .parseargs import ParseArgs
+from .utils import save_embeddings
+from .visualization import plot_loss, plot_accuracy
 
 
 class Model:
