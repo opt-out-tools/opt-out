@@ -3,7 +3,7 @@ import urllib.parse
 from flask import Flask
 from flask import request
 from flask import jsonify
-from src.stopit.model import Model
+from src.optout.model import Model
 
 app = Flask(__name__)
 

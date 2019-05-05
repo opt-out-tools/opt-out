@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import pytest
 
-from src.stopit.model import Model
+from src.optout.model import Model
 
 m = Model()
 path_to_data = "/data/DataTurks/dump.csv"
