@@ -3,7 +3,7 @@ import urllib.parse
 from flask import Flask
 from flask import request
 from flask import jsonify
-from model import Model
+from src.stopit.model import Model
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ def generate_sentiment_score():
 
     sentence = request.args.get("sentence")
 
-    score = m.predict(urllib.parse.unquote(sentence), os.getcwd() + "/saved_model_data/models/model_120.h5",
+    score = m.predict(urllib.parse.unquote(sentence), os.getcwd() + "/saved_data/models/model_120.h5",
               "/data/DataTurks/dump.csv", 'content', 10000)
     return jsonify(score)
 

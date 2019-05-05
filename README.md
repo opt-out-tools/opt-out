@@ -40,21 +40,21 @@ The two important files are **model.py** and **deploy.py**
 - deploy.py predicts the sentiment of a sentence when the /predict API is hit.
 It runs a flask server and loads a model from saved_model_data/models folder. 
 
-If you just want to **play with the model**, open a terminal and: 
-1. `cd into the top-level directory`
-2. `python -m src/stopit build --path_to_data path/to/dataset --text_column_name eg. content --label_column_name eg. label`
+If you just want to **play with the model**, open a terminal and from the top-level directory: 
+1. `cd src`
+2. `python -m stopit build --path_to_data path/to/dataset --text_column_name eg. content --label_column_name eg. label`
 *This will build the model only.*
 
 
 Predict can be used similarly: `
-1. `cd into the top-level directory`
-2. `python -m src/stopit predict --path_to_model path/to/model --path_to_data path/to/dataset --text_column_name eg. content`
+1. `cd src`
+2. `python -m stopit predict --path_to_model path/to/model --path_to_data path/to/dataset --text_column_name eg. content`
 *Plot and evaluate are still under construction*
 
 
 Or **deploy the project locally**: 
-1. Check that you are loading in the model you wish within the deploy.py file.
-2. In a terminal run: `python -m deploy.py`
+1. Make sure you are at the top-level directory
+2. In a terminal run: `python deploy.py`
 3. And in the browser go to `127.0.0.1:5000/predict?sentence=your sentence to analyse`. Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`. For example, to test the sentence 'Just Stop It', you could run:
 - `127.0.0.1:5000/predict?sentence=Just Stop It` **or**
 - `127.0.0.1:5000/predict?sentence=Just%20Stop%20It`

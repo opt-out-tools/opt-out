@@ -78,7 +78,7 @@ def test_split_data_is_representative_of_underlying_distribution(read_in_dataset
 
 def test_basic_negative():
     import glob
-    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
+    list_of_files = glob.glob(os.getcwd() + "/saved_data/models/*")
     path_to_model = max(list_of_files, key=os.path.getctime)
 
     assert m.predict("You are a bitch", path_to_model, path_to_data, 'content', 10000) >= 0.5
@@ -88,7 +88,7 @@ def test_basic_negative():
 
 def test_basic_positive():
     import glob
-    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
+    list_of_files = glob.glob(os.getcwd() + "/saved_data/models/*")
     path_to_model = max(list_of_files, key=os.path.getctime)
 
     assert m.predict("You are a lovely person", path_to_model, path_to_data, 'content', 10000) < 0.5
