@@ -78,7 +78,7 @@ def sys_args():
 
 @pytest.fixture(scope='function')
 def model():
-    from model import Model
+    from .model import Model
     return Model()
 
 

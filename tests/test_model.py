@@ -3,14 +3,14 @@ import os
 import pandas as pd
 import pytest
 
-from model import Model
+from src.stopit.model import Model
 
 m = Model()
-
+path_to_data = "/data/DataTurks/dump.csv"
 
 @pytest.fixture(scope="module")
 def read_in_dataset():
-    return pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
+    return pd.read_csv(os.getcwd() + path_to_data)
 
 
 @pytest.fixture(scope="module")
@@ -78,19 +78,20 @@ def test_split_data_is_representative_of_underlying_distribution(read_in_dataset
 
 def test_basic_negative():
     import glob
-    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
-    file = max(list_of_files, key=os.path.getctime)
+    list_of_files = glob.glob(os.getcwd() + "/saved_data/models/*")
+    path_to_model = max(list_of_files, key=os.path.getctime)
 
-    assert m.predict("You are a bitch", file, "/data/DataTurks/dump.csv", 'content', 10000) >= 0.5
-    assert m.predict("Bitch suck dick", file, "/data/DataTurks/dump.csv", 'content', 10000) >= 0.5
-    assert m.predict("I hate you", file, "/data/DataTurks/dump.csv", 'content', 10000) >= 0.5
+    assert m.predict("You are a bitch", path_to_model, path_to_data, 'content', 10000) >= 0.5
+    assert m.predict("Bitch suck dick", path_to_model, path_to_data, 'content', 10000) >= 0.5
+    assert m.predict("I hate you", path_to_model, path_to_data, 'content', 10000) >= 0.5
 
 
 def test_basic_positive():
     import glob
-    list_of_files = glob.glob(os.getcwd() + "/saved_model_data/models/*")
-    file = max(list_of_files, key=os.path.getctime)
+    list_of_files = glob.glob(os.getcwd() + "/saved_data/models/*")
+    path_to_model = max(list_of_files, key=os.path.getctime)
 
-    assert m.predict("You are a lovely person", file, "/data/DataTurks/dump.csv", 'content', 10000) < 0.5
-    assert m.predict("The sun shines from your eyes", file, "/data/DataTurks/dump.csv", 'content', 10000)< 0.5
-    assert m.predict("I love you so much", file, "/data/DataTurks/dump.csv", 'content', 10000) < 0.5
+    assert m.predict("You are a lovely person", path_to_model, path_to_data, 'content', 10000) < 0.5
+    assert m.predict("The sun shines from your eyes", path_to_model, path_to_data, 'content', 10000) < 0.5
+    assert m.predict("I love you so much", path_to_model, path_to_data, 'content', 10000) < 0.5
+
