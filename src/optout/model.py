@@ -120,7 +120,6 @@ class Model:
 
         model = load_model(path_to_model)
 
-
         data = pd.read_csv(os.getcwd() + path_to_data)
 
         corpus_vocabulary = self.create_dictionary(data[text_column_name], vocab_size)

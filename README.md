@@ -59,9 +59,6 @@ Or **deploy the project locally**:
 - `127.0.0.1:5000/predict?sentence=Just Opt Out` **or**
 - `127.0.0.1:5000/predict?sentence=Just%20Opt%20Out`
 
-__NB__: the flask app needs to be re-initiated for each new sentence (you can exit the flask app pressing `Ctrl + c` and re-initiate it with `python deploy.py`). This is due to how TensorFlow works (more info can be found in the Issues tab).
-
-
 
 To work on the browser extension run:
 ```
