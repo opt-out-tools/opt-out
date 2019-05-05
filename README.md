@@ -53,7 +53,8 @@ Or **deploy the project locally**:
 3. And in the browser go to `127.0.0.1:5000/predict?sentence=your sentence to analyse`. Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`. For example, to test the sentence 'Just Stop It', you could run:
 - `127.0.0.1:5000/predict?sentence=Just Stop It` **or**
 - `127.0.0.1:5000/predict?sentence=Just%20Stop%20It`
-** ONLY ONE SENTENCE CAN BE ANALYZED AT A TIME DUE TO HOW TENSORFLOW GRAPHS WORK. THIS IS IN ISSUES **
+
+__NB__: the flask app needs to be re-initiated for each new sentence (you can exit the flask app pressing `Ctrl + c` and re-initate it with `python deploy.py`). This is due to how TensorFlow works (more info can be found in the Issues tab).
 
 To work on the browser extension run:
 ```
