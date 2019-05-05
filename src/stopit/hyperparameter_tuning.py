@@ -5,7 +5,7 @@ import keras
 import numpy as np
 import pandas as pd
 import os
-from model import split, create_dictionary
+from .model import Model as m
 
 def create_model(train_data):
     """Returns the sentiment of the parsed sentence.
@@ -68,9 +68,9 @@ def create_model(train_data):
 
 if __name__ == '__main__':
     data = pd.read_csv(os.getcwd() + "/data/DataTurks/dump.csv")
-    corpus_vocabulary = create_dictionary(data['content'], 10000)
+    corpus_vocabulary = m.create_dictionary(data['content'], 10000)
 
-    train, test = split(data, 18000)
+    train, test = m.split(data, 18000)
 
     best_run, best_model = optim.minimize(model=create_model,
                                           data=train,

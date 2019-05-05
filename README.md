@@ -76,7 +76,7 @@ npm test
 
 ### Testing
 To run the tests:
-1.  `cd into the top-level directory`
+1.  `cd into top-level directory`
 2. `python -m pytest`
 
 ## Funding
