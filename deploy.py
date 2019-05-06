@@ -25,7 +25,7 @@ def generate_sentiment_score():
 
     score = m.predict(urllib.parse.unquote(sentence), os.getcwd() + "/saved_data/models/model_120.h5",
               "/data/DataTurks/dump.csv", 'content', 10000)
-    return jsonify(score)
+    return jsonify(score=score)
 
 
 if __name__ == "__main__":
