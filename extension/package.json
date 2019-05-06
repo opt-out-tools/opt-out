@@ -1,0 +1,16 @@
+{
+  "name": "stop-it",
+  "version": "1.0.0",
+  "description": "anti-sexual harassment browser extension",
+  "scripts": {
+    "test": "mocha --bail test/*.test.js"
+  },
+  "author": "Teresa Ingram <tee.in.grams@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "mocha-jsdom": "^2.0.0"
+  },
+  "dependencies": {}
+}
