@@ -76,6 +76,13 @@ To run the tests:
 1.  `cd into top-level directory`
 2. `python -m pytest`
 
+### Docker
+- `docker build -t opt-out:latest .` to build
+- `docker run -d -p 5000:5000 opt-out` to run
+- In the browser go to `127.0.0.1:5000/predict?sentence=your sentence to score`
+- `docker ps` to check the status of your DOcker instances
+- `docker stop INSTANCE_ID` to stop an instance
+
 ## Funding
 If you would like to fund the project or make a donation, please email [Teresa Ingram](mailto:opt-out-tool@gmail.com)
 
