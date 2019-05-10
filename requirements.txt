@@ -1,0 +1,10 @@
+Keras==2.2.4
+pandas==0.24.2
+matplotlib==3.0.3
+Flask==1.0.2
+tensorflow==1.13.1
+pytest==4.3.1
+numpy==1.16.2
+hyperas==0.4.1
+hyperopt==0.1.2
+scikit_learn==0.21.0
