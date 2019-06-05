@@ -18,11 +18,10 @@ The project is still in its infancy. Please see 'Project Development' below for 
  ```
     git clone https://github.com/opt-out-tool/opt-out
     cd opt-out
-    pip install -r requirements.txt`
+    pip install -r requirements.txt
 ```
 ## To Deploy Locally
  ```
-    cd opt-out
     export FLASK_APP=deploy.py
     export FLASK_DEBUG=1
     flask run
@@ -40,7 +39,7 @@ The project is still in its infancy. Please see 'Project Development' below for 
 To run the tests:
 ```
   cd opt-out
-  python -m pytest`
+  python -m pytest
 ```
 
 ## To Deploy (Docker)
