@@ -44,11 +44,7 @@ To run the tests:
 ```
 
 ## To Deploy (Docker)
-1. `docker build -t opt-out:latest .` to build
-2. `docker run -d -p 5000:5000 opt-out` to run
-3. In the browser go to `127.0.0.1:5000/predict?sentence=your sentence to score`
-4. `docker ps` to check the status of your Docker instances
-5. `docker stop INSTANCE_ID` to stop an instance
+TBC
 
 ## Project Development
 
