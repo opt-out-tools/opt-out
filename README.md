@@ -15,15 +15,18 @@ The project is still in its infancy. Please see 'Project Development' below for 
 
 ## To Install
 
-   `git clone https://github.com/opt-out-tool/opt-out
+ ```
+    git clone https://github.com/opt-out-tool/opt-out
     cd opt-out
     pip install -r requirements.txt`
-
+```
 ## To Deploy Locally
-   `cd opt-out
+ ```
+    cd opt-out
     export FLASK_APP=deploy.py
     export FLASK_DEBUG=1
-    flask run`
+    flask run
+ ```
 
 
 
@@ -35,15 +38,18 @@ The project is still in its infancy. Please see 'Project Development' below for 
 
 ## To Test
 To run the tests:
- `cd opt-out
+```
+  cd opt-out
   python -m pytest`
+```
 
 ## To Deploy (Docker)
-- `docker build -t opt-out:latest .` to build
-- `docker run -d -p 5000:5000 opt-out` to run
-- In the browser go to `127.0.0.1:5000/predict?sentence=your sentence to score`
-- `docker ps` to check the status of your Docker instances
-- `docker stop INSTANCE_ID` to stop an instance
+1. `docker build -t opt-out:latest .` to build
+2. `docker run -d -p 5000:5000 opt-out` to run
+3. In the browser go to `127.0.0.1:5000/predict?sentence=your sentence to score`
+4. `docker ps` to check the status of your Docker instances
+5. `docker stop INSTANCE_ID` to stop an instance
+
 ## Project Development
 
 Opt Out is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see [Contributing](https://github.com/malteserteresa/opt-out/blob/master/contributing.md) first, and then check out the find-out and try-out repos.
