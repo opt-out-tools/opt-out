@@ -33,12 +33,17 @@ The project is still in its infancy. Please see 'Project Development' below for 
 - `127.0.0.1:5000/predict?sentence=Just Opt Out` **or**
 - `127.0.0.1:5000/predict?sentence=Just%20Opt%20Out`
 
-
-
 ## To Test
+To run the tests:
+ `cd opt-out
+  python -m pytest`
 
 ## To Deploy (Docker)
-
+- `docker build -t opt-out:latest .` to build
+- `docker run -d -p 5000:5000 opt-out` to run
+- In the browser go to `127.0.0.1:5000/predict?sentence=your sentence to score`
+- `docker ps` to check the status of your Docker instances
+- `docker stop INSTANCE_ID` to stop an instance
 ## Project Development
 
 Opt Out is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see [Contributing](https://github.com/malteserteresa/opt-out/blob/master/contributing.md) first, and then check out the find-out and try-out repos.
