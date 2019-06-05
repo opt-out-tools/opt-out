@@ -1,15 +1,12 @@
 import os
 import urllib.parse
-from flask import Flask
-from flask import request
-from flask import jsonify
-from keras import backend
-from src.optout.model import Model
+from flask import Flask, request, jsonify
+from keras import backend, models
+from models.neural_net.simple_dataturks import Model
 
 app = Flask(__name__)
 
 m = Model()
-
 
 @app.route("/predict")
 def generate_sentiment_score():
@@ -23,8 +20,8 @@ def generate_sentiment_score():
 
     backend.clear_session()
 
-    score = m.predict(urllib.parse.unquote(sentence), os.getcwd() + "/saved_data/models/model_120.h5",
-              "/data/DataTurks/dump.csv", 'content', 10000)
+    score = m.predict(urllib.parse.unquote(sentence), os.getcwd() + "/models/neural_net/simple_dataturks.h5",
+              "/models/neural_net/simple_dataturks_dict.csv", 'content', 10000)
     return jsonify(score=score)
 
 

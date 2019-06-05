@@ -2,5 +2,5 @@
 .__pycache__/
 __pycache__/
 .mypy_cache/
-src/stop-it/extension/node_modules/
-.eggs
+extension/node_modules/
+opt-out/
