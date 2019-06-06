@@ -51,7 +51,7 @@ Opt Out is an open source project under active development. Currently, machine l
 
 
 ## Funding
-If you would like to fund the project or make a donation, please email [Opt Out](mailto:opt-out-tool@gmail.com)
+If you would like to fund the project or make a donation, please email [Opt Out].(mailto:opt-out-tool@gmail.com)
 
 ***
 
