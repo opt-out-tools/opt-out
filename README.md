@@ -1,5 +1,5 @@
 
-# Opt Out <img src='opt_out_logo.png' align="right" height="165" />
+# Opt Out <img src='opt_out_logo.png' align="right" height="140" />
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)  
 
