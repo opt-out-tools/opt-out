@@ -1,0 +1,38 @@
+html, body {
+    width: 180px;
+}
+
+.hidden {
+    display: none;
+}
+
+label {
+    display: flex;
+    margin: 3% auto;
+    padding: 4px;
+    text-align: center;
+    cursor: pointer;
+}
+label > span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.link {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+}
+
+#group_text {
+    font-weight: bold
+}
+
