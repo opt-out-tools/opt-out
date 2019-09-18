@@ -13,37 +13,9 @@ To learn more about this problem and explore the steps Opt Out is taking to comb
 
 The project is still in its infancy. Please see 'Project Development' below for the current status.
 
-## To Install
+## Test
 
- ```
-    git clone https://github.com/opt-out-tool/opt-out
-    cd opt-out
-    pip install -r requirements.txt
-```
-## To Deploy Locally
- ```
-    export FLASK_APP=deploy.py
-    export FLASK_DEBUG=1
-    flask run
- ```
-
-
-
-## To Use
-1. Deploy locally (follow the steps above)
-2. And in the browser go to `127.0.0.1:5000/predict?sentence=your sentence to analyse`. Be sure to include spaces in the sentences. Spaces can be explicity set using the UTF-8 encoded `%20`. For example, to test the sentence 'Just Opt Out', you could run:
-- `127.0.0.1:5000/predict?sentence=Just Opt Out` **or**
-- `127.0.0.1:5000/predict?sentence=Just%20Opt%20Out`
-
-## To Test
-To run the tests:
-```
-  cd opt-out
-  python -m pytest
-```
-
-## To Deploy (Docker)
-TBC
+See the README in the _extension_ folder.
 
 ## Project Development
 
