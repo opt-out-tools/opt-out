@@ -16,7 +16,7 @@ The project is still in its infancy. Please see 'Project Development' below for 
 ## Test / Deploy
 
 To test the current prototype:
-1. Clone a local copy of this repo
+1. Clone a local copy of the master branch of this repo
 2. Start Mozilla Firefox
 3. Set the url to `about:debugging#/runtime/this-firefox` and hit enter
 4. In the `Load Teporary Add-ons` box, open and load `manifest.json` which can be found in the `extensions` folder of this repo you cloned locally
