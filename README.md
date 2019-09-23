@@ -21,7 +21,7 @@ To test the current prototype:
 3. Set the url to `about:debugging#/runtime/this-firefox` and hit enter
 4. In the `Load Teporary Add-ons` box, open and load `manifest.json` which can be found in the `extensions` folder of this repo you cloned locally
 5. Open Twitter and test!
-6. If you make changes to code you would like to test, make sure you click "reload" (left of the "remove" button) to apply new changes to script 
+6. If you make changes to the code you would like to test, make sure you click "reload" (left of the "remove" button) to apply new changes to script 
 
 ## Project Development
 
