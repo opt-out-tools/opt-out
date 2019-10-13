@@ -1,6 +1,6 @@
 # Contributing
 
-The purpose of this guide is to help you contribute to Stop It, regardless of you skill level or amount of time you are able to contribute.
+The purpose of this guide is to help you contribute to Opt Out, regardless of you skill level or amount of time you are able to contribute.
 
 ## Communicating
 ### Less 10 minutes
