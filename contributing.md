@@ -4,7 +4,7 @@ The purpose of this guide is to help you contribute to Opt Out, regardless of yo
 
 ## Communicating
 ### Less 10 minutes
- - Talk to a friend about Stop It
+ - Talk to a friend about Opt Out
  - Post online about the issue
  - Talk to us on slack about ideas you have for new/better functionality
  
