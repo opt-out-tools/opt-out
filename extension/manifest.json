@@ -12,6 +12,11 @@
     "storage",
     "https://api.optoutools.com/predict"
   ],
+  "applications": {
+    "gecko": {
+      "id": "opt.out.tool@gmail.com"
+    }
+  },
   "browser_action": {
     "default_icon": "icons/icon-48.png",
     "default_title": "Opt-Out-Ext",
@@ -24,7 +29,6 @@
   },
   "content_scripts": [
     {
-
       "matches": [
         "https://twitter.com/*",
         "https://mobile.twitter.com/*"

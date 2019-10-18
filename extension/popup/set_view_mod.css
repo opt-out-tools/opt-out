@@ -8,8 +8,8 @@ html, body {
 
 label {
     display: flex;
-    margin: 3% auto;
-    padding: 4px;
+    margin: 0 auto;
+    padding: 0px;
     text-align: center;
     cursor: pointer;
 }
@@ -36,3 +36,12 @@ p {
     font-weight: bold
 }
 
+#rangeText {
+    display:flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding-bottom: 2px;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: normal;
+}
