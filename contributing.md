@@ -1,10 +1,10 @@
 # Contributing
 
-The purpose of this guide is to help you contribute to Stop It, regardless of you skill level or amount of time you are able to contribute.
+The purpose of this guide is to help you contribute to Opt Out, regardless of you skill level or amount of time you are able to contribute.
 
 ## Communicating
 ### Less 10 minutes
- - Talk to a friend about Stop It
+ - Talk to a friend about Opt Out
  - Post online about the issue
  - Talk to us on slack about ideas you have for new/better functionality
  
@@ -18,4 +18,4 @@ Take a look through the open issues and then check with pull requests to make su
 
 If you are making a substantial or potentially controversial change, your first port of call should be to stop by and chat to us on Slack or file an issue to discuss what you would like to change. We really don't want you to waste time on a pull request (GitHub jargon for a contribution) that has no chance of being merged.
 
-If you have no tests, youre code won't be merged. We're aiming for 100% test coverage.
+If you have no tests, your code won't be merged. We're aiming for 100% test coverage.
