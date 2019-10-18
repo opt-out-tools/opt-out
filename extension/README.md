@@ -1,5 +1,8 @@
+##About Opt-Out-Ext
 
-## Development
+This extension is responsible filtering tweets checking them against opt-out server.
+Extension automatically hides tweets by sending tweet text, and getting report form server if it is offensive or not.
+##Development
 
 - start Mozilla Firefox
 - set url to: 
@@ -14,7 +17,7 @@ Load Teporary Add-ons
 - when adding new changes to files click "reload" (left of "remove" button) to apply new changes to script 
 
 
-## Tweeter Edge Cases
+##Tweeter Edge Cases
 
 - ##### Logged User
   - tweet (text + media)

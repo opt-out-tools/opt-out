@@ -8,40 +8,45 @@
 </head>
 
 <body>
-
-<div id="popup-content">
-    <p>How much do you wanna see?</p>
-    <div>
-        <label for="slider">
-            <input type="range" id="slider" name="slider" min="0" max="1" list="tickmarks">
-            <datalist id="tickmarks">
-                <option value="0" label="Everything"></option>
-                <option value="100%" label="Nothing"></option>
-            </datalist>
+    <div id="popup-content">
+        <p>How much do you wanna see?</p>
+        <div id="rangeText">
+            <p>Everything</p>
+            <p>Nothing</p>
+        </div>
+        <div>
+            <label for="slider">
+                <input type="range" id="slider" name="slider" min="0" max="1" list="tickmarks">
+                <datalist id="tickmarks" >
+                    <option value="0" label="Everything"></option>
+                    <option value="100%" label="Nothing"></option>
+                </datalist>
+            </label>
+        </div>
+        <p id="group_text">How shall we hide it:</p>
+        <label for="text_white">
+            <input type="checkbox" id="text_white" name="text_white" checked>
+            <span>White text</span>
         </label>
-    </div>
-    <p id="group_text">How shall we hide it:</p>
-    <label for="text_white">
-        <input type="checkbox" id="text_white" name="text_white" checked>
-        <span>White text</span>
-    </label>
-    <label for="text_crossed">
-        <input type="checkbox" id="text_crossed" name="text_crossed" >
-        <span>Crossed thought</span>
-    </label>
-    <label for="text_removed">
-        <input type="checkbox" id="text_removed" name="text_removed">
-        <span>Completely removed</span>
-    </label>
-    <div class="link">
-        <a href="https://www.optoutools.com">www.optoutools.com</a>
+        <label for="text_crossed">
+            <input type="checkbox" id="text_crossed" name="text_crossed" >
+            <span>Crossed thought</span>
+        </label>
+        <label for="text_removed">
+            <input type="checkbox" id="text_removed" name="text_removed">
+            <span>Completely removed</span>
+        </label>
+        <div class="link">
+            <a href="https://www.optoutools.com">www.optoutools.com</a>
+        </div>
     </div>
 
-</div>
-<div id="error-content" class="hidden">
-    <p>Error communication with server.</p><p>Check your internet connection</p>
-</div>
-<script src="set_view_mod.js"></script>
+    <div id="error-content" class="hidden">
+        <p>Error communication with server.</p>
+        <p>Check your internet connection</p>
+    </div>
+
+    <script src="set_view_mod.js"></script>
 </body>
 
 </html>
