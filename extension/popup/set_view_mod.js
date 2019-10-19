@@ -1,25 +1,24 @@
-document.console.log("ss");
 /**
  * There was an error executing the script.
  * Display the popup's error message, and hide the normal UI.
  */
 function reportExecuteScriptError(error) {
-  document.querySelector("#popup-content").classList.add("hidden");
-  document.querySelector("#error-content").classList.remove("hidden");
+  document.querySelector('#popup-content').classList.add('hidden');
+  document.querySelector('#error-content').classList.remove('hidden');
   console.error(`Failed to execute opt-out content script: ${error.message}`);
 }
 
 function listenForClicks() {
   function setChecks(tabs) {
     let msg = [];
-    if (document.getElementById("text_white").checked) {
-      msg.push("tw");
+    if (document.getElementById('text_white').checked) {
+      msg.push('tw');
     }
-    if (document.getElementById("text_crossed").checked) {
-      msg.push("tc");
+    if (document.getElementById('text_crossed').checked) {
+      msg.push('tc');
     }
-    if (document.getElementById("text_removed").checked) {
-      msg.push("tr");
+    if (document.getElementById('text_removed').checked) {
+      msg.push('tr');
     }
     msg = msg.join();
     // disable eslint error for browser
@@ -27,7 +26,7 @@ function listenForClicks() {
     browser.storage.sync.set({ style: msg });
     // eslint-disable-next-line no-undef
     browser.tabs.sendMessage(tabs[0].id, {
-      command: msg
+      command: msg,
     });
   }
 
@@ -45,15 +44,15 @@ function listenForClicks() {
 
 function restoreOptions() {
   function setCurrentChoice(result) {
-    document.querySelector("#text_white").checked = result
-      .split(",")
-      .includes("tw");
-    document.querySelector("#text_crossed").checked = result
-      .split(",")
-      .includes("tc");
-    document.querySelector("#text_removed").checked = result
-      .split(",")
-      .includes("tr");
+    document.querySelector('#text_white').checked = result
+      .split(',')
+      .includes('tw');
+    document.querySelector('#text_crossed').checked = result
+      .split(',')
+      .includes('tc');
+    document.querySelector('#text_removed').checked = result
+      .split(',')
+      .includes('tr');
   }
 
   function onError(error) {
@@ -62,7 +61,7 @@ function restoreOptions() {
 
   // disable eslint error for browser
   // eslint-disable-next-line no-undef
-  const getting = browser.storage.sync.get("style");
+  const getting = browser.storage.sync.get('style');
   getting.then(setCurrentChoice, onError);
 }
 
@@ -71,5 +70,5 @@ function restoreOptions() {
  * and add a click handler.
  * If we couldn't inject the script, handle the error.
  */
-document.addEventListener("DOMContentLoaded", restoreOptions);
-document.addEventListener("click", listenForClicks);
+document.addEventListener('DOMContentLoaded', restoreOptions);
+document.addEventListener('click', listenForClicks);
