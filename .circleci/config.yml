@@ -12,4 +12,10 @@ jobs: # a collection of steps
       - restore_cache: # special step to restore the dependency cache
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: dependency-cache-{{ checksum "package-lock.json" }}
-      
+      - run:
+          name: install modules
+          command: npm install
+      - save_cache: # cache installed dependencies
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          path: /node_modules
+      - run: npm run lint # run eslint
