@@ -1,6 +1,1 @@
-.idea/
-.__pycache__/
-__pycache__/
-.mypy_cache/
-extension/node_modules/
-opt-out/
+node_modules/
