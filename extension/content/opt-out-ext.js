@@ -1,4 +1,6 @@
 let selector;
+let option = 'tw';
+
 const root = document.getElementById('doc') || document.getElementById('react-root');
 
 if (document.querySelector('body').classList.contains('logged-out')) {
@@ -8,8 +10,22 @@ if (document.querySelector('body').classList.contains('logged-out')) {
   console.log('online');
   selector = '[data-testid="tweet"]';
 }
+
 /*
-function which calls server for given node, and depending on the response, applies pre-defined action
+Depending on `option` sets classes to tweet nodes
+ */
+const styleTweet = function (element, selectedOption) {
+  if (selectedOption.includes('tw')) element.classList.add('opt-out-tw');
+  else element.classList.remove('opt-out-tw');
+  if (selectedOption.includes('tc')) element.classList.add('opt-out-tc');
+  else element.classList.remove('opt-out-tc');
+  if (selectedOption.includes('tr')) element.classList.add('opt-out-trem');
+  else element.classList.remove('opt-out-trem');
+};
+
+/*
+function which calls server for given node, and depending on the response,
+applies pre-defined action
  */
 const checkText = function (node) {
   console.log('Sending Request');
@@ -23,15 +39,21 @@ const checkText = function (node) {
       return;
     }
     if (xhr.status === 200) {
-      console.log('Response received as ', JSON.parse(xhr.response).predictions[0]);
+      console.log(
+        'Response received as ',
+        JSON.parse(xhr.response).predictions[0],
+      );
       if (JSON.parse(xhr.response).predictions[0]) {
         node.classList.add('processed-true');
-        const tweetText = node.querySelector(`${selector} > div ~ div > div ~ div`);
+        const tweetText = node.querySelector(
+          `${selector} > div ~ div > div ~ div`,
+        );
         styleTweet(tweetText, option);
       } else {
         node.classList.add('processed-false');
       }
     } else {
+      console.error(e);
       console.log('Failed response', xhr);
     }
   };
@@ -43,48 +65,38 @@ const checkText = function (node) {
 };
 
 /*
-Depending on `option` sets classes to tweet nodes
+ * Predefines action and changes it depending on user action
  */
-let option = 'tw';
-styleTweet = function (element, option) {
-  if (option.includes('tw')) element.classList.add('opt-out-tw');
-  else element.classList.remove('opt-out-tw');
-  if (option.includes('tc')) element.classList.add('opt-out-tc');
-  else element.classList.remove('opt-out-tc');
-  if (option.includes('tr')) element.classList.add('opt-out-trem');
-  else element.classList.remove('opt-out-trem');
-};
-
-/*
-* Predefines action and changes it depending on user action
- */
+// disable eslint error for browser
+// eslint-disable-next-line no-undef
 browser.runtime.onMessage.addListener((message) => {
   if (option !== message.command) {
     option = message.command;
-    const posts = document.getElementsByClassName('processed-true');
-    for (let i = 0; i < posts.length || 0; i++ | 0) {
-      const tweetText = posts[i].querySelector(`${selector} > div ~ div > div ~ div`);// selecting text inside tweet
+    const posts = document.querySelectorAll('.processed-true');
+    posts.forEach((post) => {
+      const tweetText = post.querySelector(
+        `${selector} > div ~ div > div ~ div`,
+      ); // selecting text inside tweet
       styleTweet(tweetText, option);
-    }
+    });
   }
 });
 
-
 const processTweets = function () {
-  const posts = document.querySelectorAll(selector);// selecting tweet object
-  for (let i = 0; i < posts.length || 0; i++ | 0) {
-    if (posts[i].classList.contains('processed-true')) continue;
-    if (posts[i].classList.contains('processed-false')) continue;
-    checkText(posts[i]);
-  }
+  const posts = document.querySelectorAll(selector); // selecting tweet object
+  posts.forEach((post) => {
+    if (post.classList.contains('processed-true')) return;
+    if (post.classList.contains('processed-false')) return;
+    checkText(post);
+  });
 };
 
 const checkTweetList = function (mutationsList) {
-  for (const mutation of mutationsList) {
+  mutationsList.forEach((mutation) => {
     if (mutation.type === 'childList') {
       processTweets();
     }
-  }
+  });
 };
 const checkTweetListObserver = new MutationObserver(checkTweetList);
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
