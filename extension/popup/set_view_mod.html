@@ -9,44 +9,43 @@
 
 <body>
     <div id="popup-content">
-        <p>How much do you wanna see?</p>
+        <h2>How much misogyny do you want to remove?</h2>
         <div id="rangeText">
-            <p>Everything</p>
             <p>Nothing</p>
+            <p>Everything</p>
         </div>
         <div>
             <label for="slider">
-                <input type="range" id="slider" name="slider" min="0" max="1" list="tickmarks">
-                <datalist id="tickmarks" >
-                    <option value="0" label="Everything"></option>
-                    <option value="100%" label="Nothing"></option>
-                </datalist>
+                <input type="range" id="slider" name="slider" min="0" max="1" value="0" list="tickmarks">
             </label>
         </div>
-        <p id="group_text">How shall we hide it:</p>
+        <h2>How should it be hidden?</h2>
+        <label for="text_crossed">
+            <input type="radio" id="text_crossed" name="text_options" checked>
+            <span>Crossed through</span>
+        </label>
         <label for="text_white">
-            <input type="checkbox" id="text_white" name="text_white" checked>
+            <input type="radio" id="text_white" name="text_options">
             <span>White text</span>
         </label>
-        <label for="text_crossed">
-            <input type="checkbox" id="text_crossed" name="text_crossed" >
-            <span>Crossed thought</span>
-        </label>
         <label for="text_removed">
-            <input type="checkbox" id="text_removed" name="text_removed">
+            <input type="radio" id="text_removed" name="text_options">
             <span>Completely removed</span>
         </label>
-        <div class="link">
-            <a href="https://www.optoutools.com">www.optoutools.com</a>
-        </div>
+        <p class="link">
+            <a href="https://www.optoutools.com">optoutools.com</a>
+        </p>
     </div>
 
     <div id="error-content" class="hidden">
         <p>Error communication with server.</p>
         <p>Check your internet connection</p>
     </div>
+    <script src="script.js"></script>
 
     <script src="set_view_mod.js"></script>
+
+    
 </body>
 
 </html>
