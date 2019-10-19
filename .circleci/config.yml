@@ -17,5 +17,6 @@ jobs: # a collection of steps
           command: 'npm install'
       - save_cache: # cache installed dependencies
           key: dependency-cache-{{ checksum "package-lock.json" }}
-          path: /node_modules
+          paths:
+            - ./node_modules
       - run: 'npm run lint' # run eslint
