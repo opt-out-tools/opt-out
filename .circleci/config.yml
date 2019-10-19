@@ -1,7 +1,7 @@
 version: 2.1 # use CircleCI 2.1
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
-    # working_directory: ~/repo directory where steps will run
+    working_directory: ~/repo # directory where steps will run
     docker: # run the steps with Docker
       - image: circleci/node:10.16.3 # ...with this image as the primary container; this is where all `steps` will run
     steps: # a collection of executable commands
@@ -14,10 +14,8 @@ jobs: # a collection of steps
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: install modules
-          command: 'npm install'
+          command: npm install
       - save_cache: # cache installed dependencies
           key: dependency-cache-{{ checksum "package-lock.json" }}
           path: /node_modules
       - run: npm run lint # run eslint
-
-
