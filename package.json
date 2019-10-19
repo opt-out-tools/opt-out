@@ -20,8 +20,6 @@
   "devDependencies": {
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "jshint": "^2.10.2",
-    "pre-commit": "^1.2.2"
+    "eslint-plugin-import": "^2.18.2"
   }
 }
