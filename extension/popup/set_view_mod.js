@@ -1,4 +1,13 @@
-document.console.log('ss');
+/**
+ * There was an error executing the script.
+ * Display the popup's error message, and hide the normal UI.
+ */
+function reportExecuteScriptError(error) {
+  document.querySelector('#popup-content').classList.add('hidden');
+  document.querySelector('#error-content').classList.remove('hidden');
+  console.error(`Failed to execute opt-out content script: ${error.message}`);
+}
+
 function listenForClicks() {
   function setChecks(tabs) {
     let msg = [];
@@ -12,46 +21,46 @@ function listenForClicks() {
       msg.push('tr');
     }
     msg = msg.join();
-    function onError(error) {
-      alert(`Error: ${error}`);
-    }
+    // disable eslint error for browser
+    // eslint-disable-next-line no-undef
     browser.storage.sync.set({ style: msg });
+    // eslint-disable-next-line no-undef
     browser.tabs.sendMessage(tabs[0].id, {
       command: msg,
     });
   }
 
-  browser.tabs.query({ active: true, currentWindow: true })
-    .then(setChecks)
-    .catch(reportError);
-
   function reportError(error) {
     console.error(`Could not opt-out: ${error}`);
-    // reportExecuteScriptError(error)
+    reportExecuteScriptError(error);
   }
-}
 
-/**
- * There was an error executing the script.
- * Display the popup's error message, and hide the normal UI.
- */
-function reportExecuteScriptError(error) {
-  document.querySelector('#popup-content').classList.add('hidden');
-  document.querySelector('#error-content').classList.remove('hidden');
-  console.error(`Failed to execute opt-out content script: ${error.message}`);
+  // eslint-disable-next-line no-undef
+  browser.tabs
+    .query({ active: true, currentWindow: true })
+    .then(setChecks)
+    .catch(reportError);
 }
 
 function restoreOptions() {
   function setCurrentChoice(result) {
-    document.querySelector('#text_white').checked = result.split(',').includes('tw');
-    document.querySelector('#text_crossed').checked = result.split(',').includes('tc');
-    document.querySelector('#text_removed').checked = result.split(',').includes('tr');
+    document.querySelector('#text_white').checked = result
+      .split(',')
+      .includes('tw');
+    document.querySelector('#text_crossed').checked = result
+      .split(',')
+      .includes('tc');
+    document.querySelector('#text_removed').checked = result
+      .split(',')
+      .includes('tr');
   }
 
   function onError(error) {
     console.log(`Error: ${error}`);
   }
 
+  // disable eslint error for browser
+  // eslint-disable-next-line no-undef
   const getting = browser.storage.sync.get('style');
   getting.then(setCurrentChoice, onError);
 }
