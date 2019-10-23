@@ -25,6 +25,9 @@ function listenForClicks() {
     // eslint-disable-next-line no-undef
     browser.storage.sync.set({ style: msg });
     // eslint-disable-next-line no-undef
+    if (slider.value < 0.5){
+        msg = [];
+    }
     browser.tabs.sendMessage(tabs[0].id, {
       command: msg,
     });
@@ -74,12 +77,12 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 document.addEventListener('click', listenForClicks);
 
 var slider = document.getElementById("slider");
-slider.addEventListener("input", function (evt) {   
+slider.addEventListener("input", function (evt) {
     if (evt.target.value < 1) {
       slider.classList.add("slider-angry");
     } else {
       slider.classList.remove("slider-angry");
 
     }
-   
+
 })
