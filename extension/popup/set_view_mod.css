@@ -1,47 +1,72 @@
 html, body {
-    width: 180px;
+    width: 250px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+body {
+    padding: 5px 20px;
 }
 
 .hidden {
     display: none;
 }
 
+h2 {
+    font-size: 18px
+}
+
+#slider {
+    width: 100%;
+    background: #d3d3d3; 
+    height: 10px;
+    border-radius: 5px;
+    margin-bottom: 24px;
+}
+
+#slider::-moz-range-thumb {
+    width: 50px; 
+    height: 50px;
+    cursor: pointer;
+    border: none;
+    background: url('happy.svg');
+
+}
+
+#slider.slider-angry::-moz-range-thumb {
+    background: url('angry.svg');
+}
+
+#slider::-webkit-slider-thumb {
+    width: 50px; 
+    height: 50px;
+    cursor: pointer;
+    border: none;
+    background: url('happy.svg');
+
+}
+
 label {
     display: flex;
     margin: 0 auto;
-    padding: 0px;
-    text-align: center;
+    padding: 5px 0;
     cursor: pointer;
 }
+
 label > span {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: normal;
+    font-size: 16px;
 }
 
 p {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: normal;
+    font-size: 16px;
 }
 
 .link {
     font-size: 14px;
-    font-weight: 400;
-    line-height: normal;
     text-align: center;
-}
-
-#group_text {
-    font-weight: bold
 }
 
 #rangeText {
     display:flex;
     justify-content: space-between;
     margin: 0 auto;
-    padding-bottom: 2px;
-    font-size: 10px;
-    font-weight: 400;
-    line-height: normal;
 }

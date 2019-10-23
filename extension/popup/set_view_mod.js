@@ -44,13 +44,13 @@ function listenForClicks() {
 
 function restoreOptions() {
   function setCurrentChoice(result) {
-    document.querySelector('#text_white').checked = result
+    document.querySelector('#text_white').checked = result.style
       .split(',')
       .includes('tw');
-    document.querySelector('#text_crossed').checked = result
+    document.querySelector('#text_crossed').checked = result.style
       .split(',')
       .includes('tc');
-    document.querySelector('#text_removed').checked = result
+    document.querySelector('#text_removed').checked = result.style
       .split(',')
       .includes('tr');
   }
@@ -72,3 +72,14 @@ function restoreOptions() {
  */
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.addEventListener('click', listenForClicks);
+
+var slider = document.getElementById("slider");
+slider.addEventListener("input", function (evt) {   
+    if (evt.target.value < 1) {
+      slider.classList.add("slider-angry");
+    } else {
+      slider.classList.remove("slider-angry");
+
+    }
+   
+})
