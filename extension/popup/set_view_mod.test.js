@@ -1,6 +1,6 @@
 const restoreOptions = require('./reset');
 
-describe('Test se_view_mod', () => {
+describe('test popup code', () => {
   let fakeGet;
   let fakeBrowser;
   beforeEach(async () => {
@@ -10,7 +10,7 @@ describe('Test se_view_mod', () => {
     global.browser = fakeBrowser;
 
     // add elements to select
-    document.body.innerHTML = '<div id="text_crossed">' + '</div>';
+    document.body.innerHTML = '<div id="text_crossed"></div>';
 
     // wait a tick to give the production code the chance to execute
     return new Promise((resolve) => process.nextTick(resolve));

@@ -21,7 +21,6 @@ function listenForClicks() {
 
     browser.storage.sync.set({ style: msg });
 
-    // eslint-disable-next-line no-undef
     browser.tabs.sendMessage(tabs[0].id, {
       command: slider.value < 0.5 ? [] : [msg],
     });
@@ -32,7 +31,6 @@ function listenForClicks() {
     reportExecuteScriptError(error);
   }
 
-  // eslint-disable-next-line no-undef
   browser.tabs
     .query({ active: true, currentWindow: true })
     .then(setChecks)
