@@ -1,3 +1,4 @@
+import restoreOptions from './reset';
 
 const slider = document.getElementById('slider');
 
@@ -38,24 +39,6 @@ function listenForClicks() {
     .catch(reportError);
 }
 
-const selectorLookup = {
-  tw: '#text_white',
-  tc: '#text_crossed',
-  tr: '#text_removed',
-};
-
-const defaultStyle = 'tc';
-
-async function restoreOptions() {
-  try {
-    const { style } = await browser.storage.sync.get('style');
-    const selector = selectorLookup[style] || selectorLookup[defaultStyle];
-    document.querySelector(selector).click();
-  } catch (error) {
-    console.log(`Error: ${error}`);
-  }
-}
-
 /**
  * When the popup loads, inject a content script into the active tab,
  * and add a click handler.
@@ -63,7 +46,6 @@ async function restoreOptions() {
  */
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.addEventListener('click', listenForClicks);
-
 
 slider.addEventListener('input', (evt) => {
   if (evt.target.value < 1) {
