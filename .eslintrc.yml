@@ -6,6 +6,7 @@ extends:
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
+  browser: readonly
 parserOptions:
   ecmaVersion: 2018
   sourceType: module

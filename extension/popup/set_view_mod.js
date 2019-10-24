@@ -1,3 +1,6 @@
+
+const slider = document.getElementById('slider');
+
 /**
  * There was an error executing the script.
  * Display the popup's error message, and hide the normal UI.
@@ -10,29 +13,16 @@ function reportExecuteScriptError(error) {
 
 function listenForClicks() {
   function setChecks(tabs) {
-    let msg = [];
-    if (document.getElementById('text_white').checked) {
-      msg.push('tw');
-    }
-    if (document.getElementById('text_crossed').checked) {
-      msg.push('tc');
-    }
-    if (document.getElementById('text_removed').checked) {
-      msg.push('tr');
-    }
-    msg = msg.join();
-    // disable eslint error for browser
-    // eslint-disable-next-line no-undef
+    let msg = 'tc';
+    if (document.getElementById('text_white').checked) msg = 'tw';
+    if (document.getElementById('text_crossed').checked) msg = 'tc';
+    if (document.getElementById('text_removed').checked) msg = 'tr';
+
     browser.storage.sync.set({ style: msg });
 
-    // disable eslint error for slider (not permanent fix)
-    // eslint-disable-next-line no-use-before-define
-    if (slider.value < 0.5) {
-      msg = [];
-    }
     // eslint-disable-next-line no-undef
     browser.tabs.sendMessage(tabs[0].id, {
-      command: msg,
+      command: slider.value < 0.5 ? [] : [msg],
     });
   }
 
@@ -48,27 +38,22 @@ function listenForClicks() {
     .catch(reportError);
 }
 
-function restoreOptions() {
-  function setCurrentChoice(result) {
-    document.querySelector('#text_white').checked = result.style
-      .split(',')
-      .includes('tw');
-    document.querySelector('#text_crossed').checked = result.style
-      .split(',')
-      .includes('tc');
-    document.querySelector('#text_removed').checked = result.style
-      .split(',')
-      .includes('tr');
-  }
+const selectorLookup = {
+  tw: '#text_white',
+  tc: '#text_crossed',
+  tr: '#text_removed',
+};
 
-  function onError(error) {
+const defaultStyle = 'tc';
+
+async function restoreOptions() {
+  try {
+    const { style } = await browser.storage.sync.get('style');
+    const selector = selectorLookup[style] || selectorLookup[defaultStyle];
+    document.querySelector(selector).click();
+  } catch (error) {
     console.log(`Error: ${error}`);
   }
-
-  // disable eslint error for browser
-  // eslint-disable-next-line no-undef
-  const getting = browser.storage.sync.get('style');
-  getting.then(setCurrentChoice, onError);
 }
 
 /**
@@ -79,7 +64,7 @@ function restoreOptions() {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.addEventListener('click', listenForClicks);
 
-const slider = document.getElementById('slider');
+
 slider.addEventListener('input', (evt) => {
   if (evt.target.value < 1) {
     slider.classList.add('slider-angry');
