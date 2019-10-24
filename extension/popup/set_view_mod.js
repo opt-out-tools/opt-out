@@ -24,10 +24,13 @@ function listenForClicks() {
     // disable eslint error for browser
     // eslint-disable-next-line no-undef
     browser.storage.sync.set({ style: msg });
-    // eslint-disable-next-line no-undef
-    if (slider.value < 0.5){
-        msg = [];
+
+    // disable eslint error for slider (not permanent fix)
+    // eslint-disable-next-line no-use-before-define
+    if (slider.value < 0.5) {
+      msg = [];
     }
+    // eslint-disable-next-line no-undef
     browser.tabs.sendMessage(tabs[0].id, {
       command: msg,
     });
@@ -76,13 +79,11 @@ function restoreOptions() {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.addEventListener('click', listenForClicks);
 
-var slider = document.getElementById("slider");
-slider.addEventListener("input", function (evt) {
-    if (evt.target.value < 1) {
-      slider.classList.add("slider-angry");
-    } else {
-      slider.classList.remove("slider-angry");
-
-    }
-
-})
+const slider = document.getElementById('slider');
+slider.addEventListener('input', (evt) => {
+  if (evt.target.value < 1) {
+    slider.classList.add('slider-angry');
+  } else {
+    slider.classList.remove('slider-angry');
+  }
+});
