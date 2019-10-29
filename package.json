@@ -4,7 +4,7 @@
   "description": "like adBlocker, but removes misogyny instead of adverts.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint --fix .",
     "git:initHook": "scripts/addPreCommitHook.sh"
   },
@@ -21,6 +21,13 @@
   "devDependencies": {
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.9.0",
+    "jest-webextension-mock": "^3.5.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "jest-webextension-mock"
+    ]
   }
 }

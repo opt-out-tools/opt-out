@@ -67,8 +67,6 @@ const checkText = function (node) {
 /*
  * Predefines action and changes it depending on user action
  */
-// disable eslint error for browser
-// eslint-disable-next-line no-undef
 browser.runtime.onMessage.addListener((message) => {
   if (option !== message.command) {
     option = message.command;

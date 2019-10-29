@@ -19,3 +19,4 @@ jobs: # a collection of steps
           paths:
             - ./node_modules
       - run: 'npm run lint' # run eslint
+      - run: 'npm run test' # run jest tests

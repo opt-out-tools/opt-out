@@ -1,3 +1,4 @@
+import restoreOptions from './reset';
 
 const slider = document.getElementById('slider');
 
@@ -20,7 +21,6 @@ function listenForClicks() {
 
     browser.storage.sync.set({ style: msg });
 
-    // eslint-disable-next-line no-undef
     browser.tabs.sendMessage(tabs[0].id, {
       command: slider.value < 0.5 ? [] : [msg],
     });
@@ -31,29 +31,10 @@ function listenForClicks() {
     reportExecuteScriptError(error);
   }
 
-  // eslint-disable-next-line no-undef
   browser.tabs
     .query({ active: true, currentWindow: true })
     .then(setChecks)
     .catch(reportError);
-}
-
-const selectorLookup = {
-  tw: '#text_white',
-  tc: '#text_crossed',
-  tr: '#text_removed',
-};
-
-const defaultStyle = 'tc';
-
-async function restoreOptions() {
-  try {
-    const { style } = await browser.storage.sync.get('style');
-    const selector = selectorLookup[style] || selectorLookup[defaultStyle];
-    document.querySelector(selector).click();
-  } catch (error) {
-    console.log(`Error: ${error}`);
-  }
 }
 
 /**
@@ -63,7 +44,6 @@ async function restoreOptions() {
  */
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.addEventListener('click', listenForClicks);
-
 
 slider.addEventListener('input', (evt) => {
   if (evt.target.value < 1) {
