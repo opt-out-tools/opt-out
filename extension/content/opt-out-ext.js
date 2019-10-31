@@ -1,5 +1,17 @@
 let selector;
-let option = 'tw';
+let option = 'text_crossed';
+let slider = '1';
+
+function updateOption(result) {
+  option = result.optOut.selector;
+  slider = result.optOut.slider;
+}
+
+function onError(error) {
+  console.log(`Error: ${error}`);
+}
+browser.storage.sync.get('optOut').then(updateOption, onError);
+
 
 const root = document.getElementById('doc') || document.getElementById('react-root');
 
@@ -14,12 +26,12 @@ if (document.querySelector('body').classList.contains('logged-out')) {
 /*
 Depending on `option` sets classes to tweet nodes
  */
-const styleTweet = function (element, selectedOption) {
-  if (selectedOption.includes('tw')) element.classList.add('opt-out-tw');
+const styleTweet = function (element, selectedOption, sliderValue) {
+  if ((selectedOption === 'text_white') && (sliderValue === '1')) element.classList.add('opt-out-tw');
   else element.classList.remove('opt-out-tw');
-  if (selectedOption.includes('tc')) element.classList.add('opt-out-tc');
+  if ((selectedOption === 'text_crossed') && (sliderValue === '1')) element.classList.add('opt-out-tc');
   else element.classList.remove('opt-out-tc');
-  if (selectedOption.includes('tr')) element.classList.add('opt-out-trem');
+  if ((selectedOption === 'text_removed') && (sliderValue === '1')) element.classList.add('opt-out-trem');
   else element.classList.remove('opt-out-trem');
 };
 
@@ -48,7 +60,7 @@ const checkText = function (node) {
         const tweetText = node.querySelector(
           `${selector} > div ~ div > div ~ div`,
         );
-        styleTweet(tweetText, option);
+        styleTweet(tweetText, option, slider);
       } else {
         node.classList.add('processed-false');
       }
@@ -68,14 +80,15 @@ const checkText = function (node) {
  * Predefines action and changes it depending on user action
  */
 browser.runtime.onMessage.addListener((message) => {
-  if (option !== message.command) {
-    option = message.command;
+  if ((option !== message.selector) || (slider !== message.slider)) {
+    option = message.selector;
+    slider = message.slider;
     const posts = document.querySelectorAll('.processed-true');
     posts.forEach((post) => {
       const tweetText = post.querySelector(
         `${selector} > div ~ div > div ~ div`,
       ); // selecting text inside tweet
-      styleTweet(tweetText, option);
+      styleTweet(tweetText, option, slider);
     });
   }
 });
@@ -96,5 +109,6 @@ const checkTweetList = function (mutationsList) {
     }
   });
 };
+
 const checkTweetListObserver = new MutationObserver(checkTweetList);
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
