@@ -1,7 +1,17 @@
-import restoreOptions from './reset';
+function restoreOptions() {
+  function setCurrentChoice(result) {
+    document.querySelector(`#${result.optOut.selector}`).checked = true;
+    document.querySelector('#slider').value = result.optOut.slider;
+  }
 
-const slider = document.getElementById('slider');
+  function onError(error) {
+    console.log(`Error: ${error}`);
+  }
 
+  browser.storage.sync.get('optOut').then(setCurrentChoice, onError);
+}
+
+// const slider = document.getElementById('slider');
 /**
  * There was an error executing the script.
  * Display the popup's error message, and hide the normal UI.
@@ -13,17 +23,23 @@ function reportExecuteScriptError(error) {
 }
 
 function listenForClicks() {
+  function setSliderKnobCSS(slider, sliderStatus) {
+    // Todo: fix with CSS value only style
+    // eslint-disable-next-line no-unused-expressions
+    (sliderStatus === '1') ? slider.classList.remove('slider-angry') : slider.classList.add('slider-angry');
+  }
+
   function setChecks(tabs) {
-    let msg = 'tc';
-    if (document.getElementById('text_white').checked) msg = 'tw';
-    if (document.getElementById('text_crossed').checked) msg = 'tc';
-    if (document.getElementById('text_removed').checked) msg = 'tr';
-
-    browser.storage.sync.set({ style: msg });
-
-    browser.tabs.sendMessage(tabs[0].id, {
-      command: slider.value < 0.5 ? [] : [msg],
-    });
+    const slider = document.getElementById('slider');
+    const sliderStatus = slider.value;
+    setSliderKnobCSS(slider, sliderStatus);
+    const optionValue = document.querySelector('input[name="text_options"]:checked').value || 'tc';
+    const popupSettings = {
+      slider: sliderStatus,
+      selector: optionValue,
+    };
+    browser.storage.sync.set({ optOut: popupSettings });
+    browser.tabs.sendMessage(tabs[0].id, popupSettings);
   }
 
   function reportError(error) {
@@ -43,12 +59,4 @@ function listenForClicks() {
  * If we couldn't inject the script, handle the error.
  */
 document.addEventListener('DOMContentLoaded', restoreOptions);
-document.addEventListener('click', listenForClicks);
-
-slider.addEventListener('input', (evt) => {
-  if (evt.target.value < 1) {
-    slider.classList.add('slider-angry');
-  } else {
-    slider.classList.remove('slider-angry');
-  }
-});
+document.addEventListener('input', listenForClicks);
