@@ -4,7 +4,9 @@ env:
   webextensions: true
   jest: true
 extends:
-  - airbnb-base
+  - plugin:jest/recommended
+plugins:
+  - jest
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
@@ -12,5 +14,7 @@ globals:
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
-rules: {}
+rules: {
+  no-console: off
+}
 

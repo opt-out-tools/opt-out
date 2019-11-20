@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Title</title>
-    <link rel="stylesheet" href="set_view_mod.css"/>
+    <link rel="stylesheet" href="assets/styles.css"/>
 </head>
 
 <body>
@@ -16,20 +16,20 @@
         </div>
         <div>
             <label for="slider">
-                <input type="range" id="slider" name="slider" min="0" max="1" value="1" list="tickmarks">
+                <input type="range" id="slider" name="slider" min="0" max="1" value="1">
             </label>
         </div>
         <h2>How should it be hidden?</h2>
         <label for="text_crossed">
-            <input type="radio" id="text_crossed" name="text_options">
+            <input type="radio" id="text_crossed" name="text_options" value="text_crossed" checked>
             <span>Crossed through</span>
         </label>
         <label for="text_white">
-            <input type="radio" id="text_white" name="text_options"checked>
+            <input type="radio" id="text_white" name="text_options" value="text_white">
             <span>White text</span>
         </label>
         <label for="text_removed">
-            <input type="radio" id="text_removed" name="text_options">
+            <input type="radio" id="text_removed" name="text_options" value="text_removed">
             <span>Completely removed</span>
         </label>
         <p class="link">
@@ -42,9 +42,8 @@
         <p>Check your internet connection</p>
     </div>
 
-    <script src="set_view_mod.js"></script>
+    <script type="module" src="popup-main.js"></script>
 
-    
 </body>
 
 </html>

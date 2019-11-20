@@ -1,5 +1,9 @@
 let selector;
-let option = 'tw';
+let option = 'text_crossed';
+let slider = '1';
+const bodyColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color');
+document.documentElement.style
+  .setProperty('--color', bodyColor);
 
 const root = document.getElementById('doc') || document.getElementById('react-root');
 
@@ -10,31 +14,56 @@ if (document.querySelector('body').classList.contains('logged-out')) {
   console.log('online');
   selector = '[data-testid="tweet"]';
 }
-
-/*
-Depending on `option` sets classes to tweet nodes
+/**
+ * @description Updates `option` and `slider` depending on the given result
+ * @param result
  */
-const styleTweet = function (element, selectedOption) {
-  if (selectedOption.includes('tw')) element.classList.add('opt-out-tw');
-  else element.classList.remove('opt-out-tw');
-  if (selectedOption.includes('tc')) element.classList.add('opt-out-tc');
-  else element.classList.remove('opt-out-tc');
-  if (selectedOption.includes('tr')) element.classList.add('opt-out-trem');
-  else element.classList.remove('opt-out-trem');
+const updateOption = (result) => {
+  option = result.optOut.selector;
+  slider = result.optOut.slider;
 };
 
-/*
-function which calls server for given node, and depending on the response,
-applies pre-defined action
+/**
+ * @description Function handles errors.
+ * @param error
  */
-const checkText = function (node) {
+const onError = (error) => {
+  console.error(`Error: ${error}`);
+};
+
+/**
+ * @description Depending on `option` sets classes to tweet nodes
+ */
+const styleTweet = (element, selectedOption, sliderValue) => {
+  element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
+  if (sliderValue === '1') {
+    switch (selectedOption) {
+      case 'text_white':
+        element.classList.add('opt-out-tw');
+        break;
+      case 'text_crossed':
+        element.classList.add('opt-out-tc');
+        break;
+      case 'text_removed':
+        element.classList.add('opt-out-trem');
+        break;
+    }
+  }
+};
+
+/**
+ * @description function which calls server for given node, and depending on the response,
+ * applies pre-defined action
+ * @param node
+ */
+const checkText = (node) => {
   console.log('Sending Request');
   const link = 'https://api.optoutools.com/predict';
   const xhr = new XMLHttpRequest();
   xhr.open('POST', link, true);
   xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
   xhr.withCredentials = true;
-  xhr.onreadystatechange = function (e) {
+  xhr.onreadystatechange = (e) => {
     if (xhr.readyState !== 4) {
       return;
     }
@@ -48,7 +77,7 @@ const checkText = function (node) {
         const tweetText = node.querySelector(
           `${selector} > div ~ div > div ~ div`,
         );
-        styleTweet(tweetText, option);
+        styleTweet(tweetText, option, slider);
       } else {
         node.classList.add('processed-false');
       }
@@ -63,24 +92,10 @@ const checkText = function (node) {
     }),
   );
 };
-
-/*
- * Predefines action and changes it depending on user action
+/**
+ * @description get every tweet and process unprocessed ones.
  */
-browser.runtime.onMessage.addListener((message) => {
-  if (option !== message.command) {
-    option = message.command;
-    const posts = document.querySelectorAll('.processed-true');
-    posts.forEach((post) => {
-      const tweetText = post.querySelector(
-        `${selector} > div ~ div > div ~ div`,
-      ); // selecting text inside tweet
-      styleTweet(tweetText, option);
-    });
-  }
-});
-
-const processTweets = function () {
+const processTweets = () => {
   const posts = document.querySelectorAll(selector); // selecting tweet object
   posts.forEach((post) => {
     if (post.classList.contains('processed-true')) return;
@@ -89,12 +104,39 @@ const processTweets = function () {
   });
 };
 
-const checkTweetList = function (mutationsList) {
+/**
+ * @description for every change in DOM run processTweets
+ * @param mutationsList
+ */
+const checkTweetList = (mutationsList) => {
   mutationsList.forEach((mutation) => {
     if (mutation.type === 'childList') {
       processTweets();
     }
   });
 };
+
+
 const checkTweetListObserver = new MutationObserver(checkTweetList);
+
+// MAIN FUNCTION
+
+browser.storage.sync.get('optOut').then(updateOption, onError);
+/**
+ * Adds listener which on new message received from popup goes over tweets and applies new style
+ */
+browser.runtime.onMessage.addListener((message) => {
+  if ((option !== message.selector) || (slider !== message.slider)) {
+    option = message.selector;
+    slider = message.slider;
+    const posts = document.querySelectorAll('.processed-true');
+    posts.forEach((post) => {
+      const tweetText = post.querySelector(
+        `${selector} > div ~ div > div ~ div`,
+      ); // selecting text inside tweet
+      styleTweet(tweetText, option, slider);
+    });
+  }
+});
+
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
