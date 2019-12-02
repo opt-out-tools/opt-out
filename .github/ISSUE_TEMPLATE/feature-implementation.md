@@ -1,6 +1,6 @@
 ---
 name: Feature Implementation
-about: Details of the work to be completed.
+about: Details of the task to be completed.
 title: ''
 labels: ''
 assignees: ''
