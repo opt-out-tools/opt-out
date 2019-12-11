@@ -10,7 +10,8 @@
     "webRequestBlocking",
     "activeTab",
     "storage",
-    "https://api.optoutools.com/predict"
+    "https://api.optoutools.com/predict",
+    "https://api.optoutools.com/mislabeled_tweet"
   ],
   "applications": {
     "gecko": {

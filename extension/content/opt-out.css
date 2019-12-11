@@ -15,3 +15,25 @@
 .opt-out-trem {
     display: none;
 }
+
+.report-button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.report-button {
+    width: 180px;
+    height: 40px;
+    padding-left: 37px;
+    border-radius: 5px;
+}
+
+.report-button_is {
+    background: 5px center no-repeat url(../popup/assets/angry.svg);
+    background-size: auto 80%;
+}
+
+.report-button_isnt {
+    background: 5px center no-repeat url(../popup/assets/happy.svg);
+    background-size: auto 80%;
+}

@@ -52,14 +52,41 @@ const styleTweet = (element, selectedOption, sliderValue) => {
 };
 
 /**
+ * @description Should inject check Buttons to post
+ * @param node
+ */
+const injectReportMisogynisticButtons = (node) => {
+  node.style.border = '4px solid red';  // Marker - demonstration purpose only
+  node.style.borderBottom = "none"; // Marker - demonstration purpose only
+  let buttons = document.createElement("div");
+  buttons.classList.add('report-button-container');
+  buttons.style.border = '4px solid red'; // Marker - demonstration purpose only
+  buttons.style.borderTop = "none"; // Marker - demonstration purpose only
+  let button1 = document.createElement("button");
+  button1.appendChild(document.createTextNode('Is misogynistic'));
+  button1.classList.add('report-button', 'report-button_is');
+  let button2 = document.createElement("button");
+  button2.appendChild(document.createTextNode('Isn\'t misogynistic'));
+  button2.classList.add('report-button', 'report-button_isnt');
+  buttons.appendChild(button1);
+  buttons.appendChild(button2);
+  node.parentNode.insertBefore(buttons, node.nextSibling);
+};
+
+
+/**
  * @description function which calls server for given node, and depending on the response,
  * applies pre-defined action
  * @param node
  */
 const checkText = (node) => {
-  console.log('Sending Request');
+  node.classList.add('processing');
+  console.log("Sending Request");
   const link = 'https://api.optoutools.com/predict';
   const xhr = new XMLHttpRequest();
+  const tweetTextNode = node.querySelector(
+    `${selector} > div ~ div > div ~ div`,
+  );
   xhr.open('POST', link, true);
   xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
   xhr.withCredentials = true;
@@ -74,24 +101,52 @@ const checkText = (node) => {
       );
       if (JSON.parse(xhr.response).predictions[0]) {
         node.classList.add('processed-true');
-        const tweetText = node.querySelector(
-          `${selector} > div ~ div > div ~ div`,
-        );
-        styleTweet(tweetText, option, slider);
+        styleTweet(tweetTextNode, option, slider);
       } else {
         node.classList.add('processed-false');
       }
+      injectReportMisogynisticButtons(tweetTextNode);
     } else {
-      console.error(e);
+      // console.error(e);
       console.log('Failed response', xhr);
     }
   };
   xhr.send(
     JSON.stringify({
-      texts: [node.innerText],
+      texts: [tweetTextNode.innerText],
     }),
   );
 };
+
+/**
+ * @description function which sends tweet text to
+ * @param tweetText
+ * @param is_misogynistic
+ */
+const reportMisogyny = (tweetText, is_misogynistic) => {
+  const link = 'https://api.optoutools.com/mislabeled_tweet';
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', link, true);
+  xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+  xhr.withCredentials = true;
+  xhr.onreadystatechange = (e) => {
+    if (xhr.readyState !== 4) {
+      return;
+    }
+    if (xhr.status === 200) {
+      // What to do when tweet is reported, disable buttons? replace with message?
+    } else {
+      console.log('Failed response', xhr);
+    }
+  };
+  xhr.send(
+    JSON.stringify({
+      "text": tweetText,
+      "model_version":  is_misogynistic
+    }),
+  );
+};
+
 /**
  * @description get every tweet and process unprocessed ones.
  */
@@ -100,6 +155,7 @@ const processTweets = () => {
   posts.forEach((post) => {
     if (post.classList.contains('processed-true')) return;
     if (post.classList.contains('processed-false')) return;
+    if (post.classList.contains('processing')) return;
     checkText(post);
   });
 };
@@ -138,5 +194,16 @@ browser.runtime.onMessage.addListener((message) => {
     });
   }
 });
+
+/**
+ * Adds listener which listens for click from 'report_button' and triggers corresponding action
+ */
+document.addEventListener('click', function (event) {
+  if (!event.target.matches('.report-button')) return;
+  event.preventDefault();
+  const tweetText = event.target.parentNode.previousSibling.innerText;
+  let is_misogynistic= (event.target.matches('.report-button_is'))? 1 : 0;
+  reportMisogyny(tweetText, is_misogynistic);
+}, false);
 
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
