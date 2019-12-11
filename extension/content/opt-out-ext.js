@@ -57,9 +57,13 @@ const styleTweet = (element, selectedOption, sliderValue) => {
  * @param node
  */
 const checkText = (node) => {
+  node.classList.add('processing');
   console.log('Sending Request');
   const link = 'https://api.optoutools.com/predict';
   const xhr = new XMLHttpRequest();
+  const tweetTextNode = node.querySelector(
+    `${selector} > div ~ div > div ~ div`,
+  );console.log(tweetTextNode.parentNode.parentNode.parentNode.parentNode);
   xhr.open('POST', link, true);
   xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
   xhr.withCredentials = true;
@@ -72,12 +76,9 @@ const checkText = (node) => {
         'Response received as ',
         JSON.parse(xhr.response).predictions[0],
       );
-      if (JSON.parse(xhr.response).predictions[0]) {
+      if (true /* JSON.parse(xhr.response).predictions[0] */) {
         node.classList.add('processed-true');
-        const tweetText = node.querySelector(
-          `${selector} > div ~ div > div ~ div`,
-        );
-        styleTweet(tweetText, option, slider);
+        styleTweet(tweetTextNode, option, slider);
       } else {
         node.classList.add('processed-false');
       }
@@ -88,7 +89,7 @@ const checkText = (node) => {
   };
   xhr.send(
     JSON.stringify({
-      texts: [node.innerText],
+      texts: [tweetTextNode.innerText],
     }),
   );
 };
@@ -100,6 +101,7 @@ const processTweets = () => {
   posts.forEach((post) => {
     if (post.classList.contains('processed-true')) return;
     if (post.classList.contains('processed-false')) return;
+    if (post.classList.contains('processing')) return;
     checkText(post);
   });
 };
