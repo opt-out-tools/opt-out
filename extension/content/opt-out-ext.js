@@ -49,6 +49,7 @@ const styleTweet = (element, selectedOption, sliderValue) => {
         break;
     }
   }
+  element.nextElementSibling.style.display = (sliderValue === '1') ? "flex" : "none";
 };
 
 /**
@@ -56,12 +57,8 @@ const styleTweet = (element, selectedOption, sliderValue) => {
  * @param node
  */
 const injectReportMisogynisticButtons = (node) => {
-  node.style.border = '4px solid red';  // Marker - demonstration purpose only
-  node.style.borderBottom = "none"; // Marker - demonstration purpose only
   let buttons = document.createElement("div");
   buttons.classList.add('report-button-container');
-  buttons.style.border = '4px solid red'; // Marker - demonstration purpose only
-  buttons.style.borderTop = "none"; // Marker - demonstration purpose only
   let button1 = document.createElement("button");
   button1.appendChild(document.createTextNode('Is misogynistic'));
   button1.classList.add('report-button', 'report-button_is');
@@ -99,13 +96,13 @@ const checkText = (node) => {
         'Response received as ',
         JSON.parse(xhr.response).predictions[0],
       );
-      if (JSON.parse(xhr.response).predictions[0]) {
+      injectReportMisogynisticButtons(tweetTextNode);
+      if (true /* JSON.parse(xhr.response).predictions[0] */) {
         node.classList.add('processed-true');
         styleTweet(tweetTextNode, option, slider);
       } else {
         node.classList.add('processed-false');
       }
-      injectReportMisogynisticButtons(tweetTextNode);
     } else {
       // console.error(e);
       console.log('Failed response', xhr);
@@ -120,10 +117,16 @@ const checkText = (node) => {
 
 /**
  * @description function which sends tweet text to
- * @param tweetText
+ * @param tweetNode
  * @param is_misogynistic
  */
-const reportMisogyny = (tweetText, is_misogynistic) => {
+const reportMisogyny = (tweetNode, is_misogynistic) => {
+  const tweetText = tweetNode.querySelector(
+    `${selector} > div ~ div > div ~ div`,
+  ).innerText;
+  const tweetId = tweetNode.querySelector(
+    `${selector} > div ~ div > div > div > a`,
+  ).href.split('/').filter(e => e).slice(-1)[0];
   const link = 'https://api.optoutools.com/mislabeled_tweet';
   const xhr = new XMLHttpRequest();
   xhr.open('POST', link, true);
@@ -142,6 +145,7 @@ const reportMisogyny = (tweetText, is_misogynistic) => {
   xhr.send(
     JSON.stringify({
       "text": tweetText,
+      "id": tweetId,
       "model_version":  is_misogynistic
     }),
   );
@@ -201,9 +205,9 @@ browser.runtime.onMessage.addListener((message) => {
 document.addEventListener('click', function (event) {
   if (!event.target.matches('.report-button')) return;
   event.preventDefault();
-  const tweetText = event.target.parentNode.previousSibling.innerText;
+  const tweetNode = event.target.parentNode.parentNode.parentNode;
   let is_misogynistic= (event.target.matches('.report-button_is'))? 1 : 0;
-  reportMisogyny(tweetText, is_misogynistic);
+  reportMisogyny(tweetNode, is_misogynistic);
 }, false);
 
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
