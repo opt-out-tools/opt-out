@@ -62,8 +62,8 @@ const checkText = (node) => {
   const link = 'https://api.optoutools.com/predict';
   const xhr = new XMLHttpRequest();
   const tweetTextNode = node.querySelector(
-    `${selector} > div ~ div > div ~ div`,
-  );console.log(tweetTextNode.parentNode.parentNode.parentNode.parentNode);
+    `${selector} > div ~ div > div ~ div`
+  ); console.log(tweetTextNode.parentNode.parentNode.parentNode.parentNode);
   xhr.open('POST', link, true);
   xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
   xhr.withCredentials = true;
@@ -74,9 +74,9 @@ const checkText = (node) => {
     if (xhr.status === 200) {
       console.log(
         'Response received as ',
-        JSON.parse(xhr.response).predictions[0],
+        JSON.parse(xhr.response).predictions[0]
       );
-      if (true /* JSON.parse(xhr.response).predictions[0] */) {
+      if (JSON.parse(xhr.response).predictions[0]) {
         node.classList.add('processed-true');
         styleTweet(tweetTextNode, option, slider);
       } else {
@@ -89,8 +89,8 @@ const checkText = (node) => {
   };
   xhr.send(
     JSON.stringify({
-      texts: [tweetTextNode.innerText],
-    }),
+      texts: [tweetTextNode.innerText]
+    })
   );
 };
 /**
@@ -118,7 +118,6 @@ const checkTweetList = (mutationsList) => {
   });
 };
 
-
 const checkTweetListObserver = new MutationObserver(checkTweetList);
 
 // MAIN FUNCTION
@@ -134,7 +133,7 @@ browser.runtime.onMessage.addListener((message) => {
     const posts = document.querySelectorAll('.processed-true');
     posts.forEach((post) => {
       const tweetText = post.querySelector(
-        `${selector} > div ~ div > div ~ div`,
+        `${selector} > div ~ div > div ~ div`
       ); // selecting text inside tweet
       styleTweet(tweetText, option, slider);
     });
