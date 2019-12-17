@@ -7,12 +7,12 @@ import updateSliderKnob from './functions/updateSliderKnob.js';
  * script
  * @param tabs
  */
-function setChecks(tabs) {
+function setChecks (tabs) {
   const slider = document.getElementById('slider');
   const optionValue = document.querySelector('input[name="text_options"]:checked').value || 'tc';
   const popupSettings = {
     slider: slider.value,
-    selector: optionValue,
+    selector: optionValue
   };
 
   updateSliderKnob(slider);
@@ -31,7 +31,7 @@ document.addEventListener('input', () => {
     .query({
       active: true,
       url: 'https://twitter.com/*',
-      currentWindow: true,
+      currentWindow: true
     })
     .then(setChecks, onError);
 });
