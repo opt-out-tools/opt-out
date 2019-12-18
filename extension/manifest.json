@@ -10,7 +10,8 @@
     "webRequestBlocking",
     "activeTab",
     "storage",
-    "https://api.optoutools.com/predict"
+    "https://api.optoutools.com/predict",
+    "https://api.optoutools.com/mislabeled_tweet"
   ],
   "applications": {
     "gecko": {
@@ -20,7 +21,7 @@
   "browser_action": {
     "default_icon": "icons/icon-48.png",
     "default_title": "Opt-Out-Ext",
-    "default_popup": "popup/set_view_mod.html"
+    "default_popup": "popup/popup.html"
   },
   "icons": {
     "48": "icons/icon-48.png",
