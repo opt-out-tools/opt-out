@@ -206,6 +206,10 @@ document.addEventListener('click', function (event) {
   const tweetNode = event.target.parentNode.parentNode.parentNode;
   const isMisogynistic = (event.target.matches('.report-button_is')) ? 1 : 0;
   reportMisogyny(tweetNode, isMisogynistic);
+  for (const button of event.target.parentNode.children) {
+    button.style.cursor = 'not-allowed';
+    button.disabled = true;
+  }
 }, false);
 
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
