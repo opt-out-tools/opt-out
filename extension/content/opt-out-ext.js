@@ -36,7 +36,7 @@ const onError = (error) => {
  */
 const styleTweet = (element, selectedOption, sliderValue) => {
   element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
-  if (sliderValue === '1') {
+  if (parseFloat(element.dataset.prediction) <= parseFloat(sliderValue)) {
     switch (selectedOption) {
       case 'text_white':
         element.classList.add('opt-out-tw');
@@ -72,12 +72,12 @@ const checkText = (node) => {
       return;
     }
     if (xhr.status === 200) {
+      const prediction = Number(JSON.parse(xhr.response).predictions[0]);
       console.log(
-        'Response received as ',
-        JSON.parse(xhr.response).predictions[0]
-      );
-      if (JSON.parse(xhr.response).predictions[0]) {
+        'Response received as ', prediction);
+      if (prediction) {
         node.classList.add('processed-true');
+        tweetTextNode.setAttribute('data-prediction', prediction.toString());
         styleTweet(tweetTextNode, option, slider);
       } else {
         node.classList.add('processed-false');
@@ -134,7 +134,7 @@ browser.runtime.onMessage.addListener((message) => {
     posts.forEach((post) => {
       const tweetText = post.querySelector(
         `${selector} > div ~ div > div ~ div`
-      ); // selecting text inside tweet
+      );
       styleTweet(tweetText, option, slider);
     });
   }
