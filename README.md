@@ -20,7 +20,7 @@ To run the prototype:
 1. Clone a local copy of the master branch of this repo
 2. `npm run start:firefox`
 
-This command will open a new firefox window which has the extension installed. After changing the code, simply press `r` in the terminal where web-ext is running to reload the firefox browser with the updated extension.
+This command will open a new firefox window which has the extension installed. The module hot-refreshes the browser when there is a change in the source code. To force an update in the browser, simply press `r` in the terminal where web-ext is running.
 
 Currently only firefox is configured. 
 
