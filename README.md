@@ -11,17 +11,18 @@ The General Data Protection Regulation (GDPR) has changed our lives online on so
 
 To learn more about this problem and explore the steps Opt Out is taking to combat it, see the [Opt Out Wiki](https://github.com/malteserteresa/opt-out/wiki/The-Problem).
 
-The project is still in its infancy. Please see 'Project Development' below for the current status.
+The project is still in its infancy. Please see 'Project Development' below for the curren status.
 
 ## Test / Deploy
+Running the prototype is done with [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext), from mozilla. It streamlines the development, build process, and deployment of web extensions.
 
-To test the current prototype:
+To run the prototype:
 1. Clone a local copy of the master branch of this repo
-2. Start Mozilla Firefox
-3. Set the url to `about:debugging#/runtime/this-firefox` and hit enter
-4. In the `Load Teporary Add-ons` box, open and load `manifest.json` which can be found in the `extensions` folder of this repo you cloned locally
-5. Open Twitter and test!
-6. If you make changes to the code you would like to test, make sure you click "reload" (left of the "remove" button) to apply new changes to script
+2. `npm run start:firefox`
+
+This command will open a new firefox window which has the extension installed. After changing the code, simply press `r` in the terminal where web-ext is running to reload the firefox browser with the updated extension.
+
+Currently only firefox is configured. 
 
 ## Project Development
 
