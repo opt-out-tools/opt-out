@@ -59,6 +59,7 @@ const styleTweet = (element, selectedOption, sliderValue) => {
 const checkText = (node) => {
   node.classList.add('processing');
   console.log('Sending Request');
+  const link = 'https://api.optoutools.com/predict';
   const xhr = new XMLHttpRequest();
   const tweetTextNode = node.querySelector(
     `${selector} > div ~ div > div ~ div`
