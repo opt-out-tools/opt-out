@@ -20,17 +20,31 @@ To run the prototype:
 1. Clone a local copy of the master branch of this repo
 2. `npm run start:firefox`
 
+The module hot-refreshes the browser when there is a change in the source code. To force an update in the browser, simply press `r` in the terminal where web-ext is running.
+
+<details>
+<summary>Show instructions to run dev environment without web-ext</summary>
+
+1. Clone a local copy of the master branch of this repo
+2. Start Mozilla Firefox
+3. Set the url to `about:debugging#/runtime/this-firefox` and hit enter
+4. In the `Load Teporary Add-ons` box, open and load `manifest.json` which can be found in the `extensions` folder of this repo you cloned locally
+5. Open Twitter and test!
+6. If you make changes to the code you would like to test, make sure you click "reload" (left of the "remove" button) to apply new changes to script
+</details>
+
 This command will open a new firefox window which has the extension installed. However the default settings will not persist any login data, and you will need to sign in to twitter each time you stop running the command. 
 
 To persist your twitter login data after stopping the process, follow these instructions:
 * Create a new profile on firefox (at `about:profiles`)
 * Open an instance of firefox as this profile
-  - `firefox -p your_profile_name`
+  - `firefox --new-instance -p your_profile_name`
 * Sign in to twitter in the browser that opens, you can then close the browser
 * Run the development environment start command with a flag to point to this profile.
   - `npm run start:firefox -- -p=your_profile_name`
 
-The module hot-refreshes the browser when there is a change in the source code. To force an update in the browser, simply press `r` in the terminal where web-ext is running.
+**Important** Make sure that you do not choose a 'default' profile, such as the profile you use for your personal browsing. Here's why
+> This option makes the profile specified by --firefox-profile completely insecure for daily use. It turns off auto-updates and allows silent remote connections, among other things. Specifically, it will make destructive changes to the profile that are required for web-ext to operate.
 
 ## Project Development
 
