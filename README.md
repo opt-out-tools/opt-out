@@ -11,7 +11,7 @@ The General Data Protection Regulation (GDPR) has changed our lives online on so
 
 To learn more about this problem and explore the steps Opt Out is taking to combat it, see the [Opt Out Wiki](https://github.com/malteserteresa/opt-out/wiki/The-Problem).
 
-The project is still in its infancy. Please see 'Project Development' below for the curren status.
+The project is still in its infancy. Please see 'Project Development' below for the current status.
 
 ## Test / Deploy
 Running the prototype is done with [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext), from mozilla. It streamlines the development, build process, and deployment of web extensions.
@@ -20,9 +20,17 @@ To run the prototype:
 1. Clone a local copy of the master branch of this repo
 2. `npm run start:firefox`
 
-This command will open a new firefox window which has the extension installed. The module hot-refreshes the browser when there is a change in the source code. To force an update in the browser, simply press `r` in the terminal where web-ext is running.
+This command will open a new firefox window which has the extension installed. However the default settings will not persist any login data, and you will need to sign in to twitter each time you stop running the command. 
 
-Currently only firefox is configured. 
+To persist your twitter login data after stopping the process, follow these instructions:
+* Create a new profile on firefox (at `about:profiles`)
+* Open an instance of firefox as this profile
+  - `firefox -p your_profile_name`
+* Sign in to twitter in the browser that opens, you can then close the browser
+* Run the development environment start command with a flag to point to this profile.
+  - `npm run start:firefox -- -p=your_profile_name`
+
+The module hot-refreshes the browser when there is a change in the source code. To force an update in the browser, simply press `r` in the terminal where web-ext is running.
 
 ## Project Development
 
