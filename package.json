@@ -4,7 +4,8 @@
   "description": "like adBlocker, but removes misogyny instead of adverts.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint --fix .",
     "git:initHook": "scripts/addPreCommitHook.sh"
   },

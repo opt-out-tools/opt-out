@@ -127,6 +127,7 @@ browser.storage.sync.get('optOut').then(updateOption, onError);
  * Adds listener which on new message received from popup goes over tweets and applies new style
  */
 browser.runtime.onMessage.addListener((message) => {
+  console.log(message);
   if ((option !== message.selector) || (slider !== message.slider)) {
     option = message.selector;
     slider = message.slider;

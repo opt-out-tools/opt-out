@@ -9,14 +9,23 @@ describe('opt-out-ext.js', () => {
   beforeAll(() => {
     // Import file, loading listeners in to browser
     require('../opt-out-ext');
+
+    // Create page
+    document.body.innerHtml = `
+      <div data-testid="tweet">
+        <h1>Oh ya!</h1>
+      </div>
+    `;
   });
   describe('browser.runtime.onMessage.addListener event listener', () => {
-    it('styles a tweet that has the class .processed-true', () => {
-      document.body.innerHtml = `
-        <div data-testid="tweet">
-          <h1>Oh ya!</h1>
-        </div>
-      `;
+    describe('when message created from popup', () => {
+      it('when new text format option configured, applies the correct class to tweets', () => {
+        // Send message
+        browser.runtime.sendMessage({
+          selector: 'text_removed',
+          slider: '1'
+        });
+      });
     });
   });
 });
