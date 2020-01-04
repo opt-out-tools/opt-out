@@ -5,6 +5,8 @@ const bodyColor = window.getComputedStyle(document.body, null).getPropertyValue(
 document.documentElement.style
   .setProperty('--color', bodyColor);
 
+console.log('loaded');
+
 const root = document.getElementById('doc') || document.getElementById('react-root');
 
 if (document.querySelector('body').classList.contains('logged-out')) {
