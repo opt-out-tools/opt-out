@@ -23,26 +23,116 @@ h2 {
     margin-bottom: 24px;
 }
 
+*:focus {
+    outline: unset;
+    box-shadow: none;
+}
+
+input[type='range']::-moz-focus-outer {
+    border: 0;
+}
+
+/* Special styling for input knob for the Firefox */
 #slider::-moz-range-thumb {
     width: 50px;
     height: 50px;
     cursor: pointer;
     border: none;
-    background: url('happy.svg');
-
-}
-
-#slider.slider-angry::-moz-range-thumb {
     background: url('angry.svg');
 }
 
+#slider.slider-happy::-moz-range-thumb {
+    background: url('happy.svg');
+}
+
+#slider.slider-09::-moz-range-thumb {
+    background: url('1f60a.svg');
+}
+
+#slider.slider-08::-moz-range-thumb {
+    background: url('1f642.svg');
+}
+
+#slider.slider-07::-moz-range-thumb {
+    background: url('1f914.svg');
+}
+
+#slider.slider-06::-moz-range-thumb {
+    background: url('1f620.svg');
+}
+
+#slider.slider-05::-moz-range-thumb {
+    background: url('1f621.svg');
+}
+
+#slider.slider-happy::-moz-range-thumb {
+    background: url('happy.svg');
+}
+
+/* All the same stuff for WebKit/Blink */
 #slider::-webkit-slider-thumb {
     width: 50px;
     height: 50px;
     cursor: pointer;
     border: none;
     background: url('happy.svg');
+}
 
+#slider.slider-happy::-webkit-slider-thumb {
+    background: url('angry.svg');
+}
+
+#slider.slider-09::-webkit-slider-thumb {
+    background: url('1f60a.svg');
+}
+
+#slider.slider-08::-webkit-slider-thumb {
+    background: url('1f642.svg');
+}
+
+#slider.slider-07::-webkit-slider-thumb {
+    background: url('1f914.svg');
+}
+
+#slider.slider-06::-webkit-slider-thumb {
+    background: url('1f620.svg');
+}
+
+#slider.slider-05::-webkit-slider-thumb {
+    background: url('1f621.svg');
+}
+
+/* All the same stuff for IE */
+#slider::-ms-thumb {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border: none;
+    background: url('angry.svg');
+}
+
+#slider.slider-happy::-ms-thumb {
+    background: url('happy.svg');
+}
+
+#slider.slider-09::-ms-thumb {
+    background: url('1f60a.svg');
+}
+
+#slider.slider-08::-ms-thumb {
+    background: url('1f642.svg');
+}
+
+#slider.slider-07::-ms-thumb {
+    background: url('1f914.svg');
+}
+
+#slider.slider-06::-ms-thumb {
+    background: url('1f620.svg');
+}
+
+#slider.slider-05::-ms-thumb {
+    background: url('1f621.svg');
 }
 
 label {
