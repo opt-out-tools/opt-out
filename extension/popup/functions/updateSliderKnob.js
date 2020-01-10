@@ -4,7 +4,6 @@
  * @param slider
  */
 export default function (slider) {
-  // (parseFloat(slider.value) >= 0.5) ? slider.classList.remove('slider-angry') : slider.classList.add('slider-angry');
   slider.classList.remove(...slider.classList);
   switch (true) {
     case (parseFloat(slider.value) >= 1) :
