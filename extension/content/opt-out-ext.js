@@ -1,17 +1,9 @@
 let selector;
 let option = 'text_crossed';
 let slider = '1';
-
-function updateOption(result) {
-  option = result.optOut.selector;
-  slider = result.optOut.slider;
-}
-
-function onError(error) {
-  console.log(`Error: ${error}`);
-}
-browser.storage.sync.get('optOut').then(updateOption, onError);
-
+const bodyColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color');
+document.documentElement.style
+  .setProperty('--color', bodyColor);
 
 const root = document.getElementById('doc') || document.getElementById('react-root');
 
@@ -22,87 +14,160 @@ if (document.querySelector('body').classList.contains('logged-out')) {
   console.log('online');
   selector = '[data-testid="tweet"]';
 }
-
-/*
-Depending on `option` sets classes to tweet nodes
+/**
+ * @description Updates `option` and `slider` depending on the given result
+ * @param result
  */
-const styleTweet = function (element, selectedOption, sliderValue) {
-  if ((selectedOption === 'text_white') && (sliderValue === '1')) element.classList.add('opt-out-tw');
-  else element.classList.remove('opt-out-tw');
-  if ((selectedOption === 'text_crossed') && (sliderValue === '1')) element.classList.add('opt-out-tc');
-  else element.classList.remove('opt-out-tc');
-  if ((selectedOption === 'text_removed') && (sliderValue === '1')) element.classList.add('opt-out-trem');
-  else element.classList.remove('opt-out-trem');
+const updateOption = (result) => {
+  option = result.optOut.selector;
+  slider = result.optOut.slider;
 };
 
-/*
-function which calls server for given node, and depending on the response,
-applies pre-defined action
+/**
+ * @description Function handles errors.
+ * @param error
  */
-const checkText = function (node) {
+const onError = (error) => {
+  console.error(`Error: ${error}`);
+};
+
+/**
+ * @description Depending on `option` sets classes to tweet nodes
+ */
+const styleTweet = (element, selectedOption, sliderValue) => {
+  element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
+  if (sliderValue === '1') {
+    switch (selectedOption) {
+      case 'text_white':
+        element.classList.add('opt-out-tw');
+        break;
+      case 'text_crossed':
+        element.classList.add('opt-out-tc');
+        break;
+      case 'text_removed':
+        element.classList.add('opt-out-trem');
+        break;
+    }
+  }
+  element.nextElementSibling.style.display = (sliderValue === '1') ? 'flex' : 'none';
+};
+
+/**
+ * @description Should inject check Buttons to post
+ * @param node
+ */
+const injectReportMisogynisticButtons = (node) => {
+  const buttons = document.createElement('div');
+  buttons.classList.add('report-button-container');
+  const button1 = document.createElement('button');
+  button1.appendChild(document.createTextNode('Is misogynistic'));
+  button1.classList.add('report-button', 'report-button_is');
+  const button2 = document.createElement('button');
+  button2.appendChild(document.createTextNode('Isn\'t misogynistic'));
+  button2.classList.add('report-button', 'report-button_isnt');
+  buttons.appendChild(button1);
+  buttons.appendChild(button2);
+  node.parentNode.insertBefore(buttons, node.nextSibling);
+};
+
+/**
+ * @description function which calls server for given node, and depending on the response,
+ * applies pre-defined action
+ * @param node
+ */
+const checkText = (node) => {
+  node.classList.add('processing');
   console.log('Sending Request');
   const link = 'https://api.optoutools.com/predict';
   const xhr = new XMLHttpRequest();
+  const tweetTextNode = node.querySelector(
+    `${selector} > div ~ div > div ~ div`
+  );
   xhr.open('POST', link, true);
   xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
   xhr.withCredentials = true;
-  xhr.onreadystatechange = function (e) {
+  xhr.onreadystatechange = (e) => {
     if (xhr.readyState !== 4) {
       return;
     }
     if (xhr.status === 200) {
       console.log(
         'Response received as ',
-        JSON.parse(xhr.response).predictions[0],
+        JSON.parse(xhr.response).predictions[0]
       );
+      injectReportMisogynisticButtons(tweetTextNode);
       if (JSON.parse(xhr.response).predictions[0]) {
         node.classList.add('processed-true');
-        const tweetText = node.querySelector(
-          `${selector} > div ~ div > div ~ div`,
-        );
-        styleTweet(tweetText, option, slider);
+        styleTweet(tweetTextNode, option, slider);
       } else {
         node.classList.add('processed-false');
       }
     } else {
-      console.error(e);
+      // console.error(e);
       console.log('Failed response', xhr);
     }
   };
   xhr.send(
     JSON.stringify({
-      texts: [node.innerText],
-    }),
+      texts: [tweetTextNode.innerText]
+    })
   );
 };
 
-/*
- * Predefines action and changes it depending on user action
+/**
+ * @description function which sends tweet text to
+ * @param tweetNode
+ * @param isMisogynistic
  */
-browser.runtime.onMessage.addListener((message) => {
-  if ((option !== message.selector) || (slider !== message.slider)) {
-    option = message.selector;
-    slider = message.slider;
-    const posts = document.querySelectorAll('.processed-true');
-    posts.forEach((post) => {
-      const tweetText = post.querySelector(
-        `${selector} > div ~ div > div ~ div`,
-      ); // selecting text inside tweet
-      styleTweet(tweetText, option, slider);
-    });
-  }
-});
+const reportMisogyny = (tweetNode, isMisogynistic) => {
+  const tweetText = tweetNode.querySelector(
+    `${selector} > div ~ div > div ~ div`
+  ).innerText;
+  const tweetId = tweetNode.querySelector(
+    `${selector} > div ~ div > div > div > a`
+  ).href.split('/').filter(e => e).slice(-1)[0];
+  const link = 'https://api.optoutools.com/mislabeled_tweet';
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', link, true);
+  xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+  xhr.withCredentials = true;
+  xhr.onreadystatechange = (e) => {
+    if (xhr.readyState !== 4) {
+      return;
+    }
+    if (xhr.status === 200) {
+      // What to do when tweet is reported, disable buttons? replace with message?
+    } else {
+      console.log('Failed response', xhr);
+    }
+  };
+  xhr.send(
+    JSON.stringify({
+      text: tweetText,
+      id: tweetId,
+      model_version: isMisogynistic
+    })
+  );
+};
 
-const processTweets = function () {
+/**
+ * @description get every tweet and process unprocessed ones.
+ */
+const processTweets = () => {
   const posts = document.querySelectorAll(selector); // selecting tweet object
   posts.forEach((post) => {
     if (post.classList.contains('processed-true')) return;
     if (post.classList.contains('processed-false')) return;
+    if (post.classList.contains('processing')) return;
     checkText(post);
   });
 };
 
-const checkTweetList = function (mutationsList) {
+/**
+ * @description for every change in DOM run processTweets
+ * @param mutationsList
+ */
+const checkTweetList = (mutationsList) => {
   mutationsList.forEach((mutation) => {
     if (mutation.type === 'childList') {
       processTweets();
@@ -111,4 +176,40 @@ const checkTweetList = function (mutationsList) {
 };
 
 const checkTweetListObserver = new MutationObserver(checkTweetList);
+
+// MAIN FUNCTION
+
+browser.storage.sync.get('optOut').then(updateOption, onError);
+/**
+ * Adds listener which on new message received from popup goes over tweets and applies new style
+ */
+browser.runtime.onMessage.addListener((message) => {
+  if ((option !== message.selector) || (slider !== message.slider)) {
+    option = message.selector;
+    slider = message.slider;
+    const posts = document.querySelectorAll('.processed-true');
+    posts.forEach((post) => {
+      const tweetText = post.querySelector(
+        `${selector} > div ~ div > div ~ div`
+      ); // selecting text inside tweet
+      styleTweet(tweetText, option, slider);
+    });
+  }
+});
+
+/**
+ * Adds listener which listens for click from 'report_button' and triggers corresponding action
+ */
+document.addEventListener('click', function (event) {
+  if (!event.target.matches('.report-button')) return;
+  event.preventDefault();
+  const tweetNode = event.target.parentNode.parentNode.parentNode;
+  const isMisogynistic = (event.target.matches('.report-button_is')) ? 1 : 0;
+  reportMisogyny(tweetNode, isMisogynistic);
+  for (const button of event.target.parentNode.children) {
+    button.style.cursor = 'not-allowed';
+    button.disabled = true;
+  }
+}, false);
+
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
