@@ -22,5 +22,6 @@ module.exports = {
       { from: './src/popup/assets', to: './popup/assets' },
       { from: './src/popup/popup.html', to: './popup/popup.html' }
     ])
-  ]
+  ],
+  devtool: 'inline-source-map'
 };
