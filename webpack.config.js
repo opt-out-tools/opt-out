@@ -19,7 +19,8 @@ module.exports = {
       { from: './src/README.md', to: './README.md' },
       { from: './src/icons', to: './icons' },
       { from: './src/content/opt-out.css', to: './content/opt-out.css' },
-      { from: './src/popup/assets', to: './popup/assets' }
+      { from: './src/popup/assets', to: './popup/assets' },
+      { from: './src/popup/popup.html', to: './popup/popup.html' }
     ])
   ]
 };
