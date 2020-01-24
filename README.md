@@ -24,11 +24,12 @@ The module hot-refreshes the browser when there is a change in the source code. 
 
 <details>
 <summary>Show instructions to run dev environment without web-ext</summary>
+This is becoming depricated as we move to a webpack build system. The `src` folder will stop working as the working extension directory and it will be required to build the `dist` folder to run the application.
 
 1. Clone a local copy of the master branch of this repo
 2. Start Mozilla Firefox
 3. Set the url to `about:debugging#/runtime/this-firefox` and hit enter
-4. In the `Load Teporary Add-ons` box, open and load `manifest.json` which can be found in the `extensions` folder of this repo you cloned locally
+4. In the `Load Teporary Add-ons` box, open and load `manifest.json` which can be found in the `src` folder of this repo you cloned locally
 5. Open Twitter and test!
 6. If you make changes to the code you would like to test, make sure you click "reload" (left of the "remove" button) to apply new changes to script
 </details>
@@ -67,6 +68,11 @@ npm run lint
 ```
 This will run eslint on all js files and try to fix all problems it finds.
 What can't be fixed automatically will be raised as error.
+
+### Building for production
+To build for production, simply run `npm run build:prod`.
+
+The project will be bundled by webpack in production mode, and `web-ext` will build that project in to a zip file, which can be uploaded to the Mozilla Add Ons site.
 
 ### Adding a local pre-commit hook
 

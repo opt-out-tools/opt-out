@@ -2,6 +2,7 @@
 
 # build
 dist/
+web-ext-artifacts/
 
 # dependencies
 node_modules/
