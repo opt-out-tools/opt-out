@@ -4,7 +4,10 @@
   "description": "like adBlocker, but removes misogyny instead of adverts.",
   "main": "index.js",
   "scripts": {
-    "start:firefox": "web-ext run --config=.web-ext-config.js",
+    "webpack:dev": "webpack --mode=development",
+    "webpack:prod": "webpack --mode=production",
+    "start:firefox": "concurrently 'npm run webpack:dev -- --watch' 'web-ext run --config=.web-ext-config.js'",
+    "build:prod": "npm run webpack:prod && web-ext build --config=.web-ext-config.js",
     "test": "jest --coverage",
     "lint": "eslint --fix .",
     "git:initHook": "scripts/addPreCommitHook.sh"
@@ -24,6 +27,9 @@
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
     "chromedriver": "^78.0.1",
+    "concurrently": "^5.0.2",
+    "const": "^1.0.0",
+    "copy-webpack-plugin": "^5.1.1",
     "eslint": "^6.7.2",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.19.1",
@@ -35,7 +41,9 @@
     "jest": "^24.9.0",
     "jest-webextension-mock": "^3.5.0",
     "selenium-webdriver": "^3.6.0",
-    "web-ext": "^4.0.0"
+    "web-ext": "^4.0.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   },
   "jest": {
     "setupFiles": [

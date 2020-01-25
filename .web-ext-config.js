@@ -1,6 +1,9 @@
 module.exports = {
-	sourceDir: 'extension',
+	sourceDir: 'dist',
 	run: {
 		keepProfileChanges: true,
+	},
+	build: {
+		overwriteDest: true,
 	}
 }
