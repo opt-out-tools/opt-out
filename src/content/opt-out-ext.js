@@ -1,143 +1,53 @@
-let selector;
-let option = 'text_crossed';
-let slider = '1';
+import styleTweet from './functions/styleTweet';
+import processTweets from './functions/processTweets';
+import onError from './functions/onError';
+import updateOption from './functions/updateOption';
+
 const bodyColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color');
-document.documentElement.style
-  .setProperty('--color', bodyColor);
-
 const root = document.getElementById('doc') || document.getElementById('react-root');
-
-if (document.querySelector('body').classList.contains('logged-out')) {
-  console.log('offline');
-  selector = '.tweet';
-} else {
-  console.log('online');
-  selector = '[data-testid="tweet"]';
-}
-/**
- * @description Updates `option` and `slider` depending on the given result
- * @param result
- */
-const updateOption = (result) => {
-  option = result.optOut.selector;
-  slider = result.optOut.slider;
-};
-
-/**
- * @description Function handles errors.
- * @param error
- */
-const onError = (error) => {
-  console.error(`Error: ${error}`);
-};
-
-/**
- * @description Depending on `option` sets classes to tweet nodes
- */
-const styleTweet = (element, selectedOption, sliderValue) => {
-  element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
-  if (parseFloat(element.dataset.prediction) <= parseFloat(sliderValue)) {
-    switch (selectedOption) {
-      case 'text_white':
-        element.classList.add('opt-out-tw');
-        break;
-      case 'text_crossed':
-        element.classList.add('opt-out-tc');
-        break;
-      case 'text_removed':
-        element.classList.add('opt-out-trem');
-        break;
-    }
-  }
-};
-
-/**
- * @description function which calls server for given node, and depending on the response,
- * applies pre-defined action
- * @param node
- */
-const checkText = (node) => {
-  node.classList.add('processing');
-  console.log('Sending Request');
-  const link = 'https://api.optoutools.com/predict';
-  const xhr = new XMLHttpRequest();
-  const tweetTextNode = node.querySelector(
-    `${selector} > div ~ div > div ~ div`
-  );
-  xhr.open('POST', link, true);
-  xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
-  xhr.withCredentials = true;
-  xhr.onreadystatechange = (e) => {
-    if (xhr.readyState !== 4) {
-      return;
-    }
-    if (xhr.status === 200) {
-      const prediction = Number(JSON.parse(xhr.response).predictions[0]);
-      console.log(
-        'Response received as ', prediction);
-      if (prediction) {
-        node.classList.add('processed-true');
-        tweetTextNode.setAttribute('data-prediction', prediction.toString());
-        styleTweet(tweetTextNode, option, slider);
-      } else {
-        node.classList.add('processed-false');
+const selector = (document.querySelector('body').classList.contains('logged-out')) ? '.tweet' : '[data-testid="tweet"]';
+const checkTweetListObserver = new MutationObserver(
+  (mutationsList) => {
+    mutationsList.forEach((mutation) => {
+      if (mutation.type === 'childList') {
+        processTweets(selector, popupPrefs); // TODO: add Mutation Record to be used instead of document.querySelectorAll(selector)
       }
-    } else {
-      console.error(e);
-      console.log('Failed response', xhr);
-    }
-  };
-  xhr.send(
-    JSON.stringify({
-      texts: [tweetTextNode.innerText]
-    })
-  );
-};
-/**
- * @description get every tweet and process unprocessed ones.
- */
-const processTweets = () => {
-  const posts = document.querySelectorAll(selector); // selecting tweet object
-  posts.forEach((post) => {
-    if (post.classList.contains('processed-true')) return;
-    if (post.classList.contains('processed-false')) return;
-    if (post.classList.contains('processing')) return;
-    checkText(post);
-  });
+    });
+  }
+);
+
+let popupPrefs = {
+  optionVal: 'text_crossed',
+  sliderVal: '1'
 };
 
 /**
- * @description for every change in DOM run processTweets
- * @param mutationsList
- */
-const checkTweetList = (mutationsList) => {
-  mutationsList.forEach((mutation) => {
-    if (mutation.type === 'childList') {
-      processTweets();
-    }
-  });
-};
+ * Setting preferences color to match twitter body color
+  */
+document.documentElement.style.setProperty('--color', bodyColor);
 
-const checkTweetListObserver = new MutationObserver(checkTweetList);
-
-// MAIN FUNCTION
-
-browser.storage.sync.get('optOut').then(updateOption, onError);
 /**
- * Adds listener which on new message received from popup goes over tweets and applies new style
+ * Syncing contentScript preferences if already predefined in storage
  */
-browser.runtime.onMessage.addListener((message) => {
-  if ((option !== message.selector) || (slider !== message.slider)) {
-    option = message.selector;
-    slider = message.slider;
+browser.storage.sync.get('optOut').then(result => { popupPrefs = updateOption(result, popupPrefs); }, onError);
+
+/**
+ * Adds listener which upon receiving new preferences from popup goes over processed tweets and changes applied class
+ */
+browser.runtime.onMessage.addListener((popupSettings) => {
+  if (popupPrefs !== popupSettings) {
+    popupPrefs = popupSettings;
     const posts = document.querySelectorAll('.processed-true');
     posts.forEach((post) => {
       const tweetText = post.querySelector(
         `${selector} > div ~ div > div ~ div`
       );
-      styleTweet(tweetText, option, slider);
+      styleTweet(tweetText, popupPrefs);
     });
   }
 });
 
+/**
+ * Starts observer which will process every new Tweet added to the DOM
+ */
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
