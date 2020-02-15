@@ -22,6 +22,19 @@ To run the prototype:
 
 The module hot-refreshes the browser when there is a change in the source code. To force an update in the browser, simply press `r` in the terminal where web-ext is running.
 
+**Debugging tips**
+Check out these debugging tips at the [Mozilla Extension Workshop](https://extensionworkshop.com/documentation/develop/debugging/)
+
+How to keep the popup window open
+1. In firefox, open `about:debugging`
+2. Go to 'This firefox'
+3. Click 'Inspect' next to Opt-Out
+4. The dev tools for the popup will open in a new tab
+5. **Click the three horizontal dots on the right side**
+6. Disable Popup Autohide.
+
+This will keep the popup open unless you press `Esc`, which makes it possible to debug the HTML of the Popup as if it were a static website.
+
 <details>
 <summary>Show instructions to run dev environment without web-ext</summary>
 This is becoming depricated as we move to a webpack build system. The `src` folder will stop working as the working extension directory and it will be required to build the `dist` folder to run the application.
