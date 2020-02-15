@@ -22,7 +22,9 @@ To run the prototype:
 
 The module hot-refreshes the browser when there is a change in the source code. To force an update in the browser, simply press `r` in the terminal where web-ext is running.
 
-**Debugging tip**
+**Debugging tips**
+Check out these debugging tips at the [Mozilla Extension Workshop](https://extensionworkshop.com/documentation/develop/debugging/)
+How to keep the popup window open
 1. In firefox, open `about:debugging`
 2. Go to 'This firefox'
 3. Click 'Inspect' next to Opt-Out
