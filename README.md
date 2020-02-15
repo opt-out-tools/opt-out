@@ -24,6 +24,7 @@ The module hot-refreshes the browser when there is a change in the source code. 
 
 **Debugging tips**
 Check out these debugging tips at the [Mozilla Extension Workshop](https://extensionworkshop.com/documentation/develop/debugging/)
+
 How to keep the popup window open
 1. In firefox, open `about:debugging`
 2. Go to 'This firefox'
