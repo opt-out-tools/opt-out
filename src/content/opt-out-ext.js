@@ -1,3 +1,5 @@
+import { OPT_OUT_API_URL } from './constants';
+
 let selector;
 let option = 'text_crossed';
 let slider = '1';
@@ -32,11 +34,23 @@ const onError = (error) => {
 };
 
 /**
- * @description Depending on `option` sets classes to tweet nodes
+ * @description Sets display classes to tweet nodes when the text has been predicted
+ * to be misogynist and when the options are set to block misogynist content.
  */
 const styleTweet = (element, selectedOption, sliderValue) => {
   element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
-  if (parseFloat(element.dataset.prediction) <= parseFloat(sliderValue)) {
+
+  const tweetPredictionValue = parseFloat(element.dataset.prediction);
+  const modifyTweetThreshold = parseFloat(sliderValue);
+
+  if (
+    // Tweet is predicted to be misogynist
+    tweetPredictionValue !== 0 &&
+    // Option to modify tweet is turned on
+    modifyTweetThreshold !== 0 &&
+    // Tweets prediction value is enough to modify
+    tweetPredictionValue >= modifyTweetThreshold
+  ) {
     switch (selectedOption) {
       case 'text_white':
         element.classList.add('opt-out-tw');
@@ -58,41 +72,58 @@ const styleTweet = (element, selectedOption, sliderValue) => {
  */
 const checkText = (node) => {
   node.classList.add('processing');
-  console.log('Sending Request');
-  const link = 'https://api.optoutools.com/predict';
-  const xhr = new XMLHttpRequest();
+
+  // Get text for req
   const tweetTextNode = node.querySelector(
     `${selector} > div ~ div > div ~ div`
   );
-  xhr.open('POST', link, true);
-  xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
-  xhr.withCredentials = true;
-  xhr.onreadystatechange = (e) => {
-    if (xhr.readyState !== 4) {
-      return;
-    }
-    if (xhr.status === 200) {
-      const prediction = Number(JSON.parse(xhr.response).predictions[0]);
-      console.log(
-        'Response received as ', prediction);
-      if (prediction) {
-        node.classList.add('processed-true');
-        tweetTextNode.setAttribute('data-prediction', prediction.toString());
-        styleTweet(tweetTextNode, option, slider);
+  const text = tweetTextNode.innerText;
+  const reqBody = { texts: [text] };
+
+  const reqHeaders = new Headers();
+  reqHeaders.set('Content-type', 'application/json;charset=UTF-8');
+
+  fetch(OPT_OUT_API_URL, {
+    method: 'POST',
+    headers: reqHeaders,
+    body: JSON.stringify(reqBody),
+    mode: 'cors'
+  })
+    .then(response => {
+      // If successful response
+      if (response.ok) {
+        // Parse body json
+        response.json().then(body => {
+          const predictions = body.predictions;
+          // If response contains prediction
+          if (predictions && predictions.length > 0) {
+            // Convert prediction state to int
+            const predictionInt = Number(predictions[0]);
+            // Add processing status and prediction to tweet node
+            node.classList.add('processed-true');
+            tweetTextNode.setAttribute(
+              'data-prediction',
+              predictionInt.toString()
+            );
+            styleTweet(tweetTextNode, option, slider);
+          } else {
+            // If no prediction
+            node.classList.add('processed-false');
+          }
+        });
       } else {
-        node.classList.add('processed-false');
+        console.log('Failed response: ', response);
       }
-    } else {
-      console.error(e);
-      console.log('Failed response', xhr);
-    }
-  };
-  xhr.send(
-    JSON.stringify({
-      texts: [tweetTextNode.innerText]
+      // Remove processing state from tweet
+      node.classList.remove('processing');
     })
-  );
+    .catch(err => {
+      // Remove processing state from tweet
+      node.classList.remove('processing');
+      console.log(err);
+    });
 };
+
 /**
  * @description get every tweet and process unprocessed ones.
  */
