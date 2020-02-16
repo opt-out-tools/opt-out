@@ -37,12 +37,18 @@ const onError = (error) => {
  * @description Depending on `option` sets classes to tweet nodes
  */
 const styleTweet = (element, selectedOption, sliderValue) => {
-  const tweetPredictionValue = parseFloat(element.dataset.prediction);
-  const hideThreshold = parseFloat(sliderValue);
   element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
+
+  const tweetPredictionValue = parseFloat(element.dataset.prediction);
+  const modifyTweetThreshold = parseFloat(sliderValue);
+
   if (
+    // Tweet is predicted to be misogynist
     tweetPredictionValue !== 0 &&
-    tweetPredictionValue <= hideThreshold
+    // Option to modify tweet is turned on
+    modifyTweetThreshold !== 0 &&
+    // Tweets prediction value is enough to modify
+    tweetPredictionValue >= modifyTweetThreshold
   ) {
     switch (selectedOption) {
       case 'text_white':
