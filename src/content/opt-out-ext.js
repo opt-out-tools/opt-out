@@ -34,7 +34,8 @@ const onError = (error) => {
 };
 
 /**
- * @description Depending on `option` sets classes to tweet nodes
+ * @description Sets display classes to tweet nodes when the text has been predicted
+ * to be misogynist and when the options are set to block misogynist content.
  */
 const styleTweet = (element, selectedOption, sliderValue) => {
   element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
