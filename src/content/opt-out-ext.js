@@ -6,6 +6,10 @@ import updateOption from './functions/updateOption';
 const bodyColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color');
 const root = document.getElementById('doc') || document.getElementById('react-root');
 const selector = (document.querySelector('body').classList.contains('logged-out')) ? '.tweet' : '[data-testid="tweet"]';
+let popupPrefs = {
+  optionVal: 'text_crossed',
+  sliderVal: '1'
+};
 const checkTweetListObserver = new MutationObserver(
   (mutationsList) => {
     mutationsList.forEach((mutation) => {
@@ -15,11 +19,6 @@ const checkTweetListObserver = new MutationObserver(
     });
   }
 );
-
-let popupPrefs = {
-  optionVal: 'text_crossed',
-  sliderVal: '1'
-};
 
 /**
  * Setting preferences color to match twitter body color
@@ -37,7 +36,7 @@ browser.storage.sync.get('optOut').then(result => { popupPrefs = updateOption(re
  */
 browser.runtime.onMessage.addListener((popupSettings) => {
   if (popupPrefs !== popupSettings) {
-    popupPrefs = popupSettings;
+    popupPrefs = updateOption(popupSettings, popupPrefs);
     const posts = document.querySelectorAll('.processed-true');
     posts.forEach((post) => {
       const tweetText = post.querySelector(

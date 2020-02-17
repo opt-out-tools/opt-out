@@ -4,8 +4,8 @@
  * @param popupPrefs
  * @return popupPrefs
  */
-export default function (result, popupPrefs) {
+export default (result, popupPrefs) => {
   popupPrefs.optionVal = result.optOut.selector;
   popupPrefs.sliderVal = result.optOut.slider;
   return popupPrefs;
-}
+};
