@@ -17,15 +17,15 @@ export default (node, selector, popupPrefs) => {
   );
   const text = tweetTextNode.innerText;
   const reqBody = { texts: [text] };
-
-  const reqHeaders = new Headers();
-  reqHeaders.set('Content-type', 'application/json;charset=UTF-8');
-
   fetch(OPT_OUT_API_URL, {
     method: 'POST',
-    headers: reqHeaders,
-    body: JSON.stringify(reqBody),
-    mode: 'cors'
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify(reqBody)
   })
     .then(response => {
       // If successful response
