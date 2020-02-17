@@ -33,6 +33,7 @@ browser.storage.sync.get('optOut').then(result => { popupPrefs = updateOption(re
 
 /**
  * Adds listener which upon receiving new preferences from popup goes over processed tweets and changes applied class
+ * TODO: optimization: instead of replacing class, modify style in css using variables or browser.tabs.insertCSS API
  */
 browser.runtime.onMessage.addListener((popupSettings) => {
   if (popupPrefs !== popupSettings) {
