@@ -2,10 +2,25 @@ import styleTweet from './functions/styleTweet';
 import processTweets from './functions/processTweets';
 import onError from './functions/onError';
 import updateOption from './functions/updateOption';
+import {
+  SELECTOR_ONLINE_ROOT,
+  SELECTOR_OFFLINE_ROOT,
+  SELECTOR_ONLINE_TWEET,
+  SELECTOR_OFFLINE_TWEET
+} from './constants';
 
+/**
+ * @description Setting up constants for further use
+ * @type {string}
+ */
 const bodyColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color');
-const root = document.getElementById('root') || document.getElementById('react-root');
-const selector = (document.querySelector('body').classList.contains('logged-out')) ? '.tweet' : '[data-testid="tweet"]';
+const root = document.getElementById(SELECTOR_OFFLINE_ROOT) || document.getElementById(SELECTOR_ONLINE_ROOT);
+const tweetSelector = (document.querySelector('body').classList.contains('logged-out')) ? SELECTOR_OFFLINE_TWEET : SELECTOR_ONLINE_TWEET;
+
+/**
+ * @description Defining default values for user preferences
+ * @type {{optionVal: string, sliderVal: string}}
+ */
 let popupPrefs = {
   optionVal: 'text_crossed',
   sliderVal: '1'
@@ -21,7 +36,7 @@ const checkTweetListObserver = new MutationObserver(
     mutationsList.forEach((mutation) => {
       if (mutation.type === 'childList') {
         if (mutation.addedNodes.length > 0) {
-          processTweets(selector, popupPrefs);
+          processTweets(tweetSelector, popupPrefs);
         }
       }
     });
@@ -44,6 +59,7 @@ const checkTweetListCreation = new MutationObserver(
     });
   }
 );
+
 /**
  * Setting preferences color to match twitter body color
  */
@@ -64,7 +80,7 @@ browser.runtime.onMessage.addListener((popupSettings) => {
     const posts = document.querySelectorAll('.processed-true');
     posts.forEach((post) => {
       const tweetText = post.querySelector(
-        `${selector} > div ~ div > div ~ div`
+        `${tweetSelector} > div ~ div > div ~ div`
       );
       styleTweet(tweetText, popupPrefs);
     });
@@ -72,6 +88,6 @@ browser.runtime.onMessage.addListener((popupSettings) => {
 });
 
 /**
- * Starts observer which will process every new Tweet added to the DOM
+ * Starts observer which will trigger styling observers for addition of tweets to TweetList
  */
 checkTweetListCreation.observe(root, { childList: true, subtree: true });
