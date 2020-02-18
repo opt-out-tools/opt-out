@@ -4,25 +4,49 @@ import onError from './functions/onError';
 import updateOption from './functions/updateOption';
 
 const bodyColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color');
-const root = document.getElementById('doc') || document.getElementById('react-root');
+const root = document.getElementById('root') || document.getElementById('react-root');
 const selector = (document.querySelector('body').classList.contains('logged-out')) ? '.tweet' : '[data-testid="tweet"]';
 let popupPrefs = {
   optionVal: 'text_crossed',
   sliderVal: '1'
 };
+
+/**
+ * @description Observer which watches tweetList Node for addition of new Tweet Nodes, and process
+ * them as they are added
+ * @type {MutationObserver}
+ */
 const checkTweetListObserver = new MutationObserver(
   (mutationsList) => {
     mutationsList.forEach((mutation) => {
       if (mutation.type === 'childList') {
-        processTweets(selector, popupPrefs); // TODO: add Mutation Record to be used instead of document.querySelectorAll(selector)
+        if (mutation.addedNodes.length > 0) {
+          processTweets(selector, popupPrefs);
+        }
       }
     });
   }
 );
 
 /**
+ * @description Observer which watches root for addition of TweetList element
+ * @type {MutationObserver}
+ */
+const checkTweetListCreation = new MutationObserver(
+  (mutationsList, observer) => {
+    mutationsList.forEach((mutation) => {
+      if (mutation.type === 'childList') {
+        if (document.querySelector('div[aria-label^="Timeline:"]') !== null) {
+          observer.disconnect();
+          checkTweetListObserver.observe(document.querySelector('div[aria-label^="Timeline:"]'), { childList: true, subtree: true });
+        }
+      }
+    });
+  }
+);
+/**
  * Setting preferences color to match twitter body color
-  */
+ */
 document.documentElement.style.setProperty('--color', bodyColor);
 
 /**
@@ -50,4 +74,4 @@ browser.runtime.onMessage.addListener((popupSettings) => {
 /**
  * Starts observer which will process every new Tweet added to the DOM
  */
-checkTweetListObserver.observe(root, { childList: true, subtree: true });
+checkTweetListCreation.observe(root, { childList: true, subtree: true });

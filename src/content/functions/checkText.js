@@ -58,10 +58,6 @@ export default (node, selector, popupPrefs) => {
             'data-prediction',
             predictionInt.toString()
           );
-          if (body.texts[0]) {
-            console.error('error ->' + body.texts[0]);
-            console.log('text given -> ', tweetTextNode);
-          }
           styleTweet(tweetTextNode, popupPrefs);
         } else {
           // If no prediction
