@@ -19,7 +19,7 @@ const tweetSelector = (document.querySelector('body').classList.contains('logged
 
 /**
  * @description Defining default values for user preferences
- * @type {{optionVal: string, sliderVal: string}}
+ * @type {popupPrefs}
  */
 let popupPrefs = {
   optionVal: 'text_crossed',
