@@ -17,7 +17,7 @@ function setChecks (tabs) {
 
   updateSliderKnob(slider);
   browser.storage.sync.set({ optOut: popupSettings });
-  browser.tabs.sendMessage(tabs[0].id, popupSettings);
+  browser.tabs.sendMessage(tabs[0].id, { optOut: popupSettings });
 }
 
 /**
