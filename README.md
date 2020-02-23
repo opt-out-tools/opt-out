@@ -8,7 +8,7 @@ The General Data Protection Regulation (GDPR) has changed our lives online on so
 
 To learn more about this problem and explore the steps Opt Out is taking to combat it, see the [Opt Out Wiki](https://github.com/malteserteresa/opt-out/wiki/The-Problem).
 
-Opt Out is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see [Contributing](https://github.com/malteserteresa/opt-out/blob/master/contributing.md) first, and then check out the find-out and try-out repos. Please note that this project is released with a [Contributor Code of Conduct](https://github.com/malteserteresa/opt-out/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Opt Out is an open source project under active development. Currently, machine learning models are being evaluated for their ability to classify sexual harassment text. If you would like to test the current model (trained on troll data), please see the 'Installation Instructions' below. If you would like to contribute to the project, please see [Contributing](https://github.com/malteserteresa/opt-out-tools/start-here/blob/master/CONTRIBUTING.md) first, and then check out the find-out and try-out repos. Please note that this project is released with a [Contributor Code of Conduct](https://github.com/malteserteresa/opt-out/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ## Development
 
