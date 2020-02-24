@@ -1,0 +1,31 @@
+env:
+  browser: true
+  es6: true
+  webextensions: true
+  jest: true
+extends:
+  - plugin:jest/recommended
+plugins:
+  - jest
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+  browser: readonly
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+rules:
+  no-console: off
+  indent:
+    - error
+    - 2
+    - {SwitchCase: 1}
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - always
