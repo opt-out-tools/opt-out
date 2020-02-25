@@ -27,38 +27,19 @@ let popupPrefs = {
 };
 
 /**
- * @description Observer which watches tweetList Node for addition of new Tweet Nodes, and process
- * them as they are added
+ * @description for every node added to the DOM, run processTweets
  * @type {MutationObserver}
  */
-const checkTweetListObserver = new MutationObserver(
-  (mutationsList) => {
-    mutationsList.forEach((mutation) => {
-      if (mutation.type === 'childList') {
-        if (mutation.addedNodes.length > 0) {
-          processTweets(tweetSelector, popupPrefs);
-        }
+const checkTweetList = (mutationsList) => {
+  mutationsList.forEach((mutation) => {
+    if (mutation.type === 'childList') {
+      if (mutation.addedNodes.length > 0) {
+        processTweets(tweetSelector, popupPrefs);
       }
-    });
-  }
-);
+    }
+  });
+};
 
-/**
- * @description Observer which watches root for addition of TweetList element
- * @type {MutationObserver}
- */
-const checkTweetListCreation = new MutationObserver(
-  (mutationsList, observer) => {
-    mutationsList.forEach((mutation) => {
-      if (mutation.type === 'childList') {
-        if (document.querySelector('div[aria-label^="Timeline:"]') !== null) {
-          observer.disconnect();
-          checkTweetListObserver.observe(document.querySelector('div[aria-label^="Timeline:"]'), { childList: true, subtree: true });
-        }
-      }
-    });
-  }
-);
 
 /**
  * Setting preferences color to match twitter body color
@@ -90,4 +71,5 @@ browser.runtime.onMessage.addListener((popupSettings) => {
 /**
  * Starts observer which will trigger styling observers for addition of tweets to TweetList
  */
-checkTweetListCreation.observe(root, { childList: true, subtree: true });
+const checkTweetListObserver = new MutationObserver(checkTweetList);
+checkTweetListObserver.observe(root, { childList: true, subtree: true });
