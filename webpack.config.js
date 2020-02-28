@@ -15,6 +15,9 @@ module.exports = {
   module: {
     rules: []
   },
+  optimization: {
+    minimize: false
+  },
   // Copies static assets to correct places
   plugins: [
     new CopyPlugin([
