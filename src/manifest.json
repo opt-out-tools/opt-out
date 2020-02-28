@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Opt Out",
-  "version": "1.0",
+  "version": "0.01",
 
   "description": "Blocks offensive and inappropriate tweets.",
   "permissions": [
