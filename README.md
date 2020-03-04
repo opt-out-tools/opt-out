@@ -102,3 +102,47 @@ RESULT=$?
 [ $RESULT -ne 0 ] && exit 1
 exit 0
 ```
+#### How to create a Github Release
+
+- Decide on a tag i.e v0.0.3
+
+- Update `manifest.json` with the tag version
+
+- Create a tag
+  `git tag -a tag-you-picked -m 'a message`
+
+- Push the tag to github and checkout the tag
+  
+  `git push origin tag-you-picked` [1]
+  
+  `git checkout tag-you-pick`
+  
+  
+[1]:  See more on pushing tags [here](https://help.github.com/en/github/using-git/pushing-commits-to-a-remote-repository#pushing-tags)
+  
+  
+  _Note_ that we need write permissions to the repo to push a tag
+
+- Create a prod build
+  See [Building for production](#building-for-production)
+ 
+- Create a release
+  Follow Github's [creating a release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release) docs to create a release:
+  
+  - Fill in the tag-you-picked
+  - Add a message that indicates changes made to the repo since the last release
+  - Upload the `prod` zip already created to the release
+  - _Optionally_ mark the release as a `pre-release`
+  - Publish the release
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
