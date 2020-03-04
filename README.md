@@ -102,7 +102,8 @@ RESULT=$?
 [ $RESULT -ne 0 ] && exit 1
 exit 0
 ```
-#### How to create a Github Release
+
+#### Create a Github Release
 
 - Decide on a tag i.e v0.0.3
 
@@ -135,9 +136,20 @@ exit 0
   - _Optionally_ mark the release as a `pre-release`
   - Publish the release
   
-  
-  
-  
+#### Submit a Github Release to Mozilla Addons
+
+We follow Mozilla's [Submitting an Addon](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/) to submit the extension.
+
+- Login using to the [Developer Hub](https://addons.mozilla.org/developers/) with OOT credentials
+- Pick "Submit on this site" when submitting
+- Download the [Github Release](https://github.com/opt-out-tools/opt-out/releases) (the zip file) we wanna submit and upload it.
+- Fill out `Name`, `Add-on URL` & `Summary`
+- _Optionally_ mark the add-on as experimental
+- Pick `Feeds, News & Blogging` and `Social & Communication` categories
+- Fill out the email from the OOT credentials and the [issues page](https://github.com/opt-out-tools/opt-out/issues) as support email and website
+- Pick "GNU Public License version 3.0" as license
+- Choose "This add-on has a Privancy Policy" and fill out the policy from [PRIVACY.md](https://github.com/opt-out-tools/opt-out/blob/master/PRIVACY.md)
+- Submit!
   
   
   
