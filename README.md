@@ -110,7 +110,7 @@ exit 0
 - Update `manifest.json` with the tag version
 
 - Create a tag
-  `git tag -a tag-you-picked -m 'a message`
+  `git tag -a tag-you-picked -m 'a message'`
 
 - Push the tag to github and checkout the tag
   
@@ -153,10 +153,17 @@ We follow Mozilla's [Submitting an Addon](https://extensionworkshop.com/document
 - Choose "This add-on has a Privancy Policy" and fill out the policy from [PRIVACY.md](https://github.com/opt-out-tools/opt-out/blob/master/PRIVACY.md)
 - Submit!
   
-  
-  
-  
-  
+#### Managing release
+
+- `master` is the main dev branch
+- When it's release time we create a new "release" branch i.e `release-0.0.3`
+- All testing happens on the release branch
+- If bug fixes are needed on the release branch, they must be cherry-picked to `master` as well
+- When we're ready to release:
+  - we tag the release branch i.e `v0.0.3`
+  - create a github release
+  - submit the addon to mozilla
+- The release branches can be left untouched for a future bug fix
   
   
   
