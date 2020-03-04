@@ -143,6 +143,8 @@ We follow Mozilla's [Submitting an Addon](https://extensionworkshop.com/document
 - Login using to the [Developer Hub](https://addons.mozilla.org/developers/) with OOT credentials
 - Pick "Submit on this site" when submitting
 - Download the [Github Release](https://github.com/opt-out-tools/opt-out/releases) (the zip file) we wanna submit and upload it.
+- Download the *source* zip file from the [repo home](https://github.com/opt-out-tools/opt-out)
+- Choose "this add-on needs source code submission" and submit the source zip. See more in Mozilla's [Source Code Submission](https://extensionworkshop.com/documentation/publish/source-code-submission/) docs
 - Fill out `Name`, `Add-on URL` & `Summary`
 - _Optionally_ mark the add-on as experimental
 - Pick `Feeds, News & Blogging` and `Social & Communication` categories
