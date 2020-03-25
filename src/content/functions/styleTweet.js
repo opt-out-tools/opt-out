@@ -10,7 +10,7 @@ export default function (element, popupPrefs) {
     // Tweet is predicted to be misogynist
     tweetPredictionValue !== 0 &&
     // Tweets prediction value is enough to modify
-    tweetPredictionValue >= modifyTweetThreshold
+    tweetPredictionValue > modifyTweetThreshold
   ) {    
     switch (popupPrefs.optionVal) {
       case 'text_white':
