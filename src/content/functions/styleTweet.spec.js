@@ -8,7 +8,7 @@ describe('styleTweet.js', () => {
     beforeEach(() => {
       popupPrefs = {
         // Show no tweets predicted misogynist
-        sliderVal: 0,
+        sliderVal: 0.1,
         optionVal: 'text_removed',
       };
 
