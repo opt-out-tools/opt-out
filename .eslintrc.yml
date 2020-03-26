@@ -12,6 +12,7 @@ globals:
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
+jest: true
 rules:
   no-console: off
   indent:
