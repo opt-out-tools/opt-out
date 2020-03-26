@@ -23,7 +23,7 @@ const tweetSelector = (document.querySelector('body').classList.contains('logged
  */
 let popupPrefs = {
   optionVal: 'text_crossed',
-  sliderVal: '1'
+  sliderVal: '0'
 };
 
 /**
