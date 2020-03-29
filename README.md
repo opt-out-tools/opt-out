@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/opt-out-tools/opt-out.svg?style=svg)](https://circleci.com/gh/opt-out-tools/opt-out) [![Contributor Code Of Conduct](https://img.shields.io/badge/Code%20Of%20Conduct-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-Opt Out is a browser extension for Firefox that filters online misogyny from an individual’s twitter feed.
+Opt Out is a browser extension for Firefox that hides online misogyny from an individual’s twitter feed.
 
 The General Data Protection Regulation (GDPR) has changed our lives online on social media platforms. We have the right to be forgotten, to see what is being collected about us and to opt-out if we wish. The current abuse that those who identify as women suffer is not avoidable. We see Opt Out as an extension of the GDPR that also protects the human rights of women and those with intersecting identities online. While steps have been made to protect these people online, not enough has been done. This is a global tragedy affecting the well-being, economical potential and political representation of these people. Let's **Opt Out.**
 
@@ -63,12 +63,6 @@ Please:
 
 ## More instructions
 
-### Building for production
-
-To build for production, simply run `npm run build:prod`.
-
-The project will be bundled by webpack in production mode, and `web-ext` will build that project in to a zip file, which can be uploaded to the Mozilla Add Ons site.
-
 ### Adding a local pre-commit hook
 
 In case you want to be 100% sure that the linter is always running before you commit you can add this as a [git hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks).
@@ -103,9 +97,18 @@ RESULT=$?
 exit 0
 ```
 
+
+### Building for production
+
+To build for production, simply run `npm run build:prod`.
+
+The project will be bundled by webpack in production mode, and `web-ext` will build that project in to a zip file, which can be uploaded to the Mozilla Add Ons site.
+
+
+
 #### Create a Github Release
 
-- Decide on a tag i.e v0.0.3
+- Decide on a tag i.e v0.3
 
 - Update `manifest.json` with the tag version
 
@@ -136,31 +139,27 @@ exit 0
   - _Optionally_ mark the release as a `pre-release`
   - Publish the release
   
-#### Submit a Github Release to Mozilla Addons
+#### Update the Release at Mozilla Addons
 
 We follow Mozilla's [Submitting an Addon](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/) to submit the extension.
 
+- Download the [Github Release](https://github.com/opt-out-tools/opt-out/releases) (the zip file) you wanna submit and upload it.
+- Create a production build see [Building for production](#building-for-production)
 - Login using to the [Developer Hub](https://addons.mozilla.org/developers/) with OOT credentials
-- Pick "Submit on this site" when submitting
-- Download the [Github Release](https://github.com/opt-out-tools/opt-out/releases) (the zip file) we wanna submit and upload it.
-- Download the *source* zip file from the [repo home](https://github.com/opt-out-tools/opt-out)
-- Choose "this add-on needs source code submission" and submit the source zip. See more in Mozilla's [Source Code Submission](https://extensionworkshop.com/documentation/publish/source-code-submission/) docs
-- Fill out `Name`, `Add-on URL` & `Summary`
-- _Optionally_ mark the add-on as experimental
-- Pick `Feeds, News & Blogging` and `Social & Communication` categories
-- Fill out the email from the OOT credentials and the [issues page](https://github.com/opt-out-tools/opt-out/issues) as support email and website
-- Pick "GNU Public License version 3.0" as license
-- Choose "This add-on has a Privancy Policy" and fill out the policy from [PRIVACY.md](https://github.com/opt-out-tools/opt-out/blob/master/PRIVACY.md)
+- Navigate to the "Manage My Submissions" page
+- Find the `Manage the Status and Versions` link and click on it (click `More` and it should be in the drop down list) 
+- Click the `Upload New Version` button and select the build you want to upload, it will then be validated
+- Once this has finished, upload the *source* code too 
 - Submit!
   
 #### Managing release
 
 - `master` is the main dev branch
-- When it's release time we create a new "release" branch i.e `release-0.0.3`
+- When it's release time we create a new "release" branch i.e `release-0.3`
 - All testing happens on the release branch
 - If bug fixes are needed on the release branch, they must be cherry-picked to `master` as well
 - When we're ready to release:
-  - we tag the release branch i.e `v0.0.3`
+  - we tag the release branch i.e `v0.3`
   - create a github release
   - submit the addon to mozilla
 - The release branches can be left untouched for a future bug fix
