@@ -102,3 +102,68 @@ RESULT=$?
 [ $RESULT -ne 0 ] && exit 1
 exit 0
 ```
+
+#### Create a Github Release
+
+- Decide on a tag i.e v0.0.3
+
+- Update `manifest.json` with the tag version
+
+- Create a tag
+  `git tag -a tag-you-picked -m 'a message'`
+
+- Push the tag to github and checkout the tag
+  
+  `git push origin tag-you-picked` [1]
+  
+  `git checkout tag-you-pick`
+  
+  
+[1]:  See more on pushing tags [here](https://help.github.com/en/github/using-git/pushing-commits-to-a-remote-repository#pushing-tags)
+  
+  
+  _Note_ that we need write permissions to the repo to push a tag
+
+- Create a prod build
+  See [Building for production](#building-for-production)
+ 
+- Create a release
+  Follow Github's [creating a release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release) docs to create a release:
+  
+  - Fill in the tag-you-picked
+  - Add a message that indicates changes made to the repo since the last release
+  - Upload the `prod` zip already created to the release
+  - _Optionally_ mark the release as a `pre-release`
+  - Publish the release
+  
+#### Submit a Github Release to Mozilla Addons
+
+We follow Mozilla's [Submitting an Addon](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/) to submit the extension.
+
+- Login using to the [Developer Hub](https://addons.mozilla.org/developers/) with OOT credentials
+- Pick "Submit on this site" when submitting
+- Download the [Github Release](https://github.com/opt-out-tools/opt-out/releases) (the zip file) we wanna submit and upload it.
+- Download the *source* zip file from the [repo home](https://github.com/opt-out-tools/opt-out)
+- Choose "this add-on needs source code submission" and submit the source zip. See more in Mozilla's [Source Code Submission](https://extensionworkshop.com/documentation/publish/source-code-submission/) docs
+- Fill out `Name`, `Add-on URL` & `Summary`
+- _Optionally_ mark the add-on as experimental
+- Pick `Feeds, News & Blogging` and `Social & Communication` categories
+- Fill out the email from the OOT credentials and the [issues page](https://github.com/opt-out-tools/opt-out/issues) as support email and website
+- Pick "GNU Public License version 3.0" as license
+- Choose "This add-on has a Privancy Policy" and fill out the policy from [PRIVACY.md](https://github.com/opt-out-tools/opt-out/blob/master/PRIVACY.md)
+- Submit!
+  
+#### Managing release
+
+- `master` is the main dev branch
+- When it's release time we create a new "release" branch i.e `release-0.0.3`
+- All testing happens on the release branch
+- If bug fixes are needed on the release branch, they must be cherry-picked to `master` as well
+- When we're ready to release:
+  - we tag the release branch i.e `v0.0.3`
+  - create a github release
+  - submit the addon to mozilla
+- The release branches can be left untouched for a future bug fix
+  
+  
+  

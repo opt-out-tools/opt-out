@@ -3,7 +3,6 @@
  * to be misogynist and when the options are set to block misogynist content.
  */
 export default function (element, popupPrefs) {
-  // console.log('styling tweet', element, popupPrefs);
   element.classList.remove('opt-out-tw', 'opt-out-tc', 'opt-out-trem');
   const tweetPredictionValue = parseFloat(element.dataset.prediction);
   const modifyTweetThreshold = parseFloat(popupPrefs.sliderVal);
@@ -13,7 +12,7 @@ export default function (element, popupPrefs) {
     // Option to modify tweet is turned on
     modifyTweetThreshold !== 0 &&
     // Tweets prediction value is enough to modify
-    tweetPredictionValue >= modifyTweetThreshold // TODO: Check if < or > for prediction values 0.5, 0.6 ..
+    tweetPredictionValue >= modifyTweetThreshold
   ) {
     switch (popupPrefs.optionVal) {
       case 'text_white':

@@ -9,6 +9,7 @@
     "start:firefox": "concurrently 'npm run webpack:dev -- --watch' 'web-ext run --config=.web-ext-config.js'",
     "build:prod": "npm run webpack:prod && web-ext build --config=.web-ext-config.js",
     "test": "jest --coverage && npm run webpack:prod && web-ext lint -s dist",
+    "test:local": "jest",
     "lint": "eslint --fix .",
     "git:initHook": "scripts/addPreCommitHook.sh"
   },

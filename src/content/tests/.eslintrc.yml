@@ -2,9 +2,11 @@ env:
   browser: true
   es6: true
   webextensions: true
-  node: true
+  jest: true
 extends:
-  - standard
+  - plugin:jest/recommended
+plugins:
+  - jest
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
@@ -17,7 +19,7 @@ rules:
   indent:
     - error
     - 2
-    - { SwitchCase: 1 }
+    - {SwitchCase: 1}
   linebreak-style:
     - error
     - unix
