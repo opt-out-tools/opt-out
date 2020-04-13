@@ -1,6 +1,6 @@
 {
   "name": "opt-out",
-  "version": "1.0.0",
+  "version": "1.0.01",
   "description": "like adBlocker, but removes misogyny instead of adverts.",
   "main": "index.js",
   "scripts": {
