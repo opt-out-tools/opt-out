@@ -59,7 +59,7 @@ describe('checkText.js', () => {
     });
   });
 
-  test('check proccessing state applied during api resolution', async () => {
+  test('check proccessing state applied during api resolution and removed after', async () => {
     fetchMock.postOnce(OPT_OUT_API_URL, 400);
 
     // Check text function
@@ -75,7 +75,7 @@ describe('checkText.js', () => {
     expect(element.classList.contains('processing')).toEqual(false);
   });
 
-  test('on error response, throw error and apply correct state to tweet', async () => {
+  test('on error response, log error and apply correct state to tweet', async () => {
     fetchMock.postOnce(OPT_OUT_API_URL, {
       status: 400,
       body: { texts: ['This is bad, man'] }
