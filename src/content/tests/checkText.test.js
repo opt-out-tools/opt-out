@@ -20,7 +20,7 @@ describe('checkText.js', () => {
 
     popupPrefs = {
       sliderVal: 1,
-      optionVal: 'text_removed'
+      optionVal: 'text_removed',
     };
 
     // Create dom element
@@ -46,7 +46,10 @@ describe('checkText.js', () => {
   });
 
   test('check that the fetch API fired with correct body', async () => {
-    fetchMock.postOnce(OPT_OUT_API_URL, 200);
+    fetchMock.postOnce(OPT_OUT_API_URL, {
+      status: 200,
+      body: {},
+    });
 
     checkText(element, SELECTOR_ONLINE_TWEET, popupPrefs);
 
@@ -55,12 +58,15 @@ describe('checkText.js', () => {
     expect(fetchMock.calls().length).toBe(1);
     // Includes correct request body
     expect(JSON.parse(fetchMock.lastOptions(OPT_OUT_API_URL).body)).toEqual({
-      texts: ['I\'m here and I\'m queer']
+      texts: ["I'm here and I'm queer"],
     });
   });
 
   test('check proccessing state applied during api resolution and removed after', async () => {
-    fetchMock.postOnce(OPT_OUT_API_URL, 400);
+    fetchMock.postOnce(OPT_OUT_API_URL, {
+      status: 200,
+      body: { texts: ['Error!'] },
+    });
 
     // Check text function
     checkText(element, SELECTOR_ONLINE_TWEET, popupPrefs);
@@ -78,7 +84,7 @@ describe('checkText.js', () => {
   test('on error response, log error and apply correct state to tweet', async () => {
     fetchMock.postOnce(OPT_OUT_API_URL, {
       status: 400,
-      body: { texts: ['This is bad, man'] }
+      body: { texts: ['This is bad, man'] },
     });
 
     // Check text function
@@ -92,7 +98,7 @@ describe('checkText.js', () => {
   test('on success response with no prediction, apply correct state to tweet', async () => {
     fetchMock.postOnce(OPT_OUT_API_URL, {
       status: 200,
-      body: { predictions: [] }
+      body: { predictions: [] },
     });
 
     // Check text function
@@ -107,7 +113,7 @@ describe('checkText.js', () => {
   test('on success response with true prediction, apply correct state to tweet', async () => {
     fetchMock.postOnce(OPT_OUT_API_URL, {
       status: 200,
-      body: { predictions: [true] }
+      body: { predictions: [true] },
     });
 
     // Check text function
