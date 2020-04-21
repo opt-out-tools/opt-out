@@ -10,8 +10,7 @@ export default function (result) {
   if (
     Object.keys(result).length === 0 ||
     result.optOut == null ||
-    result.optOut.slider == null ||
-    result.optOut.selector == null
+    (result.optOut.slider == null && result.optOut.selector == null)
   ) {
     // Set slider class for display
     updateSliderKnob(slider);
