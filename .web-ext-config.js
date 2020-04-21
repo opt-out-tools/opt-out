@@ -1,9 +1,10 @@
 module.exports = {
-	sourceDir: 'dist',
-	run: {
-		keepProfileChanges: true,
-	},
-	build: {
-		overwriteDest: true,
-	}
-}
+  sourceDir: 'dist',
+  run: {
+    keepProfileChanges: true,
+    firefox: '/opt/firefox/firefox-bin',
+  },
+  build: {
+    overwriteDest: true,
+  },
+};

@@ -40,7 +40,6 @@ const checkTweetList = (mutationsList) => {
   });
 };
 
-
 /**
  * Setting preferences color to match twitter body color
  */

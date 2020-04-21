@@ -9,7 +9,7 @@ describe('styleTweet.js', () => {
       popupPrefs = {
         // Show no tweets predicted misogynist
         sliderVal: 0.1,
-        optionVal: 'text_removed',
+        optionVal: 'text_removed'
       };
 
       // Create dom element
@@ -39,7 +39,7 @@ describe('styleTweet.js', () => {
       styleTweet(element, {
         // Show all tweets predicted misogynist
         sliderVal: 1,
-        optionVal: 'text_removed',
+        optionVal: 'text_removed'
       });
       expect(element.classList.contains('opt-out-trem')).toBe(false);
     });
@@ -56,7 +56,7 @@ describe('styleTweet.js', () => {
       styleTweet(element, {
         // Show all tweets predicted misogynist
         sliderVal: 1,
-        optionVal: 'text_removed',
+        optionVal: 'text_removed'
       });
       expect(element.classList.contains('opt-out-trem')).toBe(false);
     });
