@@ -16,9 +16,7 @@ export default function (result) {
     document.querySelector(`#${result.optOut.selector}`).checked = true;
     // Set the settings on the slider
     slider.value = result.optOut.slider;
-    updateSliderKnob(slider);
-  } else {
-    // No saved settings
-    updateSliderKnob(slider);
   }
+  // Update style on slider input
+  updateSliderKnob(slider);
 }

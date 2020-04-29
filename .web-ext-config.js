@@ -1,9 +1,9 @@
 module.exports = {
-	sourceDir: 'dist',
-	run: {
-		keepProfileChanges: true,
-	},
-	build: {
-		overwriteDest: true,
-	}
-}
+  sourceDir: 'dist',
+  run: {
+    keepProfileChanges: true,
+  },
+  build: {
+    overwriteDest: true,
+  },
+};
