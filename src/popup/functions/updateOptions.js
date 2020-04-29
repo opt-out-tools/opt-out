@@ -5,8 +5,18 @@ import updateSliderKnob from './updateSliderKnob.js';
  * @param result {object}
  */
 export default function (result) {
-  document.querySelector(`#${result.optOut.selector}`).checked = true;
   const slider = document.querySelector('#slider');
-  slider.value = result.optOut.slider;
+  if (
+    // There are saved settings
+    result &&
+    result.optOut &&
+    result.optOut.slider &&
+    result.optOut.selector
+  ) {
+    document.querySelector(`#${result.optOut.selector}`).checked = true;
+    // Set the settings on the slider
+    slider.value = result.optOut.slider;
+  }
+  // Update style on slider input
   updateSliderKnob(slider);
 }
