@@ -1,5 +1,5 @@
 import styleTweet from './functions/styleTweet';
-import processTweets from './functions/processTweets';
+import checkTweetList from './functions/checkTweetList';
 import onError from './functions/onError';
 import updateOption from './functions/updateOption';
 import {
@@ -24,20 +24,6 @@ const tweetSelector = (document.querySelector('body').classList.contains('logged
 let popupPrefs = {
   optionVal: 'text_crossed',
   sliderVal: '1'
-};
-
-/**
- * @description for every node added to the DOM, run processTweets
- * @type {MutationObserver}
- */
-const checkTweetList = (mutationsList) => {
-  mutationsList.forEach((mutation) => {
-    if (mutation.type === 'childList') {
-      if (mutation.addedNodes.length > 0) {
-        processTweets(tweetSelector, popupPrefs);
-      }
-    }
-  });
 };
 
 /**
@@ -70,5 +56,5 @@ browser.runtime.onMessage.addListener((popupSettings) => {
 /**
  * Starts observer which will trigger styling observers for addition of tweets to TweetList
  */
-const checkTweetListObserver = new MutationObserver(checkTweetList);
+const checkTweetListObserver = checkTweetsMutationObserverGenerator(tweetSelector, popupPrefs);
 checkTweetListObserver.observe(root, { childList: true, subtree: true });
