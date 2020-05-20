@@ -3,6 +3,7 @@ env:
   es6: true
   webextensions: true
   node: true
+parser: babel-eslint
 extends:
   - standard
 globals:
@@ -10,9 +11,10 @@ globals:
   SharedArrayBuffer: readonly
   browser: readonly
 parserOptions:
-  ecmaVersion: 2018
+  ecmaVersion: 7
   sourceType: module
 rules:
+  strict: 0
   no-console: off
   indent:
     - error

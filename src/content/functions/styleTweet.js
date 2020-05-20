@@ -16,7 +16,8 @@ export default function (element, popupPrefs) {
     // Tweets prediction value is enough to modify
     tweetPredictionValue >= modifyTweetThreshold
   ) {
-    element.classList.add( TWEET_CLASSES[popupPrefs.optionVal] ?? '');
+    element.classList.add(TWEET_CLASSES[popupPrefs.optionVal] ?? '');
+
     /*
     switch (popupPrefs.optionVal) {
       case 'text_white':
@@ -29,7 +30,6 @@ export default function (element, popupPrefs) {
         element.classList.add('opt-out-trem');
         break;
     }
-    */
      */
   }
 }
