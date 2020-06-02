@@ -1,4 +1,4 @@
-import onError from '../functions/onError';
+import onError from '../onError';
 
 describe('Test: onError', () => {
   test('testing if onError gives console.error', () => {

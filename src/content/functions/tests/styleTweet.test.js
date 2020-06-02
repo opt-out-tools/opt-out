@@ -1,4 +1,4 @@
-import styleTweet from '../functions/styleTweet';
+import styleTweet from '../styleTweet';
 
 describe('styleTweet.js', () => {
   describe('styleTweet', () => {
