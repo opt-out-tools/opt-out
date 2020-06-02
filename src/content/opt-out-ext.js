@@ -1,5 +1,5 @@
 import styleTweet from './functions/styleTweet';
-import checkTweetList from './functions/checkTweetList';
+import checkTweetsMutationObserverGenerator from './functions/checkTweetsMutationObserverGenerator';
 import onError from './functions/onError';
 import updateOption from './functions/updateOption';
 import {
