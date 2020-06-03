@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock';
 
-import checkText from '../functions/checkText';
-import { SELECTOR_ONLINE_TWEET, OPT_OUT_API_URL } from '../constants';
+import checkText from '../checkText';
+import { SELECTOR_ONLINE_TWEET, OPT_OUT_API_URL } from '../../constants';
 
 fetchMock.config.overwriteRoutes = true;
 
