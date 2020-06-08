@@ -5,7 +5,7 @@ import { TWEET_CLASSES } from '../constants';
  * to be misogynist and when the options are set to block misogynist content.
  */
 export default function (element, popupPrefs) {
-  element.classList.remove(...TWEET_CLASSES);
+  element.classList.remove(...Object.values(TWEET_CLASSES));
   const tweetPredictionValue = parseFloat(element.dataset.prediction);
   const modifyTweetThreshold = parseFloat(popupPrefs.sliderVal);
   if (
@@ -17,19 +17,5 @@ export default function (element, popupPrefs) {
     tweetPredictionValue >= modifyTweetThreshold
   ) {
     element.classList.add(TWEET_CLASSES[popupPrefs.optionVal] ?? '');
-
-    /*
-    switch (popupPrefs.optionVal) {
-      case 'text_white':
-        element.classList.add('opt-out-tw');
-        break;
-      case 'text_crossed':
-        element.classList.add('opt-out-tc');
-        break;
-      case 'text_removed':
-        element.classList.add('opt-out-trem');
-        break;
-    }
-     */
   }
 }
