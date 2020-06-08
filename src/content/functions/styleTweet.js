@@ -18,7 +18,7 @@ export default function (element, popupPrefs) {
     // unill jest setup for null coalescing opeartor is added
     TWEET_CLASSES[popupPrefs.optionVal] !== undefined
   ) {
-    element.classList.add(TWEET_CLASSES[popupPrefs.optionVal] ?? '');
+    element.classList.add(TWEET_CLASSES[popupPrefs.optionVal]);
     // TODO: replace with element.classList.add(TWEET_CLASSES[popupPrefs.optionVal] ?? '');
   }
 }
