@@ -14,8 +14,11 @@ export default function (element, popupPrefs) {
     // Option to modify tweet is turned on
     modifyTweetThreshold !== 0 &&
     // Tweets prediction value is enough to modify
-    tweetPredictionValue >= modifyTweetThreshold
+    tweetPredictionValue >= modifyTweetThreshold &&
+    // unill jest setup for null coalescing opeartor is added
+    TWEET_CLASSES[popupPrefs.optionVal] !== undefined
   ) {
     element.classList.add(TWEET_CLASSES[popupPrefs.optionVal] ?? '');
+    // TODO: replace with element.classList.add(TWEET_CLASSES[popupPrefs.optionVal] ?? '');
   }
 }
