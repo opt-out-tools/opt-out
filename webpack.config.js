@@ -13,17 +13,7 @@ module.exports = {
     filename: '[name]'
   },
   module: {
-    rules: [
-      {
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-
-          }
-        }
-      }
-    ]
+    rules: []
   },
   optimization: {
     minimize: false

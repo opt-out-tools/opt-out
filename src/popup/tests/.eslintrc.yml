@@ -12,7 +12,7 @@ globals:
   SharedArrayBuffer: readonly
   browser: readonly
 parserOptions:
-  ecmaVersion: 2020
+  ecmaVersion: 2018
   sourceType: module
 rules:
   no-console: off
