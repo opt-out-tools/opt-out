@@ -14,8 +14,16 @@
     color: var(--color, white);
 }
 
+.opt-out-tw div{
+    background-image: none !important;
+}
+
 .opt-out-tc {
     text-decoration: line-through;
+}
+
+.opt-out-tc div{
+    background-image: none !important;
 }
 
 .opt-out-trem {
