@@ -18,6 +18,10 @@ function handleErrors (response) {
   return response;
 }
 
+function handleResponse (response) {
+  return response;
+}
+
 /**
  * @description function which calls server for given node, and depending on the response,
  * applies pre-defined action
@@ -32,8 +36,52 @@ export default (node, selector, popupPrefs) => {
     `${selector} > div ~ div > div ~ div`
   );
   const text = tweetTextNode.innerText;
+  // eslint-disable-next-line no-unused-vars
   const reqBody = { texts: [text] };
-  fetch(OPT_OUT_API_URL, {
+
+  /**
+   * @description gets prediction array from response object and returns predictions values array by
+   * converting them to number from boolean, string or number
+   * @param body
+   * @returns {number[]}
+   */
+  // eslint-disable-next-line no-unused-vars
+  function getPredictions (body) {
+    if (body.predictions.isArray) {
+      return body.predictions.map(x => Number(x));
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    function styleTweetsToPrediction (predictions) {
+      predictions.map(predictionInt => {
+        tweetTextNode.setAttribute('data-prediction', predictionInt.toString());
+        styleTweet(tweetTextNode, popupPrefs);
+        return 'processed-true';
+      }
+
+      );
+    }
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  function applyResults (processingResults) {
+    // TODO; Go over array and apply results
+    node.classList.remove('processing');
+    node.classList.add('processed-true');
+  }
+};
+
+// eslint-disable-next-line no-undef
+postData(OPT_OUT_API_URL, reqBody)
+  // eslint-disable-next-line no-undef
+  .then(getPredictions)
+  // eslint-disable-next-line no-undef
+  .then(styleTweetsToPrediction)
+  // eslint-disable-next-line no-undef
+  .then(applyResults);
+
+async function postData (url = '', data = {}) {
+  const response = await fetch(url, {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
@@ -41,36 +89,12 @@ export default (node, selector, popupPrefs) => {
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Origin': '*'
     },
-    body: JSON.stringify(reqBody)
+    body: JSON.stringify(data)
   })
     .then(handleErrors)
-    .then(response => {
-      // Parse body json
-      response.json().then(body => {
-        const predictions = body.predictions;
-        // If response contains prediction
-        if (predictions && predictions.length > 0) {
-          // Convert prediction state to int
-          const predictionInt = Number(predictions[0]);
-          // Add processing status and prediction to tweet node
-          node.classList.add('processed-true');
-          tweetTextNode.setAttribute(
-            'data-prediction',
-            predictionInt.toString()
-          );
-          styleTweet(tweetTextNode, popupPrefs);
-        } else {
-          // If no prediction
-          node.classList.add('processed-false');
-        }
-      });
-      // Remove processing state from tweet
-      node.classList.remove('processing');
-    })
+    .then(handleResponse)
     .catch(err => {
-      // Remove processing state from tweet
-      node.classList.add('processed-false');
-      node.classList.remove('processing');
-      console.error(err, node);
+      console.error(err);
     });
-};
+  return response.json();
+}
